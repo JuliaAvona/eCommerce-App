@@ -41,6 +41,9 @@ It improves code readability and makes the coding style consistent for teams.
 
 Husky is a tool that helps developers work with Git hooks more efficiently and run all the scripts that need to work at various stages. By simplifying the process of setting up Git hooks, developers can create effective solutions faster.
 
+- `Jest`.
+
+Jest is a JavaScript testing framework designed to ensure correctness of any JavaScript codebase. It allows you to write tests with an approachable, familiar and feature-rich API that gives you results quickly.  
 
 ## Available Scripts
 
