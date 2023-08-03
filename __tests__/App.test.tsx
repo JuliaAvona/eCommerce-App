@@ -12,5 +12,5 @@ test('Renders the main page', () => {
 });
 
 test('demo', () => {
-  expect(sum(1, 2)).toBe(4);
+  expect(sum(1, 2)).toBe(3);
 });

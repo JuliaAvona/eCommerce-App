@@ -22,5 +22,5 @@ module.exports = {
     'react/react-in-jsx-scope': 0,
     'import/extensions': 'off',
   },
-  ignorePatterns: ['.eslintrc.cjs', 'vite.config.ts'],
+  ignorePatterns: ['.eslintrc.cjs', 'vite.config.ts', 'jest.config.ts'],
 };
