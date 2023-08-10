@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import App, { sum } from '../src/containers/App';
+import App, { sum } from '../src/pages/App';
 
 test('demo', () => {
   expect(true).toBe(true);
