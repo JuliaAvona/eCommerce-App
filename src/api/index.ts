@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import axios from 'axios';
 import { ISignUp } from '../types/interfaces';
 
@@ -28,7 +29,7 @@ export const getToken = async () => {
     const token = response.data.access_token;
     return token;
   } catch (error) {
-    console.error('Error getting access token:', error);
+    console.log('Error getting access token:', error);
     throw error;
   }
 };
@@ -49,6 +50,6 @@ export const signUp = async (accessToken: string, data: ISignUp) => {
       console.log('User registered:', userResponse.data);
     })
     .catch((error) => {
-      console.error('Error registering user:', error);
+      console.log('Error registering user:', error);
     });
 };

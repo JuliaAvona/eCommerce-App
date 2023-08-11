@@ -1,8 +1,9 @@
 import React, { FC, useState, useEffect } from 'react';
 import iso3311a2 from 'iso-3166-1-alpha-2';
 import styles from './Signup.module.css';
-import { Form } from '../../types/enums';
 import { ICountry, IFormField } from '../../types/interfaces';
+import { getToken, signUp } from '../../api';
+import Form from '../../types/enums';
 import {
   cityValidation,
   countryValidation,
@@ -13,7 +14,6 @@ import {
   postalValidation,
   streetValidation,
 } from '../../utils/validator';
-import { getToken, signUp } from '../../api';
 
 const Signup: FC = () => {
   const [email, setEmail] = useState<IFormField>({ data: '', error: '' });
