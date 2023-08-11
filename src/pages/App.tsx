@@ -1,13 +1,14 @@
 /* eslint-disable react/jsx-one-expression-per-line */
+import { BrowserRouter } from 'react-router-dom';
 import './App.css';
 
 function App() {
 
   return (
     <>
-      <div>
-        <h1>eCommerce-App</h1>
-      </div>
+      <BrowserRouter>
+        <h1>Main page 🏠</h1>
+      </BrowserRouter>
     </>
   );
 }
