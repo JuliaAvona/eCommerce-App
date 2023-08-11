@@ -1,14 +1,25 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import { BrowserRouter } from 'react-router-dom';
 import './App.css';
+import Main from './Main/Main';
+import Modal from './Modal/Modal';
+import { useState } from 'react';
+
+import Login from './Login/Login';
+// import Signup from './Signup/Signup';
 
 function App() {
+  const [modalActive, setModalActive] = useState(false);
 
   return (
     <>
-      <BrowserRouter>
-        <h1>Main page 🏠</h1>
-      </BrowserRouter>
+      <Main />
+      <button onClick={() => setModalActive(true)}>Login</button>
+      <button>SignUp</button>
+      {modalActive && (
+        <Modal active={modalActive} setActive={setModalActive}>
+          <Login />
+        </Modal>
+      )}
     </>
   );
 }

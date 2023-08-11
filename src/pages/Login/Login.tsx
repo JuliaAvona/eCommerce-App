@@ -1,6 +1,6 @@
-import styles from './Auth.module.css';
+import styles from './Login.module.css';
 
-const Auth: React.FC = () => {
+const Login: React.FC = () => {
   return (
     <div className={styles.loginPage}>
       <div className={styles.form}>
@@ -8,7 +8,7 @@ const Auth: React.FC = () => {
         <form className={styles.registerForm}>
           <input type="text" placeholder="email" />
           <input type="password" placeholder="password" />
-          <button>login</button>
+          <button className={styles.button}>login</button>
           <p className={styles.message}>
             Not registered? <a href="#">Create an account</a>
           </p>
@@ -18,4 +18,4 @@ const Auth: React.FC = () => {
   );
 };
 
-export default Auth;
+export default Login;
