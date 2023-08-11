@@ -1,28 +1,30 @@
-/* eslint-disable react/jsx-one-expression-per-line */
 import './App.css';
+import { useState } from 'react';
 import Main from './Main/Main';
 import Modal from './Modal/Modal';
-import { useState } from 'react';
+// import Login from './Login/Login';
+import Signup from './Signup/Signup';
 
-import Login from './Login/Login';
-// import Signup from './Signup/Signup';
-
-function App() {
-  const [modalActive, setModalActive] = useState(false);
+const App = () => {
+  const [modalActive, setModalActive] = useState(true);
 
   return (
     <>
       <Main />
-      <button onClick={() => setModalActive(true)}>Login</button>
-      <button>SignUp</button>
+      <button type="submit" onClick={() => setModalActive(true)}>
+        Login
+      </button>
+      <button type="submit" onClick={() => setModalActive(true)}>
+        SignUp
+      </button>
       {modalActive && (
         <Modal active={modalActive} setActive={setModalActive}>
-          <Login />
+          <Signup />
         </Modal>
       )}
     </>
   );
-}
+};
 
 export function sum(a: number, b: number) {
   return a + b;

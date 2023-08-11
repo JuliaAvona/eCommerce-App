@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/comma-dangle */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './pages/App.tsx';

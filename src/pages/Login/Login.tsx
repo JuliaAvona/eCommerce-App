@@ -8,9 +8,11 @@ const Login: React.FC = () => {
         <form className={styles.registerForm}>
           <input type="text" placeholder="email" />
           <input type="password" placeholder="password" />
-          <button className={styles.button}>login</button>
+          <button className={styles.button} type="submit">
+            login
+          </button>
           <p className={styles.message}>
-            Not registered? <a href="#">Create an account</a>
+            Not registered? <a href="/">Create an account</a>
           </p>
         </form>
       </div>

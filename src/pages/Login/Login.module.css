@@ -7,48 +7,48 @@
 }
 
 .form {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
     position: relative;
     z-index: 1;
-    background: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     max-width: 500px;
     max-height: 500px;
-    margin: 0 auto 100px;
     padding: 45px;
+    margin: 0 auto 100px;
     text-align: center;
+    background: #FFFFFF;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
 .form input {
-    font-family: "Roboto", sans-serif;
-    outline: 0;
-    background: #f2f2f2;
-    width: 100%;
-    border: 0;
-    margin: 0 0 15px;
-    padding: 15px;
     box-sizing: border-box;
+    width: 100%;
+    padding: 15px;
+    margin: 0 0 15px;
+    font-family: "Roboto", sans-serif;
     font-size: 14px;
     color: black;
+    background: #f2f2f2;
+    border: 0;
+    outline: 0;
 }
 
 .form .button {
-    font-family: "Roboto", sans-serif;
-    text-transform: uppercase;
-    outline: 0;
-    background: #4CAF50;
     width: 100%;
-    border: 0;
     padding: 15px;
-    color: #FFFFFF;
+    margin: 0;
+    font-family: "Roboto", sans-serif;
     font-size: 14px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: #4CAF50;
+    border: 0;
+    border-radius: 0%;
+    outline: 0;
     -webkit-transition: all 0.3 ease;
     transition: all 0.3 ease;
-    cursor: pointer;
-    border-radius: 0%;
-    margin: 0;
 }
 
 .form .button:hover,
@@ -58,17 +58,17 @@
 }
 
 .headline {
+    margin-top: 0;
     font-size: 1.5rem;
     color: rgba(0, 0, 0, 0.5);
-    margin-top: 0;
 
 }
 
 .form .message {
-    margin: 1rem 0 0;
     padding: 1rem 0 0;
-    color: #b3b3b3;
+    margin: 1rem 0 0;
     font-size: 0.8rem;
+    color: #b3b3b3;
 }
 
 .form .message a {
