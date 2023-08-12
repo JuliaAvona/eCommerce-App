@@ -13,7 +13,7 @@
     flex-direction: column;
     justify-content: space-between;
     max-width: 500px;
-    max-height: 500px;
+    max-height: 600px;
     padding: 45px;
     margin: 0 auto 100px;
     text-align: center;
@@ -67,15 +67,90 @@
 .form .message {
     padding: 1rem 0 0;
     margin: 1rem 0 0;
-    font-size: 0.8rem;
+    font-size: 0.5rem;
     color: #b3b3b3;
+    margin-top: 0;
+    margin-bottom: 1rem;
 }
 
 .form .message a {
-    color: #4CAF50;
+    color: #336ba7;
     text-decoration: none;
 }
 
 .form .registerForm {
     display: block;
+}
+
+.hints ul li {
+    font-size: 0.5rem;
+    color: rgb(0, 140, 168);
+    margin-top: 10px;
+    list-style-type: none;
+    text-align: left;
+}
+
+.hints ul li:before {
+    content: "✓";
+    padding-right: 10px;
+}
+
+.hints ul {
+    margin: 0;
+    padding: 0;
+}
+
+.error {
+    color: #ff9191;
+    font-size: 0.5rem;
+    margin-bottom: 10px;
+}
+
+.disabledButton {
+    width: 100%;
+    padding: 15px;
+    margin: 0;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    color: #080000;
+    text-transform: uppercase;
+    cursor: default;
+    background: #e1e1e1;
+    border: 0;
+    border-radius: 0%;
+    outline: 0;
+    transition: all 0.3 ease;
+}
+
+.passwdWrap {
+    position: relative;
+}
+
+.showPassword {
+    position: absolute;
+    top: 52%;
+    right: 2.5rem;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 1rem;
+    height: 1rem;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    border-color: none;
+}
+
+.showPassword img {
+    width: 1rem;
+    height: auto;
+    opacity: 0.5;
+}
+
+.showPassword:focus-visible,
+.showPassword:focus,
+.showPassword:hover,
+.showPassword img:focus-visible {
+    border-color: none;
+    outline: none;
 }
