@@ -118,7 +118,7 @@ const Login: React.FC = () => {
             className={styles.passwdWrap}
           />
           <button type="button" className={styles.showPassword} onClick={togglePasswordVisibility}>
-            <img src={passwordIcon} alt={passwordVisible ? 'Hide Password' : 'Show Password'} />
+            <img className='m-auto' src={passwordIcon} alt={passwordVisible ? 'Hide Password' : 'Show Password'} />
           </button>
           {passwordDirty && passwordError && <div className={styles.error}>{passwordError}</div>}
           <button

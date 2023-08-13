@@ -11,8 +11,10 @@ export enum Forms {
 }
 
 export enum Pages {
-  signup = 'signup',
-  login = 'login',
+  signup = '/signup',
+  login = '/login',
+  main = '/main',
+  error = '/error',
 }
 
 export enum Variant {

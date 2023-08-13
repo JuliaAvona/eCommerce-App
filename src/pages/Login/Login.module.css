@@ -21,6 +21,20 @@
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
+.form_signup {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 800px;
+    padding: 45px;
+    margin: 0 auto 100px;
+    text-align: center;
+    background: #FFFFFF;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
 .form input {
     box-sizing: border-box;
     width: 100%;
@@ -127,7 +141,6 @@
 }
 
 .showPassword {
-    position: absolute;
     top: 52%;
     right: 2.5rem;
     transform: translateY(-50%);
@@ -139,6 +152,9 @@
     margin: 0;
     padding: 0;
     border-color: none;
+    position: relative;
+    left: 85%;
+    bottom: 40px;
 }
 
 .showPassword img {
