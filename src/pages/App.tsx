@@ -48,11 +48,10 @@ const App = () => {
         <Router>
             <Navigation/>
             <Routes>
-                <Route path={'/'} element={<Main />} errorElement={<Error/>}/>
+                <Route path={Pages.main} element={<Main />} errorElement={<Error/>}/>
                 <Route path={Pages.signup} element={<Signup/>} errorElement={<Error/>}/>
                 <Route path={Pages.login} element={<Login/>} errorElement={<Error/>}/>
-                {/* 404 Redirect */}
-                {/*<Route render={() => (<Redirect to={Pages.error} />)} />*/}
+                <Route path="*" element={<Error />} />
             </Routes>
         </Router>
     );

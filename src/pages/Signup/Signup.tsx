@@ -183,7 +183,7 @@ const Signup: FC = () => {
         <Row className='mt-3 m-auto'>
           <Form.Group as={Col} controlId="formGridAlready">
            <div  className='mb-3'>Already registrationed?</div>
-          <Button variant={Variant.dark} onClick={() => navigate(`/${Pages.login}`)}>
+          <Button variant={Variant.dark} onClick={() => navigate(Pages.login)}>
             Login
           </Button>
           </Form.Group>
