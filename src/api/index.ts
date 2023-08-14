@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import axios from 'axios';
 import { ISignUp } from '../types/interfaces';
+import saveDataInLockalStorage from '../utils/storage';
 
 export const getToken = async () => {
   const authUrl = 'https://auth.us-central1.gcp.commercetools.com';
@@ -62,8 +63,6 @@ export const logIn = async (email: string, password: string) => {
     'manage_my_shopping_lists:ecommerce-rsschool manage_my_business_units:ecommerce-rsschool manage_my_profile:ecommerce-rsschool view_categories:ecommerce-rsschool create_anonymous_token:ecommerce-rsschool manage_my_quote_requests:ecommerce-rsschool manage_my_quotes:ecommerce-rsschool manage_customers:ecommerce-rsschool manage_my_payments:ecommerce-rsschool manage_my_orders:ecommerce-rsschool view_published_products:ecommerce-rsschool';
   const url = `https://auth.us-central1.gcp.commercetools.com/oauth/${projectKey}/customers/token`;
 
-  // const data: ILogin = { email, password };
-
   await axios
     .post(
       url,
@@ -85,6 +84,10 @@ export const logIn = async (email: string, password: string) => {
     )
     .then((userResponse) => {
       console.log('User logged in:', userResponse.data);
+      if (userResponse.data.access_token) {
+        saveDataInLockalStorage(userResponse.data);
+      }
+      return userResponse.data.access_token;
     })
     .catch((error) => {
       console.log('Error logging in user:', error);

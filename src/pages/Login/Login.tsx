@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 import hideLogin from '../../assets/svg/visibility_off.svg';
 import showLogin from '../../assets/svg/visibility.svg';
@@ -14,6 +15,7 @@ const Login: React.FC = () => {
   const [formValid, setFormValid] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordIcon, setPasswordIcon] = useState(showLogin);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (emailError || passwordError) {
@@ -98,7 +100,13 @@ const Login: React.FC = () => {
 
   function getAuthorization(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
-    logIn(email, password);
+    logIn(email, password).then(() => {
+      if (localStorage.getItem('access_token')) {
+        navigate('/main');
+      } else {
+        setPasswordError('Incorrect username or password😬');
+      }
+    });
   }
 
   return (
