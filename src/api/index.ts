@@ -53,3 +53,40 @@ export const signUp = async (accessToken: string, data: ISignUp) => {
       console.log('Error registering user:', error);
     });
 };
+
+export const logIn = async (email: string, password: string) => {
+  const projectKey = 'ecommerce-rsschool';
+  const clientId = 'G6YqJ3Gkjvz8JhsqV9ijepkh';
+  const clientSecret = 'EYMqnqO8H554djVE0ji0fEJhn7rxAI7E';
+  const scope =
+    'manage_my_shopping_lists:ecommerce-rsschool manage_my_business_units:ecommerce-rsschool manage_my_profile:ecommerce-rsschool view_categories:ecommerce-rsschool create_anonymous_token:ecommerce-rsschool manage_my_quote_requests:ecommerce-rsschool manage_my_quotes:ecommerce-rsschool manage_customers:ecommerce-rsschool manage_my_payments:ecommerce-rsschool manage_my_orders:ecommerce-rsschool view_published_products:ecommerce-rsschool';
+  const url = `https://auth.us-central1.gcp.commercetools.com/oauth/${projectKey}/customers/token`;
+
+  // const data: ILogin = { email, password };
+
+  await axios
+    .post(
+      url,
+      new URLSearchParams({
+        grant_type: 'password',
+        username: email,
+        password,
+        scope,
+      }),
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        auth: {
+          username: clientId,
+          password: clientSecret,
+        },
+      }
+    )
+    .then((userResponse) => {
+      console.log('User logged in:', userResponse.data);
+    })
+    .catch((error) => {
+      console.log('Error logging in user:', error);
+    });
+};

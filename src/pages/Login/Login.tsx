@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './Login.module.css';
 import hideLogin from '../../assets/svg/visibility_off.svg';
 import showLogin from '../../assets/svg/visibility.svg';
+import { logIn } from '../../api/index';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -57,18 +58,18 @@ const Login: React.FC = () => {
       case e.target.value.length < 8:
         setPasswordError('Password must be at least 8 characters long');
         break;
-      case !/[A-Z]/.test(e.target.value):
-        setPasswordError('Password must contain at least one uppercase letter (A-Z)');
-        break;
+      // case !/[A-Z]/.test(e.target.value):
+      //   setPasswordError('Password must contain at least one uppercase letter (A-Z)');
+      //   break;
       case !/[a-z]/.test(e.target.value):
         setPasswordError('Password must contain at least one lowercase letter (a-z)');
         break;
       case !/\d/.test(e.target.value):
         setPasswordError('Password must contain at least one digit (0-9)');
         break;
-      case !/[!@#$%^&*]/.test(e.target.value):
-        setPasswordError('Password must contain at least one special character (!@#$%^&*)');
-        break;
+      // case !/[!@#$%^&*]/.test(e.target.value):
+      //   setPasswordError('Password must contain at least one special character (!@#$%^&*)');
+      //   break;
       case /^\s+|\s+$/.test(e.target.value):
         setPasswordError('Password cannot contain spaces');
         break;
@@ -95,6 +96,11 @@ const Login: React.FC = () => {
     setPasswordIcon((prevPasswordIcon) => (prevPasswordIcon === showLogin ? hideLogin : showLogin));
   };
 
+  function getAuthorization(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+    logIn(email, password);
+  }
+
   return (
     <div className={styles.loginPage}>
       <div className={styles.form}>
@@ -118,13 +124,14 @@ const Login: React.FC = () => {
             className={styles.passwdWrap}
           />
           <button type="button" className={styles.showPassword} onClick={togglePasswordVisibility}>
-            <img className='m-auto' src={passwordIcon} alt={passwordVisible ? 'Hide Password' : 'Show Password'} />
+            <img className="m-auto" src={passwordIcon} alt={passwordVisible ? 'Hide Password' : 'Show Password'} />
           </button>
           {passwordDirty && passwordError && <div className={styles.error}>{passwordError}</div>}
           <button
             className={`${formValid ? styles.button : styles.disabledButton}`}
             disabled={!formValid}
             type="submit"
+            onClick={(e) => getAuthorization(e)}
           >
             login
           </button>
