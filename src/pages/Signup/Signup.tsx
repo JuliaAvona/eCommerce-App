@@ -17,7 +17,7 @@ import {
 } from '../../utils/validator';
 import Input from '../../components/input/Input';
 import Select from '../../components/select/Select';
-import Button from '../../components/Button/Button';
+import Button from '../../components/button/Button';
 import Date from '../../components/date/Date';
 import styles from "../Login/Login.module.css";
 
@@ -95,11 +95,11 @@ const Signup: FC = () => {
   }
 
   return (
-    <>
-      <h2 className='mt-5'>Registration page</h2>
+    <div className='mt-5'>
       <Form className={styles.form_signup}>
+        <h2 className={styles.headline}>Registration page</h2>
         <Row className="mb-3 mt-3">
-          <Form.Group as={Col} controlId="Email">
+          <Form.Group className={styles.headline2} as={Col} controlId="Email">
             <Input
                 label="Email"
                 value={email.data}
@@ -108,7 +108,7 @@ const Signup: FC = () => {
                 props={{ type: 'text' }}
             />
           </Form.Group>
-          <Form.Group as={Col} controlId="Password">
+          <Form.Group className={styles.headline2} as={Col} controlId="Password">
             <Input
                 label="Password"
                 value={password.data}
@@ -118,6 +118,7 @@ const Signup: FC = () => {
             />
           </Form.Group>
         </Row>
+        <Form.Group className={styles.headline2}>
         <Input
           label="First Name"
           value={firstName.data}
@@ -138,8 +139,9 @@ const Signup: FC = () => {
           helper={date.error}
           onChange={(e) => handleFormChange(e, Forms.date)}
         />
+        </Form.Group>
         <Row className="mb-3">
-          <Form.Group as={Col} controlId="Street">
+          <Form.Group  className={styles.headline2} as={Col} controlId="Street">
             <Input
                 label="Street"
                 value={street.data}
@@ -148,7 +150,7 @@ const Signup: FC = () => {
                 props={{ type: 'text' }}
             />
           </Form.Group>
-          <Form.Group as={Col} controlId="Postal code">
+          <Form.Group className={styles.headline2} as={Col} controlId="Postal code">
             <Input
                 label="Postal code"
                 value={postal.data}
@@ -157,8 +159,7 @@ const Signup: FC = () => {
                 props={{ type: 'text' }}
             />
           </Form.Group>
-
-          <Form.Group as={Col} controlId="City">
+          <Form.Group className={styles.headline2} as={Col} controlId="City">
             <Input
                 label="City"
                 value={city.data}
@@ -176,23 +177,19 @@ const Signup: FC = () => {
           ))}
         </Select>
         <Row className='mt-2 m-auto'>
-          <Button variant={Variant.dark} onClick={(e) => handleFormSubmit(e)}>
+          <button className={styles.button} onClick={(e) => handleFormSubmit(e)}>
             Registration
-          </Button>
+          </button>
         </Row>
         <Row className='mt-3 m-auto'>
           <Form.Group as={Col} controlId="formGridAlready">
             <p className={styles.message}>
               Already registrationed? <a href="/login">Login page</a>
             </p>
-          {/* <div  className='mb-3'>Already registrationed?</div>*/}
-          {/*<Button variant={Variant.dark} onClick={() => navigate(Pages.login)}>*/}
-          {/*  Login*/}
-          {/*</Button>*/}
           </Form.Group>
         </Row>
       </Form>
-    </>
+    </div>
   );
 };
 

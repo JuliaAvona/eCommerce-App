@@ -75,7 +75,12 @@
     margin-top: 0;
     font-size: 1.5rem;
     color: rgba(0, 0, 0, 0.5);
+}
 
+.headline2 {
+    margin-top: 0;
+    font-size: 1rem;
+    color: rgba(0, 0, 0, 0.5);
 }
 
 .form .message {
