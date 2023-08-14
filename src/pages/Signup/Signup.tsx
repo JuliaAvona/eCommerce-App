@@ -15,10 +15,10 @@ import {
   postalValidation,
   streetValidation,
 } from '../../utils/validator';
-import Input from '../../components/input';
-import Select from '../../components/select';
-import Button from '../../components/button';
-import Date from '../../components/date';
+import Input from '../../components/input/Input';
+import Select from '../../components/select/Select';
+import Button from '../../components/Button/Button';
+import Date from '../../components/date/Date';
 import styles from "../Login/Login.module.css";
 
 const Signup: FC = () => {
@@ -182,10 +182,13 @@ const Signup: FC = () => {
         </Row>
         <Row className='mt-3 m-auto'>
           <Form.Group as={Col} controlId="formGridAlready">
-           <div  className='mb-3'>Already registrationed?</div>
-          <Button variant={Variant.dark} onClick={() => navigate(Pages.login)}>
-            Login
-          </Button>
+            <p className={styles.message}>
+              Already registrationed? <a href="/login">Login page</a>
+            </p>
+          {/* <div  className='mb-3'>Already registrationed?</div>*/}
+          {/*<Button variant={Variant.dark} onClick={() => navigate(Pages.login)}>*/}
+          {/*  Login*/}
+          {/*</Button>*/}
           </Form.Group>
         </Row>
       </Form>

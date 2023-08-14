@@ -9,7 +9,7 @@ import React from 'react';
 import { Pages } from '../types/enums';
 import {Badge, Nav} from "react-bootstrap";
 import BootstrapButton from "react-bootstrap/Button";
-import { Navigation } from "../components/navbar";
+import { Navigation } from "../components/navbar/Navbar";
 import Signup from "./Signup/Signup";
 import Login from "./Login/Login";
 import Error from "./Error/Error";
