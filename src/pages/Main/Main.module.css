@@ -1,0 +1,18 @@
+.plant{
+    width: 30%;
+    padding-top: 5%;
+}
+
+.text1 {
+    padding-top: 2%;
+    color: black;
+    text-shadow:
+            0 0 1px #fff,
+            0 0 2px #fff,
+            0 0 5px #fff,
+            0 0 11px #7bff00,
+            0 0 20px #37ff00,
+            0 0 30px #55ff00,
+            0 0 55px #73ff00,
+            0 0 80px #66ff00;
+}
