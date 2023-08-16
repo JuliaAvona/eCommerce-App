@@ -15,6 +15,7 @@ export enum Pages {
   login = '/login',
   main = '/main',
   error = '/error',
+  default = '/',
 }
 
 export enum Variant {
