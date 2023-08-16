@@ -1,10 +1,9 @@
 import React, { FC, useState, useEffect } from 'react';
 import iso3311a2 from 'iso-3166-1-alpha-2';
-import { useNavigate } from 'react-router-dom';
 import { Col, Form, Row } from 'react-bootstrap';
 import { ICountry, IFormField } from '../../types/interfaces';
 import { getToken, signUp } from '../../api';
-import { Forms, Pages, Variant } from '../../types/enums';
+import { Forms } from '../../types/enums';
 import {
   cityValidation,
   countryValidation,
@@ -17,7 +16,6 @@ import {
 } from '../../utils/validator';
 import Input from '../../components/input/Input';
 import Select from '../../components/select/Select';
-import Button from '../../components/button/Button';
 import Date from '../../components/date/Date';
 import styles from '../Login/Login.module.css';
 
@@ -33,8 +31,8 @@ const Signup: FC = () => {
   const [country, setCountry] = useState<IFormField>({ data: '', error: '' });
 
   const [countryData, setCountryData] = useState<ICountry>({});
-
-  const navigate = useNavigate();
+  //
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const countries = iso3311a2.getData() as ICountry;
@@ -176,15 +174,18 @@ const Signup: FC = () => {
             </option>
           ))}
         </Select>
-        <Row className="mt-2 m-auto">
-          <button className={styles.button} onClick={(e) => handleFormSubmit(e)}>
+        <Row className="mt-5 m-auto">
+          <button type="button" className={styles.button_submit} onClick={(e) => handleFormSubmit(e)}>
             Registration
           </button>
         </Row>
-        <Row className="mt-3 m-auto">
+        <Row className="m-auto">
           <Form.Group as={Col} controlId="formGridAlready">
-            <p className={styles.message}>
-              Already registrationed? <a href="/login">Login page</a>
+            <p className={styles.message_submit}>
+              Already registrationed?{' '}
+              <a className={styles.a_submit} href="/login">
+                Login page
+              </a>
             </p>
           </Form.Group>
         </Row>

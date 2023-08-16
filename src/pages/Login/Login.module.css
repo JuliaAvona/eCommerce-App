@@ -57,25 +57,28 @@
     font-size: 0.875rem;
 }
 
-.form .button {
+.form .button , .button_submit {
     width: 100%;
     padding: 15px;
     margin: 0;
     font-family: "Roboto", sans-serif;
-    font-size: 14px;
     color: #FFFFFF;
     text-transform: uppercase;
     cursor: pointer;
     background: #4CAF50;
     border: 0;
-    border-radius: 0%;
     outline: 0;
     -webkit-transition: all 0.3 ease;
-    transition: all 0.3 ease;
     border: var(--bs-border-width) solid var(--bs-border-color);
-    border-radius: var(--bs-border-radius);
+    border-radius: 0.375rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     font-size: 0.875rem;
+}
+
+.button_submit {
+    margin-top: 30px;
+    background: #e1e1e1;
+    color: #080000;
 }
 
 .form .button:hover,
@@ -92,12 +95,12 @@
 }
 
 .headline2 {
-    margin-top: 0;
+    margin-top: 3%;
     font-size: 1rem;
     color: rgba(0, 0, 0, 0.5);
 }
 
-.form .message {
+.form .message , .message_submit {
     padding: 1rem 0 0;
     margin: 1rem 0 0;
     font-size: 0.5rem;
@@ -106,7 +109,7 @@
     margin-bottom: 1rem;
 }
 
-.form .message a {
+.form .message a , .a_submit {
     color: #4CAF50;
     text-decoration: none;
     font-size: 0.6rem;

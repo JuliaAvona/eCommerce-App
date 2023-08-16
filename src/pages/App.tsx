@@ -1,15 +1,13 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import React from 'react';
 // import Main from './Main/Main';
 // import Modal from './Modal/Modal';
 // import Login from './Login/Login';
 // import Signup from './Signup/Signup';
 import { Pages } from '../types/enums';
-import { Badge, Nav } from 'react-bootstrap';
-import BootstrapButton from 'react-bootstrap/Button';
-import { Navigation } from '../components/navbar/Navbar';
+import Navigation from '../components/navbar/Navbar';
 import Signup from './Signup/Signup';
 import Login from './Login/Login';
 import Error from './Error/Error';
@@ -37,10 +35,10 @@ const redirect = (page: string, setPage: React.Dispatch<React.SetStateAction<str
   }
 };
 */
-
-function Redirect(props: { to: string }) {
-  return null;
-}
+//
+// const Redirect = (props: { to: string }) => {
+//   return null;
+// };
 
 const App = () => {
   // const [page, setPage] = useState('');
