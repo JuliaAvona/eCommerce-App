@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import iso3311a2 from 'iso-3166-1-alpha-2';
 import { useNavigate } from 'react-router-dom';
-import {Col, Form, Row} from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 import { ICountry, IFormField } from '../../types/interfaces';
 import { getToken, signUp } from '../../api';
 import { Forms, Pages, Variant } from '../../types/enums';
@@ -19,7 +19,7 @@ import Input from '../../components/input/Input';
 import Select from '../../components/select/Select';
 import Button from '../../components/button/Button';
 import Date from '../../components/date/Date';
-import styles from "../Login/Login.module.css";
+import styles from '../Login/Login.module.css';
 
 const Signup: FC = () => {
   const [email, setEmail] = useState<IFormField>({ data: '', error: '' });
@@ -95,77 +95,77 @@ const Signup: FC = () => {
   }
 
   return (
-    <div className='mt-5'>
+    <div className="mt-5">
       <Form className={styles.form_signup}>
         <h2 className={styles.headline}>Registration page</h2>
         <Row className="mb-3 mt-3">
           <Form.Group className={styles.headline2} as={Col} controlId="Email">
             <Input
-                label="Email"
-                value={email.data}
-                helper={email.error}
-                onChange={(e) => handleFormChange(e, Forms.email)}
-                props={{ type: 'text' }}
+              label="Email"
+              value={email.data}
+              helper={email.error}
+              onChange={(e) => handleFormChange(e, Forms.email)}
+              props={{ type: 'text' }}
             />
           </Form.Group>
           <Form.Group className={styles.headline2} as={Col} controlId="Password">
             <Input
-                label="Password"
-                value={password.data}
-                helper={password.error}
-                onChange={(e) => handleFormChange(e, Forms.password)}
-                props={{ type: 'password' }}
+              label="Password"
+              value={password.data}
+              helper={password.error}
+              onChange={(e) => handleFormChange(e, Forms.password)}
+              props={{ type: 'password' }}
             />
           </Form.Group>
         </Row>
         <Form.Group className={styles.headline2}>
-        <Input
-          label="First Name"
-          value={firstName.data}
-          helper={firstName.error}
-          onChange={(e) => handleFormChange(e, Forms.firstName)}
-          props={{ type: 'text' }}
-        />
-        <Input
-          label="Last Name"
-          value={lastName.data}
-          helper={lastName.error}
-          onChange={(e) => handleFormChange(e, Forms.lastName)}
-          props={{ type: 'text' }}
-        />
-        <Date
-          label="Date of Birth"
-          value={date.data}
-          helper={date.error}
-          onChange={(e) => handleFormChange(e, Forms.date)}
-        />
+          <Input
+            label="First Name"
+            value={firstName.data}
+            helper={firstName.error}
+            onChange={(e) => handleFormChange(e, Forms.firstName)}
+            props={{ type: 'text' }}
+          />
+          <Input
+            label="Last Name"
+            value={lastName.data}
+            helper={lastName.error}
+            onChange={(e) => handleFormChange(e, Forms.lastName)}
+            props={{ type: 'text' }}
+          />
+          <Date
+            label="Date of Birth"
+            value={date.data}
+            helper={date.error}
+            onChange={(e) => handleFormChange(e, Forms.date)}
+          />
         </Form.Group>
         <Row className="mb-3">
-          <Form.Group  className={styles.headline2} as={Col} controlId="Street">
+          <Form.Group className={styles.headline2} as={Col} controlId="Street">
             <Input
-                label="Street"
-                value={street.data}
-                helper={street.error}
-                onChange={(e) => handleFormChange(e, Forms.street)}
-                props={{ type: 'text' }}
+              label="Street"
+              value={street.data}
+              helper={street.error}
+              onChange={(e) => handleFormChange(e, Forms.street)}
+              props={{ type: 'text' }}
             />
           </Form.Group>
           <Form.Group className={styles.headline2} as={Col} controlId="Postal code">
             <Input
-                label="Postal code"
-                value={postal.data}
-                helper={postal.error}
-                onChange={(e) => handleFormChange(e, Forms.postal)}
-                props={{ type: 'text' }}
+              label="Postal code"
+              value={postal.data}
+              helper={postal.error}
+              onChange={(e) => handleFormChange(e, Forms.postal)}
+              props={{ type: 'text' }}
             />
           </Form.Group>
           <Form.Group className={styles.headline2} as={Col} controlId="City">
             <Input
-                label="City"
-                value={city.data}
-                helper={city.error}
-                onChange={(e) => handleFormChange(e, Forms.city)}
-                props={{ type: 'text' }}
+              label="City"
+              value={city.data}
+              helper={city.error}
+              onChange={(e) => handleFormChange(e, Forms.city)}
+              props={{ type: 'text' }}
             />
           </Form.Group>
         </Row>
@@ -176,12 +176,12 @@ const Signup: FC = () => {
             </option>
           ))}
         </Select>
-        <Row className='mt-2 m-auto'>
+        <Row className="mt-2 m-auto">
           <button className={styles.button} onClick={(e) => handleFormSubmit(e)}>
             Registration
           </button>
         </Row>
-        <Row className='mt-3 m-auto'>
+        <Row className="mt-3 m-auto">
           <Form.Group as={Col} controlId="formGridAlready">
             <p className={styles.message}>
               Already registrationed? <a href="/login">Login page</a>

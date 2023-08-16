@@ -60,18 +60,15 @@ const Login: React.FC = () => {
       case e.target.value.length < 8:
         setPasswordError('Password must be at least 8 characters long');
         break;
-      // case !/[A-Z]/.test(e.target.value):
-      //   setPasswordError('Password must contain at least one uppercase letter (A-Z)');
-      //   break;
+      case !/[A-Z]/.test(e.target.value):
+        setPasswordError('Password must contain at least one uppercase letter (A-Z)');
+        break;
       case !/[a-z]/.test(e.target.value):
         setPasswordError('Password must contain at least one lowercase letter (a-z)');
         break;
       case !/\d/.test(e.target.value):
         setPasswordError('Password must contain at least one digit (0-9)');
         break;
-      // case !/[!@#$%^&*]/.test(e.target.value):
-      //   setPasswordError('Password must contain at least one special character (!@#$%^&*)');
-      //   break;
       case /^\s+|\s+$/.test(e.target.value):
         setPasswordError('Password cannot contain spaces');
         break;
