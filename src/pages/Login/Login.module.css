@@ -46,6 +46,15 @@
     background: #f2f2f2;
     border: 0;
     outline: 0;
+    line-height: 1.5;
+    color: var(--bs-body-color);
+    appearance: none;
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    font-size: 0.875rem;
 }
 
 .form .button {
@@ -63,6 +72,10 @@
     outline: 0;
     -webkit-transition: all 0.3 ease;
     transition: all 0.3 ease;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    font-size: 0.875rem;
 }
 
 .form .button:hover,
@@ -73,6 +86,7 @@
 
 .headline {
     margin-top: 0;
+    margin-bottom: 1.5rem;
     font-size: 1.5rem;
     color: rgba(0, 0, 0, 0.5);
 }
@@ -93,8 +107,9 @@
 }
 
 .form .message a {
-    color: #336ba7;
+    color: #4CAF50;
     text-decoration: none;
+    font-size: 0.6rem;
 }
 
 .form .registerForm {
@@ -139,6 +154,10 @@
     border-radius: 0%;
     outline: 0;
     transition: all 0.3 ease;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    font-size: 0.875rem;
 }
 
 .passwdWrap {
@@ -159,7 +178,8 @@
     border-color: none;
     position: relative;
     left: 85%;
-    bottom: 40px;
+    bottom: 45px;
+    background-color: white;
 }
 
 .showPassword img {

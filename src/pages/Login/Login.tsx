@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
-import hideLogin from '../../assets/svg/visibility_off.svg';
+import hideLogin from '../../assets/svg/visibility-off.svg';
 import showLogin from '../../assets/svg/visibility.svg';
 import { logIn } from '../../api/index';
 
@@ -101,7 +101,7 @@ const Login: React.FC = () => {
       if (localStorage.getItem('access_token')) {
         navigate('/main');
       } else {
-        setPasswordError('Incorrect username or password😬');
+        setPasswordError('Incorrect username or password😬 Please try again');
       }
     });
   }
