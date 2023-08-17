@@ -5,6 +5,7 @@ import NavbarCollapse from 'react-bootstrap/NavbarCollapse';
 import { Pages } from '../../types/enums';
 import styles from './Navbar.module.css';
 import Link from '../Link/Link';
+import Loginlink from '../Loginlink/Loginlink';
 
 const Navigation = () => {
   return (
@@ -20,7 +21,7 @@ const Navigation = () => {
         </Nav>
         <Nav>
           <Link href={Pages.signup}>SignUp</Link>
-          <Link href={Pages.login}>Login</Link>
+          <Loginlink />
         </Nav>
       </NavbarCollapse>
     </Navbar>

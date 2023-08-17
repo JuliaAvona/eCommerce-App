@@ -4,6 +4,7 @@ import styles from './Login.module.css';
 import hideLogin from '../../assets/svg/visibility-off.svg';
 import showLogin from '../../assets/svg/visibility.svg';
 import { logIn } from '../../api/index';
+import { isAuthorized } from '../../utils/storage';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -98,7 +99,7 @@ const Login: React.FC = () => {
   function getAuthorization(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
     logIn(email, password).then(() => {
-      if (localStorage.getItem('access_token')) {
+      if (isAuthorized()) {
         navigate('/main');
       } else {
         setPasswordError('Incorrect username or password😬 Please try again');
