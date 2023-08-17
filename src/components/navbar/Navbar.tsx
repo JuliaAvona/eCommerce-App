@@ -4,6 +4,7 @@ import NavbarToggle from 'react-bootstrap/NavbarToggle';
 import NavbarCollapse from 'react-bootstrap/NavbarCollapse';
 import { Pages } from '../../types/enums';
 import styles from './Navbsr.module.css';
+import Link from '../Link/Link';
 
 const Navigation = () => {
   return (
@@ -15,15 +16,11 @@ const Navigation = () => {
       <NavbarToggle aria-controls="responsive-navbar-nav" />
       <NavbarCollapse id="responsive-navbar-nav">
         <Nav className="me-auto">
-          <Nav.Link href={Pages.main}>Home</Nav.Link>
+          <Link href={Pages.main}>Home</Link>
         </Nav>
         <Nav>
-          <Nav.Link href={Pages.signup} className="m-2">
-            SignUp
-          </Nav.Link>
-          <Nav.Link href={Pages.login} className="m-2">
-            Login
-          </Nav.Link>
+          <Link href={Pages.signup}>SignUp</Link>
+          <Link href={Pages.login}>Login</Link>
         </Nav>
       </NavbarCollapse>
     </Navbar>
