@@ -198,3 +198,23 @@
     border-color: none;
     outline: none;
 }
+
+@media screen and (max-width: 450px) {
+    .loginPage {
+        width: 90%;
+    }
+
+    .form {
+        padding: 5px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .loginPage {
+        width: 60%;
+    }
+
+    .form {
+        padding: 20px;
+    }
+}

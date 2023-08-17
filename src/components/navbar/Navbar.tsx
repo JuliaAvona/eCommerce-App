@@ -3,7 +3,7 @@ import { Nav, Navbar, NavbarBrand } from 'react-bootstrap';
 import NavbarToggle from 'react-bootstrap/NavbarToggle';
 import NavbarCollapse from 'react-bootstrap/NavbarCollapse';
 import { Pages } from '../../types/enums';
-import styles from './Navbsr.module.css';
+import styles from './Navbar.module.css';
 import Link from '../Link/Link';
 
 const Navigation = () => {
