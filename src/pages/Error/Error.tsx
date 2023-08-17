@@ -14,9 +14,9 @@ const Error = () => {
         />
         <pre>Error Page 404</pre>
         <pre>It`s empty, try again later.</pre>
-        <div className="btn btn-dark">
-          <Nav.Link href={Pages.main} className="m-2">
-            To home page.
+        <div className="btn btn-light">
+          <Nav.Link href={Pages.main} className={styles.button_home}>
+            To home page
           </Nav.Link>
         </div>
       </div>
