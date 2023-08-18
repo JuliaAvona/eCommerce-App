@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { FC, ChangeEvent } from 'react';
+import React, { FC, ChangeEventHandler } from 'react';
 import Form from 'react-bootstrap/Form';
 
 interface SelectProps {
   label: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange: ChangeEventHandler<HTMLSelectElement>;
   children: React.ReactNode;
-  props?: unknown;
+  props?: object;
 }
 
 const Select: FC<SelectProps> = ({ label, onChange, children, props }) => {

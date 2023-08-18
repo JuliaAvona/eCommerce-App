@@ -8,7 +8,7 @@ interface InputProps {
   value: string;
   helper?: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  props?: unknown;
+  props?: { type: string };
 }
 
 const Input: FC<InputProps> = ({ label, value, helper, onChange, props }) => {

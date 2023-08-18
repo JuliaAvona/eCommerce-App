@@ -39,7 +39,7 @@ const Signup: FC = () => {
     setCountryData(countries);
   }, []);
 
-  function handleFormChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, type: Form) {
+  function handleFormChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, type: Forms) {
     const { value } = event.target;
     if (Forms.email === type) setEmail({ error: '', data: value });
     if (Forms.password === type) setPassword({ error: '', data: value });

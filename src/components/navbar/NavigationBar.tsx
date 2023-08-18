@@ -1,13 +1,13 @@
-import React from 'react';
-import { Nav, Navbar, NavbarBrand } from 'react-bootstrap';
+import React, { FC } from 'react';
 import NavbarToggle from 'react-bootstrap/NavbarToggle';
 import NavbarCollapse from 'react-bootstrap/NavbarCollapse';
+import { Nav, Navbar, NavbarBrand } from 'react-bootstrap';
 import { Pages } from '../../types/enums';
-import styles from './Navbar.module.css';
 import Link from '../Link/Link';
 import Loginlink from '../Loginlink/Loginlink';
+import styles from './Navbar.module.css';
 
-const Navigation = () => {
+const NavigationBar: FC = () => {
   return (
     <Navbar className={styles.main_navbar}>
       <NavbarBrand className="m-1" href={Pages.main}>
@@ -27,4 +27,4 @@ const Navigation = () => {
     </Navbar>
   );
 };
-export default Navigation;
+export default NavigationBar;
