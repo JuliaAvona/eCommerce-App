@@ -7,13 +7,11 @@ export const saveData = (data: IResponse): void => {
 
 export const isAuth = (): boolean => {
   if (localStorage.getItem('access_token') !== null && localStorage.getItem('refresh_token') !== null) {
-    console.log('You are logged in');
     return true;
   }
   return false;
 };
 
 export const clearData = (): void => {
-  console.log('You are not authorized');
   localStorage.clear();
 };
