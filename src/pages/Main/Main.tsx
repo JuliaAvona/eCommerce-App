@@ -9,9 +9,8 @@ const Main = () => {
         src="https://uokansk.ucoz.ru/document/news_2019/aprel/slet_liderov-rostok.jpg"
         roundedCircle
       />
-      <pre className={styles.text1}>
-        Welcome to the eco goods store. We help save the planet for future generations.
-      </pre>
+      <pre className={styles.text1}>Welcome to the eco goods store.</pre>
+      <pre className={styles.text1}>We help save the planet for future generations.</pre>
     </div>
   );
 };

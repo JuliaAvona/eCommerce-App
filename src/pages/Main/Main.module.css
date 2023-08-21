@@ -16,3 +16,16 @@
             0 0 55px #9c794f,
             0 0 80px #9c794f;
 }
+
+@media (min-width:470px) and (max-width: 660px) {
+    .text1{
+        font-size: 14px;
+    }
+}
+
+
+@media screen and (max-width: 470px) {
+    .text1{
+        font-size: 8px;
+    }
+}
