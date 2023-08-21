@@ -7,18 +7,18 @@ import { logIn } from '../../api/index';
 import { isAuthorized } from '../../utils/storage';
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailDirty, setEmailDirty] = useState(false);
-  const [passwordDirty, setPasswordDirty] = useState(false);
-  const [emailError, setEmailError] = useState('email empty');
-  const [passwordError, setPasswordError] = useState('password empty');
-  const [formValid, setFormValid] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [passwordIcon, setPasswordIcon] = useState(showLogin);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [emailDirty, setEmailDirty] = useState<boolean>(false);
+  const [passwordDirty, setPasswordDirty] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<string>('email empty');
+  const [passwordError, setPasswordError] = useState<string>('password empty');
+  const [formValid, setFormValid] = useState<boolean>(false);
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+  const [passwordIcon, setPasswordIcon] = useState<string>(showLogin); // Предположим, что showLogin имеет тип string
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect((): void => {
     if (emailError || passwordError) {
       setFormValid(false);
     } else {
@@ -26,14 +26,14 @@ const Login: React.FC = () => {
     }
   }, [emailError, passwordError]);
 
-  const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const emailHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setEmail(e.target.value);
     setEmailDirty(true);
 
-    const containsAtSymbolRegex = /@/;
-    const nospaceRegex = /^\s+|\s+$/;
-    const containsDomainRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const containsAtSymbolRegex = /@/ as RegExp;
+    const nospaceRegex = /^\s+|\s+$/ as RegExp;
+    const containsDomainRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ as RegExp;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ as RegExp;
 
     switch (true) {
       case !containsAtSymbolRegex.test(e.target.value):
@@ -53,7 +53,7 @@ const Login: React.FC = () => {
     }
   };
 
-  const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.target.value);
     setPasswordDirty(true);
 
@@ -78,7 +78,7 @@ const Login: React.FC = () => {
     }
   };
 
-  const blurHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const blurHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     switch (e.target.name) {
       case 'email':
         setEmailDirty(true);
@@ -91,12 +91,12 @@ const Login: React.FC = () => {
     }
   };
 
-  const togglePasswordVisibility = () => {
+  const togglePasswordVisibility = (): void => {
     setPasswordVisible((prevPasswordVisible) => !prevPasswordVisible);
     setPasswordIcon((prevPasswordIcon) => (prevPasswordIcon === showLogin ? hideLogin : showLogin));
   };
 
-  function getAuthorization(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+  const getAuthorization = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     logIn(email, password).then(() => {
       if (isAuthorized()) {
@@ -105,7 +105,7 @@ const Login: React.FC = () => {
         setPasswordError('Incorrect username or password😬 Please try again');
       }
     });
-  }
+  };
 
   return (
     <div className={styles.loginPage}>
