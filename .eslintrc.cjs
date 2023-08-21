@@ -37,5 +37,5 @@ module.exports = {
     ],
     'react/require-default-props': 'off',
   },
-  ignorePatterns: ['.eslintrc.cjs', 'vite.config.js', 'jest.config.ts'],
+  ignorePatterns: ['.eslintrc.cjs', 'vite.config.js', 'jest.config.ts', 'setupTests.ts'],
 };

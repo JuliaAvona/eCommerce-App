@@ -8,37 +8,8 @@ import Signup from './Signup/Signup';
 import Login from './Login/Login';
 import Error from './Error/Error';
 import Main from './Main/Main';
-import { isAuthorized } from '../utils/storage';
-
-/*
-const redirect = (page: string, setPage: React.Dispatch<React.SetStateAction<string>>) => {
-  switch (page) {
-    case Pages.signup:
-      return <Signup />;
-    case Pages.login:
-      return <Loginlink />;
-    default:
-      return (
-        <>
-          <Main />
-          <button type="submit" onClick={() => setPage(Pages.signup)}>
-            Loginlink
-          </button>
-          <button type="submit" onClick={() => setPage(Pages.login)}>
-            SignUp
-          </button>
-        </>
-      );
-  }
-};
-*/
-//
-// const Redirect = (props: { to: string }) => {
-//   return null;
-// };
 
 const App = () => {
-  // const [page, setPage] = useState('');
   return (
     <Router>
       <NavigationBar />
@@ -51,18 +22,6 @@ const App = () => {
       </Routes>
     </Router>
   );
-  // redirect(page, setPage);
-  /* 
-  modalActive && (
-    <Modal active={modalActive} setActive={setModalActive}>
-      <Signup />
-    </Modal>
-  ) 
-  */
 };
-
-export function sum(a: number, b: number) {
-  return a + b;
-}
 
 export default App;

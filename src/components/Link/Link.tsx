@@ -1,4 +1,5 @@
 import React, { FC, MouseEventHandler } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './Link.module.scss';
 
 interface LinkProps {
@@ -6,11 +7,11 @@ interface LinkProps {
   children: React.ReactNode;
   onClick?: MouseEventHandler<HTMLAnchorElement>;
 }
-const Link: FC<LinkProps> = ({ href, onClick, children }) => {
+const MyLink: FC<LinkProps> = ({ href, children, onClick }) => {
   return (
-    <a onClick={onClick} className={styles.a} href={href}>
+    <Link to={href} className={styles.a} onClick={onClick}>
       {children}
-    </a>
+    </Link>
   );
 };
-export default Link;
+export default MyLink;

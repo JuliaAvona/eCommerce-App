@@ -6,15 +6,15 @@
 .text1 {
     padding-top: 2%;
     color: black;
-    text-shadow:
-            0 0 1px #fff,
-            0 0 2px #fff,
-            0 0 5px #fff,
-            0 0 11px #dabf94,
-            0 0 20px #dabf94,
-            0 0 30px #9c794f,
-            0 0 55px #9c794f,
-            0 0 80px #9c794f;
+    text-shadow: 
+        0 0 1px #fff,
+        0 0 2px #fff,
+        0 0 5px #fff,
+        0 0 11px #dabf94,
+        0 0 20px #dabf94,
+        0 0 30px #9c794f,
+        0 0 55px #9c794f,
+        0 0 80px #9c794f;  
 }
 
 @media (min-width:470px) and (max-width: 660px) {
@@ -27,5 +27,5 @@
 @media screen and (max-width: 470px) {
     .text1{
         font-size: 8px;
-    }
+    } 
 }

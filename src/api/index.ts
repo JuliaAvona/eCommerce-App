@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import axios from 'axios';
 import { ISignUp } from '../types/interfaces';
-import saveDataInLockalStorage from '../utils/storage';
+import saveData from '../utils/storage';
 
 export const getToken = async () => {
   const authUrl = 'https://auth.us-central1.gcp.commercetools.com';
@@ -35,7 +35,7 @@ export const getToken = async () => {
   }
 };
 
-export const signUp = async (accessToken: string, data: ISignUp) => {
+export const signup = async (accessToken: string, data: ISignUp) => {
   const projectKey = 'ecommerce-rsschool';
   const url = `https://api.us-central1.gcp.commercetools.com/${projectKey}/customers`;
   console.log(`Bearer \${${accessToken}}`);
@@ -55,7 +55,7 @@ export const signUp = async (accessToken: string, data: ISignUp) => {
     });
 };
 
-export const logIn = async (email: string, password: string) => {
+export const login = async (email: string, password: string) => {
   const projectKey = 'ecommerce-rsschool';
   const clientId = 'G6YqJ3Gkjvz8JhsqV9ijepkh';
   const clientSecret = 'EYMqnqO8H554djVE0ji0fEJhn7rxAI7E';
@@ -85,7 +85,7 @@ export const logIn = async (email: string, password: string) => {
     .then((userResponse) => {
       console.log('User logged in:', userResponse.data);
       if (userResponse.data.access_token) {
-        saveDataInLockalStorage(userResponse.data);
+        saveData(userResponse.data);
       }
       return userResponse.data.access_token;
     })

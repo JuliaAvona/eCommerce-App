@@ -1,8 +1,8 @@
 import React, { FC, useState, useEffect } from 'react';
 import iso3311a2 from 'iso-3166-1-alpha-2';
-import { Col, Form, Row } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 import { ICountry, IFormField } from '../../types/interfaces';
-import { getToken, signUp } from '../../api';
+import { getToken, login, signup } from '../../api';
 import { Forms } from '../../types/enums';
 import {
   cityValidation,
@@ -16,8 +16,10 @@ import {
 } from '../../utils/validator';
 import Input from '../../components/input/Input';
 import Select from '../../components/select/Select';
-import Date from '../../components/date/Date';
-import styles from '../Login/Login.module.css';
+import styles from './Signup.module.scss';
+import Button from '../../components/button/Button';
+import InputPass from '../../components/InputPass/InputPass';
+import { isAuth } from '../../utils/storage';
 
 const Signup: FC = () => {
   const [email, setEmail] = useState<IFormField>({ data: '', error: '' });
@@ -30,14 +32,24 @@ const Signup: FC = () => {
   const [postal, setPostal] = useState<IFormField>({ data: '', error: '' });
   const [country, setCountry] = useState<IFormField>({ data: '', error: '' });
 
+  const [formValid, setFormValid] = useState<boolean>(false);
   const [countryData, setCountryData] = useState<ICountry>({});
-  //
-  // const navigate = useNavigate();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const countries = iso3311a2.getData() as ICountry;
     setCountryData(countries);
   }, []);
+
+  useEffect(() => {
+    const fields = [email, password, firstName, lastName, date, street, city, postal, country];
+
+    const hasError = fields.every((field) => !field.error);
+    const hasData = fields.every((field) => field.data);
+
+    setFormValid(hasError && hasData);
+  }, [email, password, firstName, lastName, date, street, city, postal, country]);
 
   function handleFormChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, type: Forms) {
     const { value } = event.target;
@@ -82,114 +94,104 @@ const Signup: FC = () => {
 
     if (!error) {
       getToken().then((token: string) =>
-        signUp(token, {
+        signup(token, {
           email: email.data,
           password: password.data,
           firstName: firstName.data,
           lastName: lastName.data,
+        }).then(() => {
+          login(email.data, password.data).then(() => {
+            if (isAuth()) {
+              navigate('/main');
+            } else {
+              console.log('Incorrect username or password😬 Please try again');
+            }
+          });
         })
       );
     }
   }
 
   return (
-    <div className="mt-5">
-      <Form className={styles.form_signup}>
+    <div className={styles.signupPage}>
+      <div className={styles.form}>
         <h2 className={styles.headline}>Registration page</h2>
-        <Row className="mb-3 mt-3">
-          <Form.Group className={styles.headline2} as={Col} controlId="Email">
+        <form>
+          <div className={styles.container}>
             <Input
-              label="Email"
               value={email.data}
               helper={email.error}
               onChange={(e) => handleFormChange(e, Forms.email)}
-              props={{ type: 'text' }}
+              props={{ placeholder: 'EMail', name: 'email' }}
             />
-          </Form.Group>
-          <Form.Group className={styles.headline2} as={Col} controlId="Password">
-            <Input
-              label="Password"
+            <InputPass
               value={password.data}
               helper={password.error}
               onChange={(e) => handleFormChange(e, Forms.password)}
-              props={{ type: 'password' }}
             />
-          </Form.Group>
-        </Row>
-        <Form.Group className={styles.headline2}>
-          <Input
-            label="First Name"
-            value={firstName.data}
-            helper={firstName.error}
-            onChange={(e) => handleFormChange(e, Forms.firstName)}
-            props={{ type: 'text' }}
-          />
-          <Input
-            label="Last Name"
-            value={lastName.data}
-            helper={lastName.error}
-            onChange={(e) => handleFormChange(e, Forms.lastName)}
-            props={{ type: 'text' }}
-          />
-          <Date
-            label="Date of Birth"
-            value={date.data}
-            helper={date.error}
-            onChange={(e) => handleFormChange(e, Forms.date)}
-          />
-        </Form.Group>
-        <Row className="mb-3">
-          <Form.Group className={styles.headline2} as={Col} controlId="Street">
+          </div>
+
+          <div className={styles.container}>
             <Input
-              label="Street"
+              value={firstName.data}
+              helper={firstName.error}
+              onChange={(e) => handleFormChange(e, Forms.firstName)}
+              props={{ placeholder: 'First Name', name: 'firstname' }}
+            />
+            <Input
+              value={lastName.data}
+              helper={lastName.error}
+              onChange={(e) => handleFormChange(e, Forms.lastName)}
+              props={{ placeholder: 'Last Name', name: 'lastname' }}
+            />
+            <Input
+              value={date.data}
+              helper={date.error}
+              onChange={(e) => handleFormChange(e, Forms.date)}
+              props={{ type: 'date', name: 'date', max: '2009-01-01', min: '1900-01-01' }}
+            />
+          </div>
+
+          <div className={styles.container}>
+            <Input
               value={street.data}
               helper={street.error}
               onChange={(e) => handleFormChange(e, Forms.street)}
-              props={{ type: 'text' }}
+              props={{ type: 'text', placeholder: 'Street', name: 'street' }}
             />
-          </Form.Group>
-          <Form.Group className={styles.headline2} as={Col} controlId="Postal code">
             <Input
-              label="Postal code"
               value={postal.data}
               helper={postal.error}
               onChange={(e) => handleFormChange(e, Forms.postal)}
-              props={{ type: 'text' }}
+              props={{ type: 'text', placeholder: 'Postal code', name: 'postal' }}
             />
-          </Form.Group>
-          <Form.Group className={styles.headline2} as={Col} controlId="City">
             <Input
-              label="City"
               value={city.data}
               helper={city.error}
               onChange={(e) => handleFormChange(e, Forms.city)}
-              props={{ type: 'text' }}
+              props={{ type: 'text', placeholder: 'City', name: 'city' }}
             />
-          </Form.Group>
-        </Row>
-        <Select label="country" onChange={(e) => handleFormChange(e, Forms.country)}>
-          {Object.keys(countryData).map((code) => (
-            <option key={code} value={code}>
-              {countryData[code]}
+          </div>
+
+          <Select onChange={(e) => handleFormChange(e, Forms.country)} helper={country.error}>
+            <option disabled selected>
+              Choose a country
             </option>
-          ))}
-        </Select>
-        <Row className="mt-5 m-auto">
-          <button type="button" className={styles.button_submit} onClick={(e) => handleFormSubmit(e)}>
+            {Object.keys(countryData).map((code) => (
+              <option key={code} value={code}>
+                {countryData[code]}
+              </option>
+            ))}
+          </Select>
+
+          <Button disabled={!formValid} onClick={(e) => handleFormSubmit(e)}>
             Registration
-          </button>
-        </Row>
-        <Row className="m-auto">
-          <Form.Group as={Col} controlId="formGridAlready">
-            <p className={styles.message_submit}>
-              Already registrationed?{' '}
-              <a className={styles.a_submit} href="/login">
-                Login page
-              </a>
-            </p>
-          </Form.Group>
-        </Row>
-      </Form>
+          </Button>
+          <p className={styles.formMessage}>
+            Already registrationed? <Link to="/login">Login page</Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };

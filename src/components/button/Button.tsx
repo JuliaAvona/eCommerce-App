@@ -1,19 +1,25 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { FC } from 'react';
-import BootstrapButton from 'react-bootstrap/Button';
+import styles from './Button.module.css';
 
 interface ButtonProps {
-  variant: string;
+  disabled?: boolean;
   onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   props?: unknown;
   children: React.ReactNode;
 }
 
-const Button: FC<ButtonProps> = ({ variant, onClick, props, children }) => {
+const Button: FC<ButtonProps> = ({ disabled, onClick, props, children }) => {
   return (
-    <BootstrapButton variant={variant} onClick={onClick} {...props}>
+    <button
+      className={disabled ? styles.buttonDisabled : styles.button}
+      disabled={disabled}
+      type="button"
+      onClick={onClick}
+      {...props}
+    >
       {children}
-    </BootstrapButton>
+    </button>
   );
 };
 
