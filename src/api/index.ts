@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import axios from 'axios';
 import { ISignUp } from '../types/interfaces';
-import saveData from '../utils/storage';
+import { saveData } from '../utils/storage';
 
 export const getToken = async () => {
   const authUrl = 'https://auth.us-central1.gcp.commercetools.com';
