@@ -7,12 +7,6 @@ import { Pages } from '../src/types/enums';
 import Loginlink from '../src/components/Loginlink/Loginlink';
 import Input from '../src/components/input/Input';
 
-// test('demo', () => {
-//   expect(true).toBe(true);
-// });
-
-// сейчас тесты не проходит из-за стилей, т.к будем переписывать скорее всего под бустрам - пока что отключил тест
-
 test('Renders the main page', () => {
   render(<Link href={Pages.main}>Test</Link>);
   const link = screen.getByRole('link', {
