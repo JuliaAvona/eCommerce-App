@@ -11,7 +11,7 @@ describe('Input component', () => {
         value="Harry"
         helper="name"
         onChange={(e) => handleFormChange(e, Forms.firstName)}
-        props={{ placeholder: 'First Name', name: 'firstname' }}
+        props={{ placeholder: 'First Name', name: 'firstname', 'aria-label': 'firstname' }}
       />
     );
     const input = await screen.findByRole('textbox', { name: 'firstname' });
@@ -24,12 +24,10 @@ describe('Input component', () => {
         value="Harry"
         helper="name"
         onChange={(e) => handleFormChange(e, Forms.firstName)}
-        props={{ placeholder: 'First Name', name: 'firstname' }}
+        props={{ placeholder: 'First Name', name: 'firstname', 'aria-label': 'firstname' }}
       />
     );
-    const element = screen.getByRole('textbox', {
-      name: 'firstname',
-    });
+    const element = screen.getByRole('textbox', { name: 'firstname' });
     expect(element).toBeInTheDocument();
     expect(true).toBeTruthy();
   });

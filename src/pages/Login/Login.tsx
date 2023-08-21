@@ -5,7 +5,7 @@ import { login } from '../../api/index';
 import { isAuth } from '../../utils/storage';
 import { emailValidation, passwordValidation } from '../../utils/validator';
 import Input from '../../components/input/Input';
-import InputPass from '../../components/InputPass/InputPass';
+import InputPass from '../../components/inputPass/InputPass';
 import Button from '../../components/button/Button';
 
 const Login: React.FC = () => {

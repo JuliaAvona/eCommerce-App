@@ -1,29 +1,37 @@
+import { render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import Input from './Input';
+import Login from '../src/pages/Login/Login';
+import button from '../src/components/button/Button';
 
-describe('Input component', () => {
-  const mockOnChange = jest.fn();
+test('Renders the Login page', () => {
+  render(
+    <BrowserRouter>
+      <Login />
+    </BrowserRouter>
+  );
+  const input = screen.getByPlaceholderText('Password');
+  expect(input).toBeInTheDocument();
+  expect(true).toBeTruthy();
+});
 
-  it('renders without crashing', () => {
-    render(<Input value="" onChange={mockOnChange} />);
-  });
+test('Login page has email input', () => {
+  render(
+    <BrowserRouter>
+      <Login />
+    </BrowserRouter>
+  );
+  const input = screen.getByPlaceholderText('EMail');
+  expect(input).toBeInTheDocument();
+  expect(true).toBeTruthy();
+});
 
-  it('renders input field with given value', () => {
-    const { getByDisplayValue } = render(<Input value="Test Value" onChange={mockOnChange} />);
-    expect(getByDisplayValue('Test Value')).toBeInTheDocument();
-  });
-
-  it('renders helper text when provided', () => {
-    const { getByText } = render(<Input value="" onChange={mockOnChange} helper="Helper Text" />);
-    expect(getByText('Helper Text')).toBeInTheDocument();
-  });
-
-  it('calls onChange function when input value changes', () => {
-    const { getByRole } = render(<Input value="" onChange={mockOnChange} />);
-    const input = getByRole('textbox');
-
-    fireEvent.change(input, { target: { value: 'New Value' } });
-    expect(mockOnChange).toHaveBeenCalled();
-  });
+test('Login input is input', async () => {
+  render(
+    <BrowserRouter>
+      <Login />
+    </BrowserRouter>
+  );
+  const input = screen.getByPlaceholderText('Password');
+  expect(input.tagName).not.toBe(button);
 });
