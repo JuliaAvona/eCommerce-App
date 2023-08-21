@@ -45,7 +45,7 @@ const App = () => {
       <Routes>
         <Route path={Pages.main} element={<Main />} errorElement={<Error />} />
         <Route path={Pages.signup} element={<Signup />} errorElement={<Error />} />
-        <Route path={Pages.login} element={isAuthorized() ? <Main /> : <Login />} errorElement={<Error />} />
+        <Route path={Pages.login} element={<Login />} errorElement={<Error />} />
         <Route path={Pages.default} element={<Main />} errorElement={<Error />} />
         <Route path="*" element={<Error />} />
       </Routes>

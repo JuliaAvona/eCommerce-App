@@ -5,6 +5,7 @@ import hideLogin from '../../assets/svg/visibility-off.svg';
 import showLogin from '../../assets/svg/visibility.svg';
 import { logIn } from '../../api/index';
 import { isAuthorized } from '../../utils/storage';
+import { Pages } from '../../types/enums';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -106,6 +107,10 @@ const Login: React.FC = () => {
       }
     });
   };
+
+  if (isAuthorized()) {
+    navigate(Pages.main);
+  }
 
   return (
     <div className={styles.loginPage}>
