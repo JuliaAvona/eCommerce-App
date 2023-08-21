@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/comma-dangle */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './containers/App.tsx';
+import App from './pages/App';
 import './index.css';
+import 'bootstrap/dist/css/bootstrap.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

@@ -1,16 +1,14 @@
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import App, { sum } from '../src/containers/App';
+import App from '../src/pages/App';
+import Input from '../src/components/input/Input';
 
-test('demo', () => {
-  expect(true).toBe(true);
-});
-
-test('Renders the main page', () => {
+test('Renders the main page 2', () => {
   render(<App />);
   expect(true).toBeTruthy();
 });
 
-test('demo', () => {
-  expect(sum(1, 2)).toBe(3);
+test('Renders the main page 3', () => {
+  render(<Input value="test" onChange={() => console.log('test')} />);
+  expect(true).toBeTruthy();
 });
