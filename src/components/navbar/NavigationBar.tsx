@@ -18,9 +18,9 @@ const NavigationBar: FC = () => {
 
   return (
     <Navbar className={styles.navbar}>
-      <NavbarBrand className="m-1" href={Pages.main}>
-        Eco
-      </NavbarBrand>
+      <Link href={Pages.main}>
+        <NavbarBrand className="m-1">Eco</NavbarBrand>
+      </Link>
       <NavbarToggle aria-controls="responsive-navbar-nav" />
       <NavbarCollapse id="responsive-navbar-nav">
         <Nav className="me-auto">
