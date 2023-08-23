@@ -19,7 +19,7 @@ import Select from '../../components/select/Select';
 import styles from './Signup.module.scss';
 import Button from '../../components/button/Button';
 import InputPass from '../../components/inputPass/InputPass';
-import Checkbox from '../../components/checkbox/checkbox';
+import Checkbox from '../../components/checkbox/Checkbox';
 
 const Signup: FC = () => {
   const [form, setForm] = useState<IForm>({
