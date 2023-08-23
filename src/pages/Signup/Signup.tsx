@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import iso3311a2 from 'iso-3166-1-alpha-2';
 import { Link, useNavigate } from 'react-router-dom';
-import { ICountry, IFormField } from '../../types/interfaces';
+import { ICountry, IForm, IFormData } from '../../types/interfaces';
 import { getToken, login, signup } from '../../api';
 import { Forms } from '../../types/enums';
 import {
@@ -18,22 +18,30 @@ import Input from '../../components/input/Input';
 import Select from '../../components/select/Select';
 import styles from './Signup.module.scss';
 import Button from '../../components/button/Button';
-import InputPass from '../../components/InputPass/InputPass';
-import { isAuth } from '../../utils/storage';
+import InputPass from '../../components/inputPass/InputPass';
+import Checkbox from '../../components/checkbox/checkbox';
 
 const Signup: FC = () => {
-  const [email, setEmail] = useState<IFormField>({ data: '', error: '' });
-  const [password, setPassword] = useState<IFormField>({ data: '', error: '' });
-  const [firstName, setFirstName] = useState<IFormField>({ data: '', error: '' });
-  const [lastName, setLastName] = useState<IFormField>({ data: '', error: '' });
-  const [date, setDate] = useState<IFormField>({ data: '', error: '' });
-  const [street, setStreet] = useState<IFormField>({ data: '', error: '' });
-  const [city, setCity] = useState<IFormField>({ data: '', error: '' });
-  const [postal, setPostal] = useState<IFormField>({ data: '', error: '' });
-  const [country, setCountry] = useState<IFormField>({ data: '', error: '' });
+  const [form, setForm] = useState<IForm>({
+    email: { data: '', error: '' },
+    password: { data: '', error: '' },
+    firstName: { data: '', error: '' },
+    lastName: { data: '', error: '' },
+    date: { data: '', error: '' },
+    street: { data: '', error: '' },
+    postal: { data: '', error: '' },
+    city: { data: '', error: '' },
+    streetForBilling: { data: '', error: '' },
+    postalForBilling: { data: '', error: '' },
+    cityForBilling: { data: '', error: '' },
+    country: { data: '', error: '' },
+  });
 
+  const [forBilling, setForBilling] = useState<boolean>(true);
   const [formValid, setFormValid] = useState<boolean>(false);
+  const [onLoad, setOnLoad] = useState<boolean>(false);
   const [countryData, setCountryData] = useState<ICountry>({});
+  const [responseError, setResponseError] = useState<string>('');
 
   const navigate = useNavigate();
 
@@ -43,36 +51,56 @@ const Signup: FC = () => {
   }, []);
 
   useEffect(() => {
-    const fields = [email, password, firstName, lastName, date, street, city, postal, country];
-
+    const fields = [
+      form.email,
+      form.password,
+      form.firstName,
+      form.lastName,
+      form.date,
+      form.street,
+      form.city,
+      form.postal,
+      form.country,
+    ];
+    if (!forBilling) fields.push(form.streetForBilling, form.cityForBilling, form.postalForBilling);
     const hasError = fields.every((field) => !field.error);
     const hasData = fields.every((field) => field.data);
-
     setFormValid(hasError && hasData);
-  }, [email, password, firstName, lastName, date, street, city, postal, country]);
+  }, [form, forBilling]);
 
   function handleFormChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, type: Forms) {
     const { value } = event.target;
-    if (Forms.email === type) setEmail({ error: '', data: value });
-    if (Forms.password === type) setPassword({ error: '', data: value });
-    if (Forms.firstName === type) setFirstName({ error: '', data: value });
-    if (Forms.lastName === type) setLastName({ error: '', data: value });
-    if (Forms.date === type) setDate({ error: '', data: value });
-    if (Forms.street === type) setStreet({ error: '', data: value });
-    if (Forms.city === type) setCity({ error: '', data: value });
-    if (Forms.postal === type) setPostal({ error: '', data: value });
-    if (Forms.country === type) setCountry({ error: '', data: value });
+    setForm((prevForm) => ({
+      ...prevForm,
+      [type]: { data: value, error: '' } as IFormData,
+    }));
   }
 
-  function validateAndSetState(
-    validationFunction: (data: string, otherData?: string) => string,
-    value: string,
-    setStateFunction: React.Dispatch<React.SetStateAction<IFormField>>,
-    otherValue?: string
-  ): boolean {
-    const validationError = validationFunction(value, otherValue);
+  const validationFunctions: Record<Forms, (data: string, otherData?: string) => string> = {
+    email: emailValidation,
+    password: passwordValidation,
+    firstName: nameValidation,
+    lastName: nameValidation,
+    date: dateValidation,
+    street: streetValidation,
+    postal: (data: string) => postalValidation(data, form.country.data),
+    city: cityValidation,
+    streetForBilling: streetValidation,
+    postalForBilling: (data: string) => postalValidation(data, form.country.data),
+    cityForBilling: cityValidation,
+    country: countryValidation,
+  };
+
+  function validateAndSetState(fieldName: keyof IForm): boolean {
+    const validationFunction = validationFunctions[fieldName];
+    const value = form[fieldName].data;
+    const validationError = validationFunction(value);
+
     if (validationError !== value) {
-      setStateFunction({ error: validationError, data: value });
+      setForm((prevForm) => ({
+        ...prevForm,
+        [fieldName]: { ...prevForm[fieldName], error: validationError },
+      }));
       return true;
     }
     return false;
@@ -80,34 +108,51 @@ const Signup: FC = () => {
 
   function handleFormSubmit(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     event.preventDefault();
-    let error = false;
 
-    error = validateAndSetState(emailValidation, email.data, setEmail) || error;
-    error = validateAndSetState(passwordValidation, password.data, setPassword) || error;
-    error = validateAndSetState(nameValidation, firstName.data, setFirstName) || error;
-    error = validateAndSetState(nameValidation, lastName.data, setLastName) || error;
-    error = validateAndSetState(dateValidation, date.data, setDate) || error;
-    error = validateAndSetState(streetValidation, street.data, setStreet) || error;
-    error = validateAndSetState(cityValidation, city.data, setCity) || error;
-    error = validateAndSetState(() => postalValidation(postal.data, country.data), postal.data, setPostal) || error;
-    error = validateAndSetState(countryValidation, country.data, setCountry) || error;
+    const fieldsToValidate: (keyof IForm)[] = [
+      'email',
+      'password',
+      'firstName',
+      'lastName',
+      'date',
+      'street',
+      'postal',
+      'city',
+      'streetForBilling',
+      'postalForBilling',
+      'cityForBilling',
+      'country',
+    ];
 
-    if (!error) {
+    const hasError = fieldsToValidate.reduce((acc, fieldName) => {
+      if (forBilling && ['streetForBilling', 'postalForBilling', 'cityForBilling'].includes(fieldName)) {
+        return acc; // Пропустить эти поля, если forBilling === false
+      }
+      return validateAndSetState(fieldName) || acc;
+    }, false);
+
+    if (!hasError) {
+      setOnLoad(true);
+      setResponseError('');
       getToken().then((token: string) =>
         signup(token, {
-          email: email.data,
-          password: password.data,
-          firstName: firstName.data,
-          lastName: lastName.data,
-        }).then(() => {
-          login(email.data, password.data).then(() => {
-            if (isAuth()) {
-              navigate('/main');
-            } else {
-              console.log('Incorrect username or password😬 Please try again');
-            }
-          });
+          email: form.email.data,
+          password: form.password.data,
+          firstName: form.firstName.data,
+          lastName: form.lastName.data,
         })
+          .then(() => {
+            login(form.email.data, form.password.data)
+              .then(() => navigate('/main'))
+              .catch((error) => {
+                setResponseError(error);
+                setOnLoad(false);
+              });
+          })
+          .catch((error) => {
+            setResponseError(error);
+            setOnLoad(false);
+          })
       );
     }
   }
@@ -119,64 +164,101 @@ const Signup: FC = () => {
         <form>
           <div className={styles.container}>
             <Input
-              value={email.data}
-              helper={email.error}
+              value={form.email.data}
+              helper={form.email.error}
               onChange={(e) => handleFormChange(e, Forms.email)}
               props={{ placeholder: 'EMail', name: 'email' }}
             />
             <InputPass
-              value={password.data}
-              helper={password.error}
+              value={form.password.data}
+              helper={form.password.error}
               onChange={(e) => handleFormChange(e, Forms.password)}
             />
           </div>
 
           <div className={styles.container}>
             <Input
-              value={firstName.data}
-              helper={firstName.error}
+              value={form.firstName.data}
+              helper={form.firstName.error}
               onChange={(e) => handleFormChange(e, Forms.firstName)}
               props={{ placeholder: 'First Name', name: 'firstname' }}
             />
             <Input
-              value={lastName.data}
-              helper={lastName.error}
+              value={form.lastName.data}
+              helper={form.lastName.error}
               onChange={(e) => handleFormChange(e, Forms.lastName)}
               props={{ placeholder: 'Last Name', name: 'lastname' }}
             />
             <Input
-              value={date.data}
-              helper={date.error}
+              value={form.date.data}
+              helper={form.date.error}
               onChange={(e) => handleFormChange(e, Forms.date)}
               props={{ type: 'date', name: 'date', max: '2009-01-01', min: '1900-01-01' }}
             />
           </div>
 
+          <h3 className={styles.headline2}>Shipping address</h3>
           <div className={styles.container}>
             <Input
-              value={street.data}
-              helper={street.error}
+              value={form.street.data}
+              helper={form.street.error}
               onChange={(e) => handleFormChange(e, Forms.street)}
               props={{ type: 'text', placeholder: 'Street', name: 'street' }}
             />
             <Input
-              value={postal.data}
-              helper={postal.error}
+              value={form.postal.data}
+              helper={form.postal.error}
               onChange={(e) => handleFormChange(e, Forms.postal)}
               props={{ type: 'text', placeholder: 'Postal code', name: 'postal' }}
             />
             <Input
-              value={city.data}
-              helper={city.error}
+              value={form.city.data}
+              helper={form.city.error}
               onChange={(e) => handleFormChange(e, Forms.city)}
               props={{ type: 'text', placeholder: 'City', name: 'city' }}
             />
           </div>
 
-          <Select onChange={(e) => handleFormChange(e, Forms.country)} helper={country.error}>
-            <option disabled selected>
-              Choose a country
-            </option>
+          <Checkbox
+            checked={forBilling}
+            label="Set as address for billing and shipping"
+            name="forBilling"
+            onChange={() => setForBilling(!forBilling)}
+            props={{ type: 'checkbox' }}
+          />
+
+          {forBilling ? null : (
+            <div>
+              <h3 className={styles.headline2}>Billing address</h3>
+              <div className={styles.container}>
+                <Input
+                  value={form.streetForBilling.data}
+                  helper={form.streetForBilling.error}
+                  onChange={(e) => handleFormChange(e, Forms.streetForBilling)}
+                  props={{ type: 'text', placeholder: 'Street', name: 'streetForBilling' }}
+                />
+                <Input
+                  value={form.postalForBilling.data}
+                  helper={form.postalForBilling.error}
+                  onChange={(e) => handleFormChange(e, Forms.postalForBilling)}
+                  props={{ type: 'text', placeholder: 'Postal code', name: 'postalForBilling' }}
+                />
+                <Input
+                  value={form.cityForBilling.data}
+                  helper={form.cityForBilling.error}
+                  onChange={(e) => handleFormChange(e, Forms.cityForBilling)}
+                  props={{ type: 'text', placeholder: 'City', name: 'cityForBilling' }}
+                />
+              </div>
+            </div>
+          )}
+
+          <Select
+            onChange={(e) => handleFormChange(e, Forms.country)}
+            helper={form.country.error}
+            props={{ defaultValue: 'Choose a country' }}
+          >
+            <option disabled>Choose a country</option>
             {Object.keys(countryData).map((code) => (
               <option key={code} value={code}>
                 {countryData[code]}
@@ -184,7 +266,8 @@ const Signup: FC = () => {
             ))}
           </Select>
 
-          <Button disabled={!formValid} onClick={(e) => handleFormSubmit(e)}>
+          <h3 className={styles.headline3}>{responseError}</h3>
+          <Button disabled={!formValid || onLoad} onClick={(e) => handleFormSubmit(e)}>
             Registration
           </Button>
           <p className={styles.formMessage}>

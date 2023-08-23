@@ -38,7 +38,6 @@ export const getToken = async () => {
 export const signup = async (accessToken: string, data: ISignUp) => {
   const projectKey = 'ecommerce-rsschool';
   const url = `https://api.us-central1.gcp.commercetools.com/${projectKey}/customers`;
-  console.log(`Bearer \${${accessToken}}`);
 
   await axios
     .post(url, data, {
@@ -51,7 +50,8 @@ export const signup = async (accessToken: string, data: ISignUp) => {
       console.log('User registered:', userResponse.data);
     })
     .catch((error) => {
-      console.log('Error registering user:', error);
+      console.log('Error registering user:', error.response.data.message);
+      throw error.response.data.message;
     });
 };
 
@@ -90,6 +90,7 @@ export const login = async (email: string, password: string) => {
       return userResponse.data.access_token;
     })
     .catch((error) => {
-      console.log('Error logging in user:', error);
+      console.log('Error logging in user:', error.response.data.message);
+      throw error.response.data.message;
     });
 };

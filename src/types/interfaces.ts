@@ -12,7 +12,22 @@ export interface ICountry {
   [country: string]: string;
 }
 
-export interface IFormField {
+export interface IForm {
+  email: IFormData;
+  password: IFormData;
+  firstName: IFormData;
+  lastName: IFormData;
+  date: IFormData;
+  street: IFormData;
+  postal: IFormData;
+  city: IFormData;
+  streetForBilling: IFormData;
+  postalForBilling: IFormData;
+  cityForBilling: IFormData;
+  country: IFormData;
+}
+
+export interface IFormData {
   data: string;
   error: string;
 }
