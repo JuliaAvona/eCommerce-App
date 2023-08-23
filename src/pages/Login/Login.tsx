@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
 import { login } from '../../api/index';
-import { isAuth } from '../../utils/storage';
 import { emailValidation, passwordValidation } from '../../utils/validator';
 import Input from '../../components/input/Input';
 import InputPass from '../../components/InputPass/InputPass';
