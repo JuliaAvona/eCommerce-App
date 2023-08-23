@@ -38,6 +38,8 @@ const Signup: FC = () => {
   });
 
   const [forBilling, setForBilling] = useState<boolean>(true);
+  const [defaultShipping, setDefaultShipping] = useState<boolean>(true);
+  const [defaultBilling, setDefaultBilling] = useState<boolean>(false);
   const [formValid, setFormValid] = useState<boolean>(false);
   const [onLoad, setOnLoad] = useState<boolean>(false);
   const [countryData, setCountryData] = useState<ICountry>({});
@@ -198,6 +200,18 @@ const Signup: FC = () => {
           </div>
 
           <h3 className={styles.headline2}>Shipping address</h3>
+          <Checkbox
+            checked={defaultShipping}
+            label="Set as default address"
+            name="defaultAddress"
+            disabled={forBilling}
+            onChange={() => {
+              setDefaultBilling(defaultShipping);
+              setDefaultShipping(!defaultShipping);
+            }}
+            props={{ type: 'checkbox' }}
+          />
+
           <div className={styles.container}>
             <Input
               value={form.street.data}
@@ -223,13 +237,28 @@ const Signup: FC = () => {
             checked={forBilling}
             label="Set as address for billing and shipping"
             name="forBilling"
-            onChange={() => setForBilling(!forBilling)}
+            onChange={() => {
+              setDefaultShipping(!forBilling);
+              setDefaultBilling(forBilling);
+              setForBilling(!forBilling);
+            }}
             props={{ type: 'checkbox' }}
           />
 
           {forBilling ? null : (
             <div>
               <h3 className={styles.headline2}>Billing address</h3>
+              <Checkbox
+                checked={defaultBilling}
+                label="Set as default address"
+                name="defaultBilling"
+                onChange={() => {
+                  setDefaultShipping(defaultBilling);
+                  setDefaultBilling(!defaultBilling);
+                }}
+                props={{ type: 'checkbox' }}
+              />
+
               <div className={styles.container}>
                 <Input
                   value={form.streetForBilling.data}

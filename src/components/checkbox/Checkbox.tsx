@@ -7,11 +7,12 @@ interface CheckboxProps {
   checked: boolean;
   label: string;
   name: string;
+  disabled?: boolean;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   props?: object;
 }
 
-const Checkbox: FC<CheckboxProps> = ({ checked, label, name, onChange, props }) => {
+const Checkbox: FC<CheckboxProps> = ({ checked, label, name, disabled, onChange, props }) => {
   return useMemo(() => {
     return (
       <div className={styles.container}>
@@ -21,7 +22,8 @@ const Checkbox: FC<CheckboxProps> = ({ checked, label, name, onChange, props }) 
           onChange={onChange}
           {...props}
           className={styles.checkbox}
-          name={name}
+          id={name}
+          disabled={disabled}
         />
         {label && (
           <label className={styles.label} htmlFor={name}>
@@ -30,7 +32,7 @@ const Checkbox: FC<CheckboxProps> = ({ checked, label, name, onChange, props }) 
         )}
       </div>
     );
-  }, [checked, label]);
+  }, [checked, label, disabled]);
 };
 
 export default Checkbox;
