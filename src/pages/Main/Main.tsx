@@ -28,6 +28,7 @@ const Main = () => {
         ) : (
           <Link href={Pages.login}>Login</Link>
         )}
+        <Link href={Pages.login}>Login</Link>
       </div>
       <Image className={styles.plant} src={previewImg} roundedCircle />
       <pre className={styles.text1}>Welcome to the eco goods store.</pre>
