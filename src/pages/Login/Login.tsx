@@ -14,6 +14,8 @@ const Login: React.FC = () => {
   const [emailError, setEmailError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
   const [formValid, setFormValid] = useState<boolean>(false);
+  const [onLoad, setOnLoad] = useState<boolean>(false);
+  const [responseError, setResponseError] = useState<string>('');
   const navigate = useNavigate();
 
   useEffect((): void => {
@@ -37,13 +39,13 @@ const Login: React.FC = () => {
 
   const getAuthorization = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    login(email, password).then(() => {
-      if (isAuth()) {
-        navigate('/main');
-      } else {
-        setPasswordError('Incorrect username or password😬 Please try again');
-      }
-    });
+    setOnLoad(true);
+    login(email, password)
+      .then(() => navigate('/main'))
+      .catch((error) => {
+        setResponseError(error);
+        setOnLoad(false);
+      });
   };
 
   return (
@@ -60,7 +62,8 @@ const Login: React.FC = () => {
 
           <InputPass value={password} helper={passwordError} onChange={(e) => passwordHandler(e)} />
 
-          <Button disabled={!formValid} props={{ type: 'submit' }} onClick={(e) => getAuthorization(e)}>
+          <h3 className={styles.headline3}>{responseError}</h3>
+          <Button disabled={!formValid || onLoad} props={{ type: 'submit' }} onClick={(e) => getAuthorization(e)}>
             login
           </Button>
 

@@ -68,8 +68,8 @@ const Signup: FC = () => {
     setFormValid(hasError && hasData);
   }, [form, forBilling]);
 
-  function handleFormChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, type: Forms) {
-    const { value } = event.target;
+  function handleFormChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, type: Forms) {
+    const { value } = e.target;
     setForm((prevForm) => ({
       ...prevForm,
       [type]: { data: value, error: '' } as IFormData,
@@ -106,8 +106,8 @@ const Signup: FC = () => {
     return false;
   }
 
-  function handleFormSubmit(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    event.preventDefault();
+  function handleFormSubmit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
 
     const fieldsToValidate: (keyof IForm)[] = [
       'email',
