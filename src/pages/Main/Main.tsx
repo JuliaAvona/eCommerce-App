@@ -1,4 +1,4 @@
-import { Image, Nav } from 'react-bootstrap';
+import { Image } from 'react-bootstrap';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Main.module.css';
@@ -18,7 +18,6 @@ const Main = () => {
   return (
     <div className="m-auto">
       <div className={styles.green_background}>
-        {' '}
         <Link href={Pages.main}>Home</Link>
         <Link href={Pages.signup}>SignUp</Link>
         {isAuth() ? (
