@@ -3,7 +3,7 @@ import iso3311a2 from 'iso-3166-1-alpha-2';
 import { Link, useNavigate } from 'react-router-dom';
 import { ICountry, IForm, IFormData } from '../../types/interfaces';
 import { getToken, login, signup } from '../../api';
-import { Forms } from '../../types/enums';
+import { Forms, Pages } from '../../types/enums';
 import {
   cityValidation,
   countryValidation,
@@ -143,7 +143,7 @@ const Signup: FC = () => {
         })
           .then(() => {
             login(form.email.data, form.password.data)
-              .then(() => navigate('/main'))
+              .then(() => navigate(Pages.main))
               .catch((error) => {
                 setResponseError(error);
                 setOnLoad(false);

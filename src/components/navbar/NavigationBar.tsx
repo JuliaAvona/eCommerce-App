@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Pages } from '../../types/enums';
 import styles from './Navbar.module.css';
 import { isAuth, clearData } from '../../utils/storage';
-import Link from '../Link/Link';
+import Link from '../link/Link';
 
 const NavigationBar: FC = () => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const NavigationBar: FC = () => {
           <Link href={Pages.main}>Home</Link>
         </Nav>
         <Nav>
-          <Link href={Pages.signup}>SignUp</Link>
+          {isAuth() ? null : <Link href={Pages.signup}>SignUp</Link>}
           {isAuth() ? (
             <Link href={Pages.login} onClick={(e) => logout(e)}>
               Logout

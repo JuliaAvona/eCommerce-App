@@ -4,8 +4,9 @@ import styles from './Login.module.scss';
 import { login } from '../../api/index';
 import { emailValidation, passwordValidation } from '../../utils/validator';
 import Input from '../../components/input/Input';
-import InputPass from '../../components/InputPass/InputPass';
+import InputPass from '../../components/inputPass/InputPass';
 import Button from '../../components/button/Button';
+import { Pages } from '../../types/enums';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -16,7 +17,6 @@ const Login: React.FC = () => {
   const [onLoad, setOnLoad] = useState<boolean>(false);
   const [responseError, setResponseError] = useState<string>('');
   const navigate = useNavigate();
-
   useEffect((): void => {
     if (emailError || passwordError) setFormValid(false);
     else if (email && password) setFormValid(true);
@@ -40,7 +40,7 @@ const Login: React.FC = () => {
     e.preventDefault();
     setOnLoad(true);
     login(email, password)
-      .then(() => navigate('/main'))
+      .then(() => navigate(Pages.main))
       .catch((error) => {
         setResponseError(error);
         setOnLoad(false);
