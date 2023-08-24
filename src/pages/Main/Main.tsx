@@ -32,6 +32,7 @@ const Main = () => {
       <Image className={styles.plant} src={previewImg} roundedCircle />
       <pre className={styles.text1}>Welcome to the eco goods store.</pre>
       <pre className={styles.text1}>We help save the planet for future generations.</pre>
+      <pre className={styles.text1}>Welcome to Sprint 3</pre>
     </div>
   );
 };
