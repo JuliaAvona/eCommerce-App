@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
 import { login } from '../../api/index';
-import { isAuth } from '../../utils/storage';
 import { emailValidation, passwordValidation } from '../../utils/validator';
 import Input from '../../components/input/Input';
 import InputPass from '../../components/InputPass/InputPass';
 import Button from '../../components/button/Button';
+import { Pages } from '../../types/enums';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -14,8 +14,9 @@ const Login: React.FC = () => {
   const [emailError, setEmailError] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
   const [formValid, setFormValid] = useState<boolean>(false);
+  const [onLoad, setOnLoad] = useState<boolean>(false);
+  const [responseError, setResponseError] = useState<string>('');
   const navigate = useNavigate();
-
   useEffect((): void => {
     if (emailError || passwordError) setFormValid(false);
     else if (email && password) setFormValid(true);
@@ -37,13 +38,13 @@ const Login: React.FC = () => {
 
   const getAuthorization = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    login(email, password).then(() => {
-      if (isAuth()) {
-        navigate('/main');
-      } else {
-        setPasswordError('Incorrect username or password😬 Please try again');
-      }
-    });
+    setOnLoad(true);
+    login(email, password)
+      .then(() => navigate(Pages.main))
+      .catch((error) => {
+        setResponseError(error);
+        setOnLoad(false);
+      });
   };
 
   return (
@@ -60,7 +61,8 @@ const Login: React.FC = () => {
 
           <InputPass value={password} helper={passwordError} onChange={(e) => passwordHandler(e)} />
 
-          <Button disabled={!formValid} props={{ type: 'submit' }} onClick={(e) => getAuthorization(e)}>
+          <h3 className={styles.headline3}>{responseError}</h3>
+          <Button disabled={!formValid || onLoad} props={{ type: 'submit' }} onClick={(e) => getAuthorization(e)}>
             login
           </Button>
 

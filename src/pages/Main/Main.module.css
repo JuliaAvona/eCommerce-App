@@ -17,6 +17,10 @@
         0 0 80px #9c794f;  
 }
 
+.green_background {
+    background: #5a6b47;
+}
+
 @media (min-width:470px) and (max-width: 660px) {
     .text1{
         font-size: 14px;

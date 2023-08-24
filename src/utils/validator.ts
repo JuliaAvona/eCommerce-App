@@ -33,10 +33,20 @@ export function dateValidation(str: string): string {
   if (!str) return 'Fill in the field';
   const today = new Date();
   const inputDate = new Date(str);
-  const ageDiff = today.getFullYear() - inputDate.getFullYear();
-  if (ageDiff < 13) return `You must be over 13 years old`;
-  if (ageDiff > 130) return `Too high age`;
-  if (Number.isNaN(ageDiff)) return `Invalid number`;
+  const ageDiffYears = today.getFullYear() - inputDate.getFullYear();
+  const birthMonth = inputDate.getMonth();
+  const currentMonth = today.getMonth();
+
+  // Если текущий месяц меньше месяца рождения или равен ему, и день текущего месяца меньше дня рождения,
+  // то возраст еще не наступил, даже если разница в годах достаточно большая.
+  if (
+    (currentMonth < birthMonth || (currentMonth === birthMonth && today.getDate() < inputDate.getDate())) &&
+    ageDiffYears <= 13
+  )
+    return `You must be over 13 years old`;
+
+  if (ageDiffYears > 130) return `Too high age`;
+  if (Number.isNaN(ageDiffYears)) return `Invalid number`;
   return str;
 }
 

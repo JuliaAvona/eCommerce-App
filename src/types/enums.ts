@@ -5,8 +5,11 @@ export enum Forms {
   lastName = 'lastName',
   date = 'date',
   street = 'street',
-  city = 'city',
   postal = 'postal',
+  city = 'city',
+  streetForBilling = 'streetForBilling',
+  postalForBilling = 'postalForBilling',
+  cityForBilling = 'cityForBilling',
   country = 'country',
 }
 

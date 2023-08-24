@@ -1,7 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import React from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import React, { FC } from 'react';
 import { Pages } from '../types/enums';
 import NavigationBar from '../components/navbar/NavigationBar';
 import Signup from './Signup/Signup';
@@ -10,18 +10,38 @@ import Error from './Error/Error';
 import Main from './Main/Main';
 import { isAuth } from '../utils/storage';
 
+interface PrivateRouteProps {
+  element: JSX.Element;
+  authPath: string;
+}
+
+const PrivateRoute: FC<PrivateRouteProps> = ({ element, authPath }) => {
+  const isAuthenticated = isAuth();
+  if (!!authPath && isAuthenticated) return <Navigate to={authPath} />;
+  if (!!authPath && !isAuthenticated) return element;
+  return element;
+};
+
 const App = () => {
   return (
-    <Router>
+    <>
       <NavigationBar />
       <Routes>
         <Route path={Pages.main} element={<Main />} errorElement={<Error />} />
-        <Route path={Pages.signup} element={<Signup />} errorElement={<Error />} />
-        <Route path={Pages.login} element={isAuth() ? <Main /> : <Login />} errorElement={<Error />} />
+        <Route
+          path={Pages.signup}
+          element={<PrivateRoute element={<Signup />} authPath={Pages.main} />}
+          errorElement={<Error />}
+        />
+        <Route
+          path={Pages.login}
+          element={<PrivateRoute element={<Login />} authPath={Pages.main} />}
+          errorElement={<Error />}
+        />
         <Route path={Pages.default} element={<Main />} errorElement={<Error />} />
         <Route path="*" element={<Error />} />
       </Routes>
-    </Router>
+    </>
   );
 };
 
