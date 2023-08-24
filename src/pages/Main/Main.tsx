@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Main.module.css';
 import previewImg from '../../assets/img/preview.jpg';
-import Link from '../../components/link/Link';
+import Link from '../../components/Link/Link';
 import { Pages } from '../../types/enums';
 import { clearData, isAuth } from '../../utils/storage';
 

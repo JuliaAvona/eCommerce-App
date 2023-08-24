@@ -18,7 +18,7 @@ import Input from '../../components/input/Input';
 import Select from '../../components/select/Select';
 import styles from './Signup.module.scss';
 import Button from '../../components/button/Button';
-import InputPass from '../../components/inputPass/InputPass';
+import InputPass from '../../components/InputPass/InputPass';
 import Checkbox from '../../components/checkbox/Checkbox';
 
 const Signup: FC = () => {
