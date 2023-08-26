@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import axios from 'axios';
 import { ISignUp } from '../types/interfaces';
-import { saveData } from '../utils/storage';
+import { saveData, saveAnonimData } from '../utils/storage';
 
 export const getToken = async () => {
   const authUrl = 'https://auth.us-central1.gcp.commercetools.com';
@@ -93,4 +93,53 @@ export const login = async (email: string, password: string) => {
       console.log('Error logging in user:', error.response.data.message);
       throw error.response.data.message;
     });
+};
+
+export const getAnonymToken = async () => {
+  const authUrl = 'https://auth.us-central1.gcp.commercetools.com';
+  const projectKey = 'ecommerce-rsschool';
+  const clientId = 'G6YqJ3Gkjvz8JhsqV9ijepkh';
+  const clientSecret = 'EYMqnqO8H554djVE0ji0fEJhn7rxAI7E';
+  try {
+    const response = await axios.post(
+      `${authUrl}/oauth/${projectKey}/anonymous/token`,
+      new URLSearchParams({
+        grant_type: 'client_credentials',
+      }),
+      {
+        auth: {
+          username: clientId,
+          password: clientSecret,
+        },
+      }
+    );
+
+    const token = response.data.access_token;
+    saveAnonimData(response.data);
+    return token;
+  } catch (error) {
+    console.log('Error getting access token:', error);
+    throw error;
+  }
+};
+
+export const getProductsForAnonym = async () => {
+  try {
+    const accessToken = await getAnonymToken(); // Получаем анонимный токен
+    const apiUrl = 'https://api.us-central1.gcp.commercetools.com';
+    const projectKey = 'ecommerce-rsschool';
+
+    const response = await axios.get(`${apiUrl}/${projectKey}/product-projections`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const goods = response.data.results;
+    console.log(goods);
+    return goods;
+  } catch (error) {
+    console.log('Error getting product projections:', error);
+    throw error;
+  }
 };
