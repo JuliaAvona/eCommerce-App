@@ -22,7 +22,8 @@
     "react-bootstrap": "^2.8.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
-    "stylelint-order": "^6.0.3"
+    "stylelint-order": "^6.0.3",
+    "swiper": "^10.2.0"
   },
   "devDependencies": {
     "@testing-library/dom": "^9.3.1",

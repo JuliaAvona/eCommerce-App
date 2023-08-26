@@ -45,6 +45,12 @@ export interface Product {
   name: { [key: string]: string };
   description: { [key: string]: string };
   masterVariant: {
+    prices: Array<{
+      value: {
+        centAmount: number;
+        currencyCode: string;
+      };
+    }>;
     images: Array<{
       url: string;
       dimensions: {
@@ -53,4 +59,21 @@ export interface Product {
       };
     }>;
   };
+  variants: Array<Variant>;
+}
+
+export interface Variant {
+  prices: Array<{
+    value: {
+      centAmount: number;
+      currencyCode: string;
+    };
+  }>;
+  images: Array<{
+    url: string;
+    dimensions: {
+      w: number;
+      h: number;
+    };
+  }>;
 }
