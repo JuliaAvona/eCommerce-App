@@ -3,10 +3,13 @@ import axios from 'axios';
 import { ISignUp } from '../types/interfaces';
 import { saveData, saveAnonimData } from '../utils/storage';
 
+const projectKey = 'ecommerce-rsschool';
+const clientId = 'G6YqJ3Gkjvz8JhsqV9ijepkh';
+const clientSecret = 'EYMqnqO8H554djVE0ji0fEJhn7rxAI7E';
+const apiUrl = 'https://api.us-central1.gcp.commercetools.com';
+const authUrl = 'https://auth.us-central1.gcp.commercetools.com';
+
 export const getToken = async () => {
-  const authUrl = 'https://auth.us-central1.gcp.commercetools.com';
-  const clientId = 'G6YqJ3Gkjvz8JhsqV9ijepkh';
-  const clientSecret = 'EYMqnqO8H554djVE0ji0fEJhn7rxAI7E';
   const scope =
     'manage_my_shopping_lists:ecommerce-rsschool manage_my_business_units:ecommerce-rsschool manage_my_profile:ecommerce-rsschool view_categories:ecommerce-rsschool create_anonymous_token:ecommerce-rsschool manage_my_quote_requests:ecommerce-rsschool manage_my_quotes:ecommerce-rsschool manage_customers:ecommerce-rsschool manage_my_payments:ecommerce-rsschool manage_my_orders:ecommerce-rsschool view_published_products:ecommerce-rsschool';
   try {
@@ -36,7 +39,6 @@ export const getToken = async () => {
 };
 
 export const signup = async (accessToken: string, data: ISignUp) => {
-  const projectKey = 'ecommerce-rsschool';
   const url = `https://api.us-central1.gcp.commercetools.com/${projectKey}/customers`;
 
   await axios
@@ -56,9 +58,6 @@ export const signup = async (accessToken: string, data: ISignUp) => {
 };
 
 export const login = async (email: string, password: string) => {
-  const projectKey = 'ecommerce-rsschool';
-  const clientId = 'G6YqJ3Gkjvz8JhsqV9ijepkh';
-  const clientSecret = 'EYMqnqO8H554djVE0ji0fEJhn7rxAI7E';
   const scope =
     'manage_my_shopping_lists:ecommerce-rsschool manage_my_business_units:ecommerce-rsschool manage_my_profile:ecommerce-rsschool view_categories:ecommerce-rsschool create_anonymous_token:ecommerce-rsschool manage_my_quote_requests:ecommerce-rsschool manage_my_quotes:ecommerce-rsschool manage_customers:ecommerce-rsschool manage_my_payments:ecommerce-rsschool manage_my_orders:ecommerce-rsschool view_published_products:ecommerce-rsschool';
   const url = `https://auth.us-central1.gcp.commercetools.com/oauth/${projectKey}/customers/token`;
@@ -96,10 +95,6 @@ export const login = async (email: string, password: string) => {
 };
 
 export const getAnonymToken = async () => {
-  const authUrl = 'https://auth.us-central1.gcp.commercetools.com';
-  const projectKey = 'ecommerce-rsschool';
-  const clientId = 'G6YqJ3Gkjvz8JhsqV9ijepkh';
-  const clientSecret = 'EYMqnqO8H554djVE0ji0fEJhn7rxAI7E';
   try {
     const response = await axios.post(
       `${authUrl}/oauth/${projectKey}/anonymous/token`,
@@ -126,9 +121,6 @@ export const getAnonymToken = async () => {
 export const getProductsForAnonym = async () => {
   try {
     const accessToken = await getAnonymToken(); // Получаем анонимный токен
-    const apiUrl = 'https://api.us-central1.gcp.commercetools.com';
-    const projectKey = 'ecommerce-rsschool';
-
     const response = await axios.get(`${apiUrl}/${projectKey}/product-projections`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -138,6 +130,24 @@ export const getProductsForAnonym = async () => {
     const goods = response.data.results;
     console.log(goods);
     return goods;
+  } catch (error) {
+    console.log('Error getting product projections:', error);
+    throw error;
+  }
+};
+
+export const getProductForAnonym = async (key: string) => {
+  try {
+    const accessToken = localStorage.getItem('access_token_anonim'); // Получаем анонимный токен
+    const response = await axios.get(`${apiUrl}/${projectKey}/product-projections/${key}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const product = response.data;
+    console.log(product);
+    return product;
   } catch (error) {
     console.log('Error getting product projections:', error);
     throw error;

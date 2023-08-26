@@ -2,33 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { isAuth } from '../../utils/storage';
 import { getProductsForAnonym } from '../../api/index';
 import styles from './Main.module.css';
-
-interface Product {
-  id: string;
-  name: { [key: string]: string };
-  description: { [key: string]: string };
-  masterVariant: {
-    images: Array<{
-      url: string;
-      dimensions: {
-        w: number;
-        h: number;
-      };
-    }>;
-  };
-}
+import MyLink from '../../components/Link/Link';
+import { Product } from '../../types/interfaces';
 
 interface OneCardProps {
   name: string;
   description: string;
   img: string;
+  id: string;
 }
 
-const OneCard: React.FC<OneCardProps> = ({ name, description, img }) => {
+const OneCard: React.FC<OneCardProps> = ({ name, description, img, id }) => {
   return (
-    <div className={styles.card}>
+    <div className={styles.card} id={id}>
       <div className={styles.cardTitle}>{name}</div>
-      <img className={styles.cardImg} src={img} alt={name} />
+      <MyLink href={`/product/${id}`}>
+        <img className={styles.cardImg} src={img} alt={name} />
+      </MyLink>
       <div className={styles.Description}>{description}</div>
     </div>
   );
@@ -64,6 +54,7 @@ const Main: React.FC = () => {
                 ? product.masterVariant.images[0].url
                 : ''
             }
+            id={product.id}
           />
         </div>
       ))}

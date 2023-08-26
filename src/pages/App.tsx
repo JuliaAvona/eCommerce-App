@@ -9,6 +9,7 @@ import Login from './Login/Login';
 import Error from './Error/Error';
 import Main from './Main/Main';
 import { isAuth } from '../utils/storage';
+import Product from './Product/Product';
 
 interface PrivateRouteProps {
   element: JSX.Element;
@@ -39,6 +40,7 @@ const App = () => {
           errorElement={<Error />}
         />
         <Route path={Pages.default} element={<Main />} errorElement={<Error />} />
+        <Route path={Pages.product} element={<Product />} errorElement={<Error />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </>

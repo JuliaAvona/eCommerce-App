@@ -39,3 +39,18 @@ export interface IResponse {
   scope: string;
   token_type: string;
 }
+
+export interface Product {
+  id: string;
+  name: { [key: string]: string };
+  description: { [key: string]: string };
+  masterVariant: {
+    images: Array<{
+      url: string;
+      dimensions: {
+        w: number;
+        h: number;
+      };
+    }>;
+  };
+}

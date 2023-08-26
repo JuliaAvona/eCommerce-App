@@ -18,6 +18,7 @@ export enum Pages {
   login = '/login',
   main = '/main',
   error = '/error',
+  product = '/product/:productKey',
   default = '/',
 }
 
