@@ -9,7 +9,6 @@ import Login from './Login/Login';
 import Error from './Error/Error';
 import Main from './Main/Main';
 import { isAuth } from '../utils/storage';
-import { getProductsForAnonym } from '../api/index';
 
 interface PrivateRouteProps {
   element: JSX.Element;
@@ -22,10 +21,6 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ element, authPath }) => {
   if (!!authPath && !isAuthenticated) return element;
   return element;
 };
-
-if (!isAuth()) {
-  getProductsForAnonym();
-}
 
 const App = () => {
   return (
