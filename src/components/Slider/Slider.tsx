@@ -7,13 +7,13 @@ import 'swiper/css/pagination';
 
 const Slider = ({ name, variants, masterVariant }: Product) => {
   let sliderElements: JSX.Element[] = [
-    <SwiperSlide key={masterVariant.images[0].url}>
+    <SwiperSlide className={styles.slide} key={masterVariant.images[0].url}>
       <img className={styles.img} src={masterVariant.images[0].url} alt={name['en-US']} />
     </SwiperSlide>,
   ];
   if (variants.length !== 0) {
     sliderElements = variants.map((el) => (
-      <SwiperSlide key={el.images[0].url}>
+      <SwiperSlide className={styles.slide} key={el.images[0].url}>
         <img className={styles.img} src={el.images[0].url} alt={name['en-US']} />
       </SwiperSlide>
     ));

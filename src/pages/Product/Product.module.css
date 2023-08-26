@@ -1,5 +1,4 @@
 .container {
-    height: 90vh;
     display: flex;
     align-content: center;
     justify-content: space-evenly;
@@ -9,21 +8,28 @@
 .text {
     text-align: justify;
     text-align-last: right;
-    max-width: 700px;
+    max-width: 40%;
 }
 
 .img {
-    width: 20%;
+    width: 30%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
     align-items: center;
+    padding-top: 5%;
 }
 
 .name {
     font-size: 35px;
     letter-spacing: 8px;
     text-decoration: underline;
+}
+
+@media screen and (max-width: 600px) {
+    .container {
+    flex-direction: column;
+    }
 }
