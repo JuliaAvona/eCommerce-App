@@ -1,0 +1,9 @@
+.aside {
+    grid-area: aside;
+    font-size: 2rem;
+}
+
+.aside div:hover {
+    color: grey;
+    cursor: pointer;
+}

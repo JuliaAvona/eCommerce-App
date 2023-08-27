@@ -77,3 +77,11 @@ export interface Variant {
     };
   }>;
 }
+
+export interface OneCardProps {
+  name: string;
+  description: string;
+  img: string;
+  id: string;
+  price: string;
+}
