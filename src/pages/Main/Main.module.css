@@ -4,10 +4,20 @@
     gap: 10px;
     grid-auto-rows: minmax(100px, auto);
     padding: 0.5em;
+    grid-area: content;
 }
 
 .green_background {
     background: #5a6b47;
+}
+
+.appWrapper {
+    display: grid;
+    grid-template-areas:
+        "aside content content";
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: 2fr 10fr;
+    grid-gap: 10px;
 }
 
 @media (min-width:470px) and (max-width: 660px) {

@@ -8,7 +8,6 @@ import Signup from './Signup/Signup';
 import Login from './Login/Login';
 import Error from './Error/Error';
 import Main from './Main/Main';
-import Aside from './Aside/Aside';
 import { isAuth } from '../utils/storage';
 import Product from './Product/Product';
 
@@ -27,29 +26,23 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ element, authPath }) => {
 const App = () => {
   return (
     <div>
-      <NavigationBar />
-      <div className="app-wrapper">
-        <Aside />
-        <div className="app-wrapper-content">
-          {' '}
-          <Routes>
-            <Route path={Pages.main} element={<Main />} errorElement={<Error />} />
-            <Route
-              path={Pages.signup}
-              element={<PrivateRoute element={<Signup />} authPath={Pages.main} />}
-              errorElement={<Error />}
-            />
-            <Route
-              path={Pages.login}
-              element={<PrivateRoute element={<Login />} authPath={Pages.main} />}
-              errorElement={<Error />}
-            />
-            <Route path={Pages.default} element={<Main />} errorElement={<Error />} />
-            <Route path={Pages.product} element={<Product />} errorElement={<Error />} />
-            <Route path="*" element={<Error />} />
-          </Routes>
-        </div>
-      </div>
+      <NavigationBar />{' '}
+      <Routes>
+        <Route path={Pages.main} element={<Main />} errorElement={<Error />} />
+        <Route
+          path={Pages.signup}
+          element={<PrivateRoute element={<Signup />} authPath={Pages.main} />}
+          errorElement={<Error />}
+        />
+        <Route
+          path={Pages.login}
+          element={<PrivateRoute element={<Login />} authPath={Pages.main} />}
+          errorElement={<Error />}
+        />
+        <Route path={Pages.default} element={<Main />} errorElement={<Error />} />
+        <Route path={Pages.product} element={<Product />} errorElement={<Error />} />
+        <Route path="*" element={<Error />} />
+      </Routes>
     </div>
   );
 };

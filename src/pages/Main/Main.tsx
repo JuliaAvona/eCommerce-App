@@ -4,6 +4,7 @@ import { getProductsForAnonym } from '../../api/index';
 import styles from './Main.module.css';
 import { Product } from '../../types/interfaces';
 import OneCard from './OneCard/OneCard';
+import Aside from './Aside/Aside';
 
 const Main: React.FC = () => {
   const [goodsInfo, setGoodsInfo] = useState<Product[]>([]);
@@ -24,7 +25,8 @@ const Main: React.FC = () => {
   }, []);
 
   return (
-    <main>
+    <main className={styles.appWrapper}>
+      <Aside />
       <div className={styles.container}>
         {goodsInfo.map((product) => (
           <div key={product.id}>
