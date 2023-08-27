@@ -1,9 +1,32 @@
 .aside {
     grid-area: aside;
     font-size: 2rem;
+    padding: 2rem;
 }
 
-.aside div:hover {
-    color: grey;
-    cursor: pointer;
+.aside div {
+    margin-top: 3rem;
+}
+
+.aside div:first-child {
+    margin-top: 0rem;
+}
+
+.aside div select {
+    width: 100%;
+    background-color: #fff;
+    color: black;
+    border-radius: 5px;
+    padding: 0.3rem;
+}
+
+.aside div h4 {
+    width: 100%;
+}
+
+.aside div input {
+    background-color: #fff;
+    color: black;
+    border-radius: 5px;
+    padding: 0.3rem;
 }
