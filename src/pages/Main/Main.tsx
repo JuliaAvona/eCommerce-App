@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { isAuth } from '../../utils/storage';
-import { getProductsForAnonym } from '../../api/index';
+import { getProducts } from '../../api/index';
 import styles from './Main.module.css';
 import { Product } from '../../types/interfaces';
 import OneCard from './OneCard/OneCard';
@@ -11,13 +10,12 @@ const Main: React.FC = () => {
 
   useEffect(() => {
     async function fetchData() {
-      if (!isAuth()) {
-        try {
-          const info = await getProductsForAnonym();
-          setGoodsInfo(info);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
+      try {
+        const info = await getProducts();
+        setGoodsInfo(info);
+      } catch (error) {
+        console.log('Error fetching data:', error);
+        throw error;
       }
     }
 

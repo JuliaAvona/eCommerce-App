@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import axios from 'axios';
 import { ISignUp } from '../types/interfaces';
-import { saveData, saveAnonimData } from '../utils/storage';
+import { saveData, saveAnonimData, isAuth } from '../utils/storage';
 
 const projectKey = 'ecommerce-rsschool';
 const clientId = 'G6YqJ3Gkjvz8JhsqV9ijepkh';
@@ -118,9 +118,14 @@ export const getAnonymToken = async () => {
   }
 };
 
-export const getProductsForAnonym = async () => {
+export const getProducts = async () => {
   try {
-    const accessToken = await getAnonymToken(); // Получаем анонимный токен
+    let accessToken;
+    if (!isAuth()) {
+      accessToken = await getAnonymToken();
+    } else {
+      accessToken = await getToken();
+    }
     const response = await axios.get(`${apiUrl}/${projectKey}/product-projections`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -138,7 +143,7 @@ export const getProductsForAnonym = async () => {
 
 export const getProductForAnonym = async (key: string) => {
   try {
-    const accessToken = localStorage.getItem('access_token_anonim'); // Получаем анонимный токен
+    const accessToken = localStorage.getItem('access_token_anonim');
     const response = await axios.get(`${apiUrl}/${projectKey}/product-projections/${key}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
