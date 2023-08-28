@@ -1,17 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { getProducts } from '../../api/index';
 import styles from './Main.module.css';
 import { Product, IFilters } from '../../types/interfaces';
 import OneCard from './OneCard/OneCard';
 import Aside from './Aside/Aside';
 
-interface MainProps {
-  filters: IFilters;
-}
-
-const Main: React.FC<MainProps> = ({ filters }) => {
-  const { view, sortProducts, sortPrice, sortProductType, sortMaterials } = filters;
+const Main = () => {
   const [goodsInfo, setGoodsInfo] = useState<Product[]>([]);
+  const [filter, setFilter] = useState<IFilters>({
+    view: 'As Icons',
+    sortProducts: 'By name, A to Z',
+    sortPrice: '$01.00 - 10.00',
+    sortProductType: 'Cosmetic',
+    sortMaterials: 'Wood',
+  });
+
+  const handleFilterChange = useCallback((key: keyof IFilters, value: string) => {
+    setFilter((prevData) => ({
+      ...prevData,
+      [key]: value,
+    }));
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -25,12 +34,12 @@ const Main: React.FC<MainProps> = ({ filters }) => {
     }
 
     fetchData();
-  }, [view, sortProducts, sortPrice, sortProductType, sortMaterials]);
+  }, []);
 
   return (
     <main className={styles.appWrapper}>
-      <Aside />
-      <div className={view === 'As Icons' ? styles.containerIcons : styles.containerList}>
+      <Aside filterChange={handleFilterChange} />
+      <div className={filter.view === 'As Icons' ? styles.containerIcons : styles.containerList}>
         {goodsInfo.map((product) => (
           <div key={product.id}>
             <OneCard
