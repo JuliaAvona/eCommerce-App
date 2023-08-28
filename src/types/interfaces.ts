@@ -85,3 +85,11 @@ export interface OneCardProps {
   id: string;
   price: string;
 }
+
+export interface IFilters {
+  view: string;
+  sortProducts: string;
+  sortPrice: string;
+  sortProductType: string;
+  sortMaterials: string;
+}
