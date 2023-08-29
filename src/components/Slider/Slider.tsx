@@ -21,7 +21,7 @@ const Slider = ({ name, masterVariant }: Product) => {
   }
 
   return (
-    <Swiper navigation modules={[Navigation]} className="mySwiper">
+    <Swiper navigation modules={[Navigation]} loop className="mySwiper">
       {sliderElements}
     </Swiper>
   );
