@@ -12,7 +12,7 @@ const Slider = ({ name, variants, masterVariant }: Product) => {
       <img className={styles.img} src={masterVariant.images[0].url} alt={name['en-US']} />
     </SwiperSlide>,
   ];
-  if (variants.length !== 0) {
+  if (masterVariant.images.length !== 0) {
     sliderElements = masterVariant.images.map((el) => (
       <SwiperSlide className={styles.slide} key={el.url}>
         <img className={styles.img} src={el.url} alt={name['en-US']} />
