@@ -37,6 +37,36 @@ const Product = () => {
     );
   }
 
+  if (product.variants[0] === undefined) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.text}>
+          <p className={styles.name}>{product.name['en-US']}</p>
+          <p>{product.description['en-US']}</p>
+          <pre>
+            Price:{' '}
+            <p>
+              {`${product.masterVariant.prices[0].value.centAmount / 100},00`}
+              {` ${product.masterVariant.prices[0].value.currencyCode}`}
+            </p>
+          </pre>
+          <Button variant="outline-secondary" size="sm">
+            Add cart
+          </Button>
+        </div>
+        <div className={styles.img}>
+          <Slider
+            id={product.id}
+            name={product.name}
+            description={product.description}
+            masterVariant={product.masterVariant}
+            variants={product.variants}
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.text}>
