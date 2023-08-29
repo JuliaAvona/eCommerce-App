@@ -28,6 +28,10 @@
     text-decoration: underline;
 }
 
+.sale {
+    text-decoration: line-through;
+}
+
 @media screen and (max-width: 600px) {
     .container {
     flex-direction: column;
