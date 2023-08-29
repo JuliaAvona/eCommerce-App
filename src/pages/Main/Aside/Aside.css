@@ -13,6 +13,11 @@
     margin-top: 0rem;
 }
 
+.aside div:first-child input {
+    margin-top: 0rem;
+    width: 100%;
+}
+
 .aside div select {
     width: 100%;
     background-color: #fff;

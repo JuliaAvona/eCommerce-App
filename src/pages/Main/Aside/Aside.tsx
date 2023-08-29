@@ -12,8 +12,16 @@ const Aside = ({ filterChange }: AsideProps) => {
     filterChange('view', view);
   };
 
+  const handleSortProductsChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    const sortProducts = event.target.value;
+    filterChange('sortProducts', sortProducts);
+  };
+
   return (
     <aside className="aside">
+      <div>
+        <input type="search" placeholder="Searc" />
+      </div>
       <div>
         <h4>View</h4>
         <select name="view" onChange={handleViewChange}>
@@ -23,17 +31,18 @@ const Aside = ({ filterChange }: AsideProps) => {
       </div>
       <div>
         <h4>Sort Products</h4>
-        <select name="sortProducts">
-          <option value="By name, A to Z">By name, A to Z</option>
-          <option value="By name, Z to A">By name, Z to A</option>
-          <option value="Price, ascending">Price, ascending</option>
-          <option value="Price, descending">Price, descending</option>
+        <select name="sortProducts" onChange={handleSortProductsChange}>
+          <option value="A to Z">By name, A to Z</option>
+          <option value="Z to A">By name, Z to A</option>
+          <option value="ascending">Price, ascending</option>
+          <option value="descending">Price, descending</option>
         </select>
       </div>
       <div>
         <h4>Sort Price</h4>
         <select name="sortPrice">
-          <option value="$01.00 - 10.00">$01.00 - 10.00</option>
+          <option value="All">All</option>
+          <option value="$01.00 - 30.00">$01.00 - 30.00</option>
           <option value="$11.00 - 20.00">$11.00 - 20.00</option>
           <option value="$21.00 - 50.00">$21.00 - 50.00</option>
           <option value="$51.00 - 200.00">$51.00 - 200.00</option>
