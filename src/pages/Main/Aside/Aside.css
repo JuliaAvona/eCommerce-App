@@ -2,7 +2,7 @@
     grid-area: aside;
     font-size: 1.5rem;
     padding: 2rem;
-    min-width: 400px;
+    min-width: 500px;
 }
 
 .aside div {
@@ -16,13 +16,14 @@
 .aside div:first-child input {
     margin-top: 0rem;
     width: 100%;
+    border-radius: 10px;
 }
 
 .aside div select {
     width: 100%;
     background-color: #fff;
     color: black;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 0.3rem;
 }
 
@@ -35,4 +36,16 @@
     color: black;
     border-radius: 5px;
     padding: 0.3rem;
+}
+
+.resetButton {
+    min-width: 400px;
+    align-self: center;
+}
+
+.resetButton button {
+    font-size: 1.5rem;
+    width: 100%;
+    margin-top: 1rem;
+    align-self: center;
 }

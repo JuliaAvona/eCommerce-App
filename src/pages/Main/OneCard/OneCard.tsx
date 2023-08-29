@@ -1,32 +1,34 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 import MyLink from '../../../components/Link/Link';
 import { OneCardProps } from '../../../types/interfaces';
 import styles from './OneCard.module.css';
 
-const OneCard: React.FC<OneCardProps> = ({ name, description, img, id, price, discount }) => {
+const OneCard: React.FC<OneCardProps> = ({ name, img, id, price, discount }) => {
   return (
-    <div className={styles.card} id={id}>
-      <div className={styles.cardInfo}>
+    <Card style={{ width: '18rem' }} id={id}>
+      <div className={styles.card}>
         <MyLink href={`/product/${id}`}>
-          <div className={styles.cardTitle}>{name}</div>
+          <Card.Img variant="top" src={img} alt={name} className={styles.cardImg} />
         </MyLink>
-        <div className={styles.Description}>{description}</div>
-        <div className={styles.priceWrap}>
-          <pre className={styles.discountPrice}>
-            <p className={styles.price}>{price}</p>
-            Discounted price:
-            <p>{discount}</p>
-          </pre>
-        </div>
-        <Button variant="outline-secondary" size="sm">
-          Add cart
-        </Button>
+        <Card.Body>
+          <MyLink href={`/product/${id}`}>
+            <Card.Title className={styles.cardTitle}>{name}</Card.Title>
+            <div className={styles.priceWrap}>
+              <pre className={styles.discountPrice}>
+                Price:
+                <p className={styles.price}>{price}</p>
+                <p>{discount}</p>
+              </pre>
+            </div>
+          </MyLink>
+          <Button variant="outline-secondary" size="sm">
+            Add cart{' '}
+          </Button>
+        </Card.Body>
       </div>
-      <MyLink href={`/product/${id}`}>
-        <img className={styles.cardImg} src={img} alt={name} />
-      </MyLink>
-    </div>
+    </Card>
   );
 };
 

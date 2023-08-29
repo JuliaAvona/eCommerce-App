@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
 import './Aside.css';
 import { IFilters } from '../../../types/interfaces';
 
@@ -70,6 +71,11 @@ const Aside = ({ filterChange }: AsideProps) => {
           <option value="Plastic">Plastic</option>
           <option value="Food">Food</option>
         </select>
+      </div>
+      <div className="resetButton">
+        <Button variant="outline-secondary" size="sm">
+          Reset filters
+        </Button>
       </div>
     </aside>
   );

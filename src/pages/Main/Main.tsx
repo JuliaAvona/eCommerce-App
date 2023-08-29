@@ -66,7 +66,7 @@ const Main = () => {
             return name1.localeCompare(name2);
           })
           .filter((card) => {
-            const price = (card.masterVariant.prices[0].value.centAmount / 100) as number;
+            const price = card.masterVariant.prices[0].discounted.value.centAmount as number;
 
             if (filter.sortPrice === '$1-10') {
               return price <= 10;
