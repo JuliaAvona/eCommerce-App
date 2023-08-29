@@ -65,6 +65,27 @@ const Main = () => {
 
             return name1.localeCompare(name2);
           })
+          .filter((card) => {
+            const price = (card.masterVariant.prices[0].value.centAmount / 100) as number;
+
+            if (filter.sortPrice === '$1-10') {
+              return price <= 10;
+            }
+
+            if (filter.sortPrice === '$11-25') {
+              return price > 11 && price <= 25;
+            }
+
+            if (filter.sortPrice === '$26-70') {
+              return price > 26 && price <= 70;
+            }
+
+            if (filter.sortPrice === '$71-200') {
+              return price > 71 && price <= 200;
+            }
+
+            return price >= 0;
+          })
           .map((product) => (
             <div key={product.id}>
               <OneCard
