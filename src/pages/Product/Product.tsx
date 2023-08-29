@@ -7,6 +7,7 @@ import { isAuth } from '../../utils/storage';
 import { Product as ProductInterface } from '../../types/interfaces';
 import styles from './Product.module.css';
 import Slider from '../../components/Slider/Slider';
+import ModalImg from '../../components/ModalImg/ModalImg';
 
 const Product = () => {
   const params = useParams();
@@ -62,6 +63,13 @@ const Product = () => {
             masterVariant={product.masterVariant}
             variants={product.variants}
           />
+          <ModalImg
+            id={product.id}
+            name={product.name}
+            description={product.description}
+            masterVariant={product.masterVariant}
+            variants={product.variants}
+          />
         </div>
       </div>
     );
@@ -92,6 +100,13 @@ const Product = () => {
       </div>
       <div className={styles.img}>
         <Slider
+          id={product.id}
+          name={product.name}
+          description={product.description}
+          masterVariant={product.masterVariant}
+          variants={product.variants}
+        />
+        <ModalImg
           id={product.id}
           name={product.name}
           description={product.description}
