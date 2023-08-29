@@ -8,7 +8,9 @@ const OneCard: React.FC<OneCardProps> = ({ name, description, img, id, price, di
   return (
     <div className={styles.card} id={id}>
       <div className={styles.cardInfo}>
-        <div className={styles.cardTitle}>{name}</div>
+        <MyLink href={`/product/${id}`}>
+          <div className={styles.cardTitle}>{name}</div>
+        </MyLink>
         <div className={styles.Description}>{description}</div>
         <div className={styles.priceWrap}>
           <pre className={styles.discountPrice}>
