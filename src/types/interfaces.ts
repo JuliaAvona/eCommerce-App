@@ -96,6 +96,7 @@ export interface OneCardProps {
   img: string;
   id: string;
   price: string;
+  discount?: string;
 }
 
 export interface IFilters {

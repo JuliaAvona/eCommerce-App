@@ -100,6 +100,9 @@ const Main = () => {
                 price={`${product.masterVariant.prices[0].value.centAmount / 100}.00 ${
                   product.masterVariant.prices[0].value.currencyCode
                 }`}
+                discount={`${product.masterVariant.prices[0].discounted.value.centAmount / 100},00 ${
+                  product.masterVariant.prices[0].value.currencyCode
+                }`}
               />
             </div>
           ))}
