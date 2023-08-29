@@ -87,7 +87,7 @@ const Product = () => {
             {` ${product.masterVariant.prices[0].value.currencyCode}`}
           </p>
         </pre>
-        <pre>
+        <pre className={styles.discounted}>
           Discounted price:
           <p>
             {`${product.masterVariant.prices[0].discounted.value.centAmount / 100},00`}

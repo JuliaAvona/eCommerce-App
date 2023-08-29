@@ -32,6 +32,11 @@
     text-decoration: line-through;
 }
 
+.discounted {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
 
 @media screen and (max-width: 600px) {
     .container {
