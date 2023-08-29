@@ -50,6 +50,12 @@ export interface Product {
         centAmount: number;
         currencyCode: string;
       };
+      discounted: {
+        value: {
+          centAmount: number;
+          currencyCode: string;
+        };
+      };
     }>;
     images: Array<{
       url: string;

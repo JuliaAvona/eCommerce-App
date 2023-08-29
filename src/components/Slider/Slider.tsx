@@ -1,9 +1,10 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
 import React from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import 'swiper/css/navigation';
+import { Navigation } from 'swiper/modules';
 import { Product } from '../../types/interfaces';
 import styles from './Slider.module.css';
-import 'swiper/css/pagination';
 
 const Slider = ({ name, variants, masterVariant }: Product) => {
   let sliderElements: JSX.Element[] = [
@@ -12,21 +13,15 @@ const Slider = ({ name, variants, masterVariant }: Product) => {
     </SwiperSlide>,
   ];
   if (variants.length !== 0) {
-    sliderElements = variants.map((el) => (
-      <SwiperSlide className={styles.slide} key={el.images[0].url}>
-        <img className={styles.img} src={el.images[0].url} alt={name['en-US']} />
+    sliderElements = masterVariant.images.map((el) => (
+      <SwiperSlide className={styles.slide} key={el.url}>
+        <img className={styles.img} src={el.url} alt={name['en-US']} />
       </SwiperSlide>
     ));
   }
 
   return (
-    <Swiper
-      spaceBetween={3}
-      slidesPerView={1}
-      pagination={{ clickable: true }}
-      onSlideChange={() => console.log('slide change')}
-      onSwiper={(swiper) => console.log(swiper)}
-    >
+    <Swiper navigation modules={[Navigation]} className="mySwiper">
       {sliderElements}
     </Swiper>
   );

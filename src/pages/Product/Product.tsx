@@ -43,7 +43,7 @@ const Product = () => {
         <div className={styles.text}>
           <p className={styles.name}>{product.name['en-US']}</p>
           <p>{product.description['en-US']}</p>
-          <pre>
+          <pre className={styles.price}>
             Price:{' '}
             <p>
               {`${product.masterVariant.prices[0].value.centAmount / 100},00`}
@@ -82,8 +82,8 @@ const Product = () => {
         <pre>
           Discounted price:
           <p>
-            {`${product.variants[0].prices[0].discounted.value.centAmount / 100},00`}
-            {` ${product.variants[0].prices[0].discounted.value.currencyCode}`}
+            {`${product.masterVariant.prices[0].discounted.value.centAmount / 100},00`}
+            {` ${product.masterVariant.prices[0].discounted.value.currencyCode}`}
           </p>
         </pre>
         <Button variant="outline-secondary" size="sm">
