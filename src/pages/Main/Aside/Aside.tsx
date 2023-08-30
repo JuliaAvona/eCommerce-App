@@ -23,6 +23,16 @@ const Aside = ({ filterChange }: AsideProps) => {
     filterChange('sortPrice', sortPrice);
   };
 
+  const handleSortProductType = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    const sortProductType = event.target.value;
+    filterChange('sortProductType', sortProductType);
+  };
+
+  const handleSortMaterials = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    const sortMaterials = event.target.value;
+    filterChange('sortMaterials', sortMaterials);
+  };
+
   return (
     <aside className="aside">
       <div>
@@ -56,20 +66,22 @@ const Aside = ({ filterChange }: AsideProps) => {
       </div>
       <div>
         <h4>Sort Product Type</h4>
-        <select name="sortProductType">
-          <option value="Cosmetic">Cosmetic</option>
-          <option value="Food">Food</option>
-          <option value="Home">Home</option>
+        <select name="sortProductType" onChange={handleSortProductType}>
+          <option value="all">All</option>
+          <option value="cosmetic">Cosmetic</option>
+          <option value="food">Food</option>
+          <option value="home">Home</option>
         </select>
       </div>
       <div>
         <h4>Sort Materials</h4>
-        <select name="sortMaterials">
-          <option value="Wood">Wood</option>
-          <option value="Glass">Glass</option>
-          <option value="Metall">Metall</option>
-          <option value="Plastic">Plastic</option>
-          <option value="Food">Food</option>
+        <select name="sortMaterials" onChange={handleSortMaterials}>
+          <option value="all">All</option>
+          <option value="wood">Wood</option>
+          <option value="glass">Glass</option>
+          <option value="metall">Metall</option>
+          <option value="plastic">Plastic</option>
+          <option value="nature">Nature</option>
         </select>
       </div>
       <div className="resetButton">

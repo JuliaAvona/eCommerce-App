@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import axios, { AxiosError } from 'axios';
-import { IError, IProfile, ICustomerReq, ICustomerRes } from '../types/interfaces';
+import { IError, ICustomerReq, ICustomerRes } from '../types/interfaces';
 import { saveData, saveAnonimData, isAuth } from '../utils/storage';
 
 const projectKey = 'ecommerce-rsschool';
@@ -146,14 +146,13 @@ export const getProducts = async () => {
     } else {
       accessToken = await getToken();
     }
-    const response = await axios.get(`${apiUrl}/${projectKey}/product-projections`, {
+    const response = await axios.get(`${apiUrl}/${projectKey}/product-projections?limit=30`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
 
     const goods = response.data.results;
-    console.log(goods);
     return goods;
   } catch (error) {
     console.log('Error getting product projections:', error);
@@ -176,7 +175,6 @@ export const getProduct = async (key: string) => {
     });
 
     const goods = response.data;
-    console.log(goods);
     return goods;
   } catch (error) {
     console.log('Error getting product projections:', error);
@@ -194,7 +192,6 @@ export const getProductForAnonym = async (key: string) => {
     });
 
     const product = response.data;
-    console.log(product);
     return product;
   } catch (error) {
     console.log('Error getting product projections:', error);

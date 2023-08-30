@@ -77,6 +77,8 @@ export interface Product {
   id: string;
   name: { [key: string]: string };
   description: { [key: string]: string };
+  metaDescription: { [key: string]: string };
+  metaTitle: { [key: string]: string };
   masterVariant: {
     prices: Array<{
       value: {
