@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import { useParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
-import { getProductForAnonym } from '../../api';
-import { isAuth } from '../../utils/storage';
+import { getProduct } from '../../api';
 import { Product as ProductInterface } from '../../types/interfaces';
 import styles from './Product.module.css';
 import Slider from '../../components/Slider/Slider';
@@ -16,15 +15,13 @@ const Product = () => {
 
   useEffect(() => {
     function fetchData() {
-      if (!isAuth()) {
-        getProductForAnonym(productKey)
-          .then((info) => {
-            setGoodInfo(info);
-          })
-          .catch((error) => {
-            console.error('Error fetching data:', error);
-          });
-      }
+      getProduct(productKey)
+        .then((info) => {
+          setGoodInfo(info);
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
     }
 
     fetchData();

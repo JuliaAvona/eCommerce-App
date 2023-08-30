@@ -161,6 +161,29 @@ export const getProducts = async () => {
   }
 };
 
+export const getProduct = async (key: string) => {
+  try {
+    let accessToken;
+    if (!isAuth()) {
+      accessToken = await getAnonymToken();
+    } else {
+      accessToken = await getToken();
+    }
+    const response = await axios.get(`${apiUrl}/${projectKey}/product-projections/${key}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const goods = response.data;
+    console.log(goods);
+    return goods;
+  } catch (error) {
+    console.log('Error getting product projections:', error);
+    throw error;
+  }
+};
+
 export const getProductForAnonym = async (key: string) => {
   try {
     const accessToken = localStorage.getItem('access_token_anonim');
