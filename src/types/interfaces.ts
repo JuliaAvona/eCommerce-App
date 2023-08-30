@@ -1,9 +1,42 @@
-export interface ISignUp {
+export interface ICustomerReq {
   email: string;
   password: string;
   firstName: string;
   lastName: string;
+  dateOfBirth: string;
+  addresses: Array<IBaseAddress>;
+  defaultShippingAddress: number;
+  defaultBillingAddress: number;
 }
+
+export interface ICustomerRes {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  addresses: Array<IBaseAddress>;
+  defaultShippingAddressId: string;
+  defaultBillingAddressId: string;
+}
+
+export interface IProfile {
+  email: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  shippingAddress: IBaseAddress;
+  billingAddress: IBaseAddress;
+}
+
+export interface IBaseAddress {
+  id: string;
+  country: string;
+  streetName: string;
+  postalCode: string;
+  city: string;
+}
+
 export interface ISignUpError {
   type: string;
   message: string;
@@ -104,4 +137,9 @@ export interface IFilters {
   sortPrice: string;
   sortProductType: string;
   sortMaterials: string;
+}
+
+export interface IError {
+  message: string[];
+  statusCode: number;
 }

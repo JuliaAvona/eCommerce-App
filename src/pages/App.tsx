@@ -10,6 +10,7 @@ import Error from './Error/Error';
 import Main from './Main/Main';
 import { isAuth } from '../utils/storage';
 import Product from './Product/Product';
+import Profile from './Profile/Profile';
 
 interface PrivateRouteProps {
   element: JSX.Element;
@@ -26,7 +27,7 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ element, authPath }) => {
 const App = () => {
   return (
     <div>
-      <NavigationBar />{' '}
+      <NavigationBar />
       <Routes>
         <Route path={Pages.main} element={<Main />} errorElement={<Error />} />
         <Route
@@ -40,6 +41,7 @@ const App = () => {
           errorElement={<Error />}
         />
         <Route path={Pages.default} element={<Main />} errorElement={<Error />} />
+        <Route path={Pages.profile} element={<Profile />} errorElement={<Error />} />
         <Route path={Pages.product} element={<Product />} errorElement={<Error />} />
         <Route path="*" element={<Error />} />
       </Routes>

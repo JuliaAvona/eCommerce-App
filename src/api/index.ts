@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import axios from 'axios';
-import { ISignUp } from '../types/interfaces';
+import axios, { AxiosError } from 'axios';
+import { IError, IProfile, ICustomerReq, ICustomerRes } from '../types/interfaces';
 import { saveData, saveAnonimData, isAuth } from '../utils/storage';
 
 const projectKey = 'ecommerce-rsschool';
@@ -38,8 +38,8 @@ export const getToken = async () => {
   }
 };
 
-export const signup = async (accessToken: string, data: ISignUp) => {
-  const url = `https://api.us-central1.gcp.commercetools.com/${projectKey}/customers`;
+export const signup = async (accessToken: string, data: ICustomerReq) => {
+  const url = `${apiUrl}/${projectKey}/customers`;
 
   await axios
     .post(url, data, {
@@ -60,7 +60,7 @@ export const signup = async (accessToken: string, data: ISignUp) => {
 export const login = async (email: string, password: string) => {
   const scope =
     'manage_my_shopping_lists:ecommerce-rsschool manage_my_business_units:ecommerce-rsschool manage_my_profile:ecommerce-rsschool view_categories:ecommerce-rsschool create_anonymous_token:ecommerce-rsschool manage_my_quote_requests:ecommerce-rsschool manage_my_quotes:ecommerce-rsschool manage_customers:ecommerce-rsschool manage_my_payments:ecommerce-rsschool manage_my_orders:ecommerce-rsschool view_published_products:ecommerce-rsschool';
-  const url = `https://auth.us-central1.gcp.commercetools.com/oauth/${projectKey}/customers/token`;
+  const url = `${authUrl}/oauth/${projectKey}/customers/token`;
 
   await axios
     .post(
@@ -92,6 +92,26 @@ export const login = async (email: string, password: string) => {
       console.log('Error logging in user:', error.response.data.message);
       throw error.response.data.message;
     });
+};
+
+export const getProfile = async (accessToken: string): Promise<ICustomerRes> => {
+  const url = `${apiUrl}/${projectKey}/me`;
+
+  try {
+    const userResponse = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    console.log('User profile:', userResponse.data);
+    return userResponse.data;
+  } catch (e) {
+    const error = e as AxiosError<IError>;
+    console.log('Error getting profile:', error.response?.data.message);
+    throw e;
+  }
 };
 
 export const getAnonymToken = async () => {

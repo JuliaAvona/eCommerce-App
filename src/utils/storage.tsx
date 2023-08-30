@@ -5,6 +5,10 @@ export const saveData = (data: IResponse): void => {
   localStorage.setItem('refresh_token', data.refresh_token);
 };
 
+export const getAccessToken = (): string | null => {
+  return localStorage.getItem('access_token');
+};
+
 export const saveAnonimData = (data: IResponse): void => {
   localStorage.setItem('access_token_anonim', data.access_token);
   localStorage.setItem('refresh_token_anonim', data.refresh_token);

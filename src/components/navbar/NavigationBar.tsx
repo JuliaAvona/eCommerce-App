@@ -27,6 +27,7 @@ const NavigationBar: FC = () => {
           <Link href={Pages.main}>Home</Link>
         </Nav>
         <Nav>
+          {isAuth() ? <Link href={Pages.profile}>Profile</Link> : null}
           {isAuth() ? null : <Link href={Pages.signup}>SignUp</Link>}
           {isAuth() ? (
             <Link href={Pages.login} onClick={(e) => logout(e)}>

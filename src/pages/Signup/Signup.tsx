@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import iso3311a2 from 'iso-3166-1-alpha-2';
 import { Link, useNavigate } from 'react-router-dom';
-import { ICountry, IForm, IFormData } from '../../types/interfaces';
+import { IBaseAddress, ICountry, IForm, IFormData } from '../../types/interfaces';
 import { getToken, login, signup } from '../../api';
 import { Forms, Pages } from '../../types/enums';
 import {
@@ -136,12 +136,30 @@ const Signup: FC = () => {
     if (!hasError) {
       setOnLoad(true);
       setResponseError('');
+      const shippingAddress = {
+        country: form.country.data,
+        streetName: form.street.data,
+        postalCode: form.postal.data,
+        city: form.city.data,
+      } as IBaseAddress;
+
+      const billingAddress = {
+        country: form.country.data,
+        streetName: form.streetForBilling.data,
+        postalCode: form.postalForBilling.data,
+        city: form.cityForBilling.data,
+      } as IBaseAddress;
+
       getToken().then((token: string) =>
         signup(token, {
           email: form.email.data,
           password: form.password.data,
           firstName: form.firstName.data,
           lastName: form.lastName.data,
+          dateOfBirth: form.date.data,
+          addresses: [shippingAddress, forBilling ? shippingAddress : billingAddress],
+          defaultShippingAddress: 0,
+          defaultBillingAddress: forBilling ? 0 : 1,
         })
           .then(() => {
             login(form.email.data, form.password.data)
