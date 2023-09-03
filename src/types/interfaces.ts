@@ -5,8 +5,8 @@ export interface ICustomerReq {
   lastName: string;
   dateOfBirth: string;
   addresses: Array<IBaseAddress>;
-  defaultShippingAddress: number;
-  defaultBillingAddress: number;
+  defaultShippingAddress: number | null;
+  defaultBillingAddress: number | null;
 }
 
 export interface ICustomerRes {

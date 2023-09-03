@@ -10,7 +10,7 @@ interface InputProps {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 const InputPass: FC<InputProps> = ({ value, helper, onChange }) => {
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleToggle = () => {
     setShowPassword(() => !showPassword);

@@ -6,27 +6,22 @@
 .input {
   box-sizing: border-box;
   width: 100%;
-  padding: 15px;
-  margin: 0 0 15px;
+  padding: 10px;
+  margin-bottom: 10px;
   font-family: "Roboto", sans-serif; 
-  font-size: 0.5rem;
-  line-height: 1.5; 
-  color: var(--bs-body-color);
-  appearance: none;
+  font-size: 0.5rem; 
+  color: var(--bs-body-color); 
   color-scheme: auto;
   background: #f2f2f2;
-  background-color: var(--bs-body-bg);
-  background-clip: padding-box; 
-  border: var(--bs-border-width) solid var(--bs-border-color);
-  border-radius: var(--bs-border-radius);
-  outline: 0;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  background-color: #ffffff; 
+  border: 1px #e2e5e9 solid;
+  border-radius: 5px; 
 }
 
 .button { 
   position: absolute;
-  top: 26px;
-  right: 10px;
+  top:  1rem;
+  right: 0.5rem;
   display: flex;
   align-items: center;
   width: 1rem;
@@ -40,7 +35,7 @@
 }
 
 .img {
-  width: 24px;
+  width:  1rem;
   height: auto;
   opacity: 0.5;
 }

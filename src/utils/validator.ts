@@ -9,7 +9,7 @@ export function emailValidation(str: string): string {
   if (!str.includes('@')) return 'Email address must contain an "@" symbol separating local part and domain name';
   if (/^\s+|\s+$/.test(str)) return 'Email address must not contain leading or trailing whitespace';
   if (!str.includes('.')) return 'Email address must contain a domain name (e.g., example.com)';
-  return str;
+  return '';
 }
 
 export function passwordValidation(str: string): string {
@@ -19,14 +19,14 @@ export function passwordValidation(str: string): string {
   if (!/[a-z]/.test(str)) return 'Password must contain at least one lowercase letter (a-z)';
   if (!/\d/.test(str)) return 'Password must contain at least one digit (0-9)';
   if (/^\s+|\s+$/.test(str)) return 'Password cannot contain spaces';
-  return str;
+  return '';
 }
 
 export function nameValidation(str: string): string {
   if (!str) return 'Fill in the field';
   if (!/^[a-zA-Z]+$/.test(str)) return 'English letters only';
   if (/\d/.test(str)) return 'Must not contain numbers';
-  return str;
+  return '';
 }
 
 export function dateValidation(str: string): string {
@@ -47,24 +47,24 @@ export function dateValidation(str: string): string {
 
   if (ageDiffYears > 130) return `Too high age`;
   if (Number.isNaN(ageDiffYears)) return `Invalid number`;
-  return str;
+  return '';
 }
 
 export function streetValidation(str: string): string {
   if (!str) return 'Fill in the field';
-  return str;
+  return '';
 }
 
 export function cityValidation(str: string): string {
   if (!str) return 'Fill in the field';
   if (!/^[a-zA-Z]+$/.test(str)) return 'Must contain only English letters';
   if (/\d/.test(str)) return 'Must not contain numbers';
-  return str;
+  return '';
 }
 
 export function postalValidation(str: string, countryCode: string): string {
   try {
-    return postcodeValidator(str, countryCode) ? str : 'Index is incorrect';
+    return postcodeValidator(str, countryCode) ? '' : 'Index is incorrect';
   } catch {
     // TODO: Поискать другой валидатор
     return 'Country region does not exist';
@@ -72,5 +72,5 @@ export function postalValidation(str: string, countryCode: string): string {
 }
 
 export function countryValidation(str: string): string {
-  return iso3311a2.getCountry(str) ? str : 'Choose the country';
+  return iso3311a2.getCountry(str) ? '' : 'Choose the country';
 }

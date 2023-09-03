@@ -4,9 +4,11 @@ import { IBaseAddress, IProfile } from '../../types/interfaces';
 import { getProfile } from '../../api';
 import styles from './Profile.module.scss';
 import { getAccessToken } from '../../utils/storage';
+import Button from '../../components/button/Button';
 
 const Profile: FC = () => {
   const [profile, setProfile] = useState<IProfile | null>(null);
+  const [onEdit, setOnEdit] = useState<boolean>(false);
 
   const findAddressById = (addresses: Array<IBaseAddress>, id: string): IBaseAddress => {
     return addresses.find((address) => address.id === id) || addresses[0];
@@ -74,6 +76,7 @@ const Profile: FC = () => {
             {profile.billingAddress.city} {profile.billingAddress.postalCode} {profile.billingAddress.streetName}
           </div>
         </div>
+        <Button onClick={() => setOnEdit(!onEdit)}>Edit</Button>
       </div>
     </div>
   ) : null;

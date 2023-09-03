@@ -1,168 +1,123 @@
 import React, { FC, useState, useEffect } from 'react';
-import iso3311a2 from 'iso-3166-1-alpha-2';
 import { Link, useNavigate } from 'react-router-dom';
-import { IBaseAddress, ICountry, IForm, IFormData } from '../../types/interfaces';
+import { IBaseAddress, IFormData } from '../../types/interfaces';
 import { getToken, login, signup } from '../../api';
-import { Forms, Pages } from '../../types/enums';
-import {
-  cityValidation,
-  countryValidation,
-  dateValidation,
-  emailValidation,
-  nameValidation,
-  passwordValidation,
-  postalValidation,
-  streetValidation,
-} from '../../utils/validator';
-import Input from '../../components/input/Input';
-import Select from '../../components/select/Select';
+import { dateValidation, emailValidation, nameValidation, passwordValidation } from '../../utils/validator';
+import Input from '../../components/Input/Input';
 import styles from './Signup.module.scss';
-import Button from '../../components/button/Button';
+import Button from '../../components/Button/Button';
 import InputPass from '../../components/InputPass/InputPass';
-import Checkbox from '../../components/checkbox/Checkbox';
+import Address from '../../components/Address/Address';
+import { Pages } from '../../types/enums';
 
 const Signup: FC = () => {
-  const [form, setForm] = useState<IForm>({
-    email: { data: '', error: '' },
-    password: { data: '', error: '' },
-    firstName: { data: '', error: '' },
-    lastName: { data: '', error: '' },
-    date: { data: '', error: '' },
-    street: { data: '', error: '' },
-    postal: { data: '', error: '' },
-    city: { data: '', error: '' },
-    streetForBilling: { data: '', error: '' },
-    postalForBilling: { data: '', error: '' },
-    cityForBilling: { data: '', error: '' },
-    country: { data: '', error: '' },
-  });
+  const [email, setEmail] = useState<IFormData>({ data: '', error: '' });
+  const [password, setPassword] = useState<IFormData>({ data: '', error: '' });
+  const [firstName, setFirstName] = useState<IFormData>({ data: '', error: '' });
+  const [lastName, setLastName] = useState<IFormData>({ data: '', error: '' });
+  const [date, setDate] = useState<IFormData>({ data: '', error: '' });
 
-  const [forBilling, setForBilling] = useState<boolean>(true);
-  const [defaultShipping, setDefaultShipping] = useState<boolean>(true);
-  const [defaultBilling, setDefaultBilling] = useState<boolean>(false);
-  const [formValid, setFormValid] = useState<boolean>(false);
+  const [addresses, setAddresses] = useState<{ address: IBaseAddress; error: boolean }[]>([]);
+
+  const [addressComponents, setAddressComponents] = useState<{ address: IBaseAddress; error: boolean }[]>([]);
+  const [forShipping, setForShipping] = useState<number | null>(null);
+  const [forBilling, setForBilling] = useState<number | null>(null);
+  const [forShippingAndBilling, setForShippingAndBilling] = useState<number | null>(0);
+
+  const [valid, setValid] = useState<boolean>(false);
   const [onLoad, setOnLoad] = useState<boolean>(false);
-  const [countryData, setCountryData] = useState<ICountry>({});
   const [responseError, setResponseError] = useState<string>('');
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const countries = iso3311a2.getData() as ICountry;
-    setCountryData(countries);
-  }, []);
+    const fields = [email, password, firstName, lastName, date];
+    const checkAddressesData = () => {
+      for (let i = 0; i < addresses.length; i += 1) {
+        const { address } = addresses[i];
+        if (address.id === null || !address.country || !address.streetName || !address.postalCode || !address.city)
+          return false;
+      }
+      return true;
+    };
+    const checkAddressesErrors = () => {
+      for (let i = 0; i < addresses.length; i += 1) if (addresses[i].error !== false) return true;
+      return false;
+    };
+    const hasError = fields.every((field) => !field.error) && checkAddressesErrors();
+    const hasData = fields.every((field) => field.data) && checkAddressesData();
+    setValid(!hasError && hasData && addresses.length > 0);
+  }, [email, password, firstName, lastName, date, addresses]);
 
-  useEffect(() => {
-    const fields = [
-      form.email,
-      form.password,
-      form.firstName,
-      form.lastName,
-      form.date,
-      form.street,
-      form.city,
-      form.postal,
-      form.country,
-    ];
-    if (!forBilling) fields.push(form.streetForBilling, form.cityForBilling, form.postalForBilling);
-    const hasError = fields.every((field) => !field.error);
-    const hasData = fields.every((field) => field.data);
-    setFormValid(hasError && hasData);
-  }, [form, forBilling]);
-
-  function handleFormChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, type: Forms) {
-    const { value } = e.target;
-    setForm((prevForm) => ({
-      ...prevForm,
-      [type]: { data: value, error: '' } as IFormData,
-    }));
-  }
-
-  const validationFunctions: Record<Forms, (data: string, otherData?: string) => string> = {
-    email: emailValidation,
-    password: passwordValidation,
-    firstName: nameValidation,
-    lastName: nameValidation,
-    date: dateValidation,
-    street: streetValidation,
-    postal: (data: string) => postalValidation(data, form.country.data),
-    city: cityValidation,
-    streetForBilling: streetValidation,
-    postalForBilling: (data: string) => postalValidation(data, form.country.data),
-    cityForBilling: cityValidation,
-    country: countryValidation,
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setEmail({ data: e.target.value, error: emailValidation(e.target.value) });
   };
 
-  function validateAndSetState(fieldName: keyof IForm): boolean {
-    const validationFunction = validationFunctions[fieldName];
-    const value = form[fieldName].data;
-    const validationError = validationFunction(value);
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setPassword({ data: e.target.value, error: passwordValidation(e.target.value) });
+  };
 
-    if (validationError !== value) {
-      setForm((prevForm) => ({
-        ...prevForm,
-        [fieldName]: { ...prevForm[fieldName], error: validationError },
-      }));
-      return true;
-    }
-    return false;
-  }
+  const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setFirstName({ data: e.target.value, error: nameValidation(e.target.value) });
+  };
 
-  function handleFormSubmit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+  const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setLastName({ data: e.target.value, error: nameValidation(e.target.value) });
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setDate({ data: e.target.value, error: dateValidation(e.target.value) });
+  };
+
+  const handleAddressChange = (address: IBaseAddress, error: boolean) => {
+    setAddresses((prevData) => {
+      const newData = [...prevData];
+      const existingIndex = newData.findIndex((item) => item.address.id === address.id);
+
+      if (existingIndex !== -1) newData[existingIndex] = { address, error };
+      else newData.push({ address, error });
+
+      return newData;
+    });
+  };
+
+  const createNewAddress = () => {
+    const address = {
+      id: Date.now().toString(),
+      country: '',
+      streetName: '',
+      postalCode: '',
+      city: '',
+    } as IBaseAddress;
+    const error = true;
+    setAddressComponents((current) => [...current, { address, error }]);
+  };
+
+  const deleteAddress = (key: string) => {
+    const newData = addressComponents.filter((item) => item.address.id !== key);
+    setAddressComponents(newData);
+  };
+
+  const handleFormSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
     e.preventDefault();
 
-    const fieldsToValidate: (keyof IForm)[] = [
-      'email',
-      'password',
-      'firstName',
-      'lastName',
-      'date',
-      'street',
-      'postal',
-      'city',
-      'streetForBilling',
-      'postalForBilling',
-      'cityForBilling',
-      'country',
-    ];
+    setOnLoad(true);
+    setResponseError('');
 
-    const hasError = fieldsToValidate.reduce((acc, fieldName) => {
-      if (forBilling && ['streetForBilling', 'postalForBilling', 'cityForBilling'].includes(fieldName)) {
-        return acc; // Пропустить эти поля, если forBilling === false
-      }
-      return validateAndSetState(fieldName) || acc;
-    }, false);
-
-    if (!hasError) {
-      setOnLoad(true);
-      setResponseError('');
-      const shippingAddress = {
-        country: form.country.data,
-        streetName: form.street.data,
-        postalCode: form.postal.data,
-        city: form.city.data,
-      } as IBaseAddress;
-
-      const billingAddress = {
-        country: form.country.data,
-        streetName: form.streetForBilling.data,
-        postalCode: form.postalForBilling.data,
-        city: form.cityForBilling.data,
-      } as IBaseAddress;
-
+    if (valid) {
       getToken().then((token: string) =>
         signup(token, {
-          email: form.email.data,
-          password: form.password.data,
-          firstName: form.firstName.data,
-          lastName: form.lastName.data,
-          dateOfBirth: form.date.data,
-          addresses: [shippingAddress, forBilling ? shippingAddress : billingAddress],
-          defaultShippingAddress: 0,
-          defaultBillingAddress: forBilling ? 0 : 1,
+          email: email.data,
+          password: password.data,
+          firstName: firstName.data,
+          lastName: lastName.data,
+          dateOfBirth: date.data,
+          addresses: addresses.map((item) => item.address),
+          defaultShippingAddress: forShippingAndBilling || forShipping,
+          defaultBillingAddress: forShippingAndBilling || forBilling,
         })
           .then(() => {
-            login(form.email.data, form.password.data)
+            login(email.data, password.data)
               .then(() => navigate(Pages.main))
               .catch((error) => {
                 setResponseError(error);
@@ -175,149 +130,78 @@ const Signup: FC = () => {
           })
       );
     }
-  }
+  };
 
   return (
-    <div className={styles.signupPage}>
+    <div className={styles.signup}>
       <div className={styles.form}>
-        <h2 className={styles.headline}>Registration page</h2>
+        <h2 className={styles.h1}>Registration page</h2>
         <form>
           <div className={styles.container}>
             <Input
-              value={form.email.data}
-              helper={form.email.error}
-              onChange={(e) => handleFormChange(e, Forms.email)}
+              value={email.data}
+              helper={email.error}
+              onChange={(e) => handleEmailChange(e)}
               props={{ placeholder: 'EMail', name: 'email' }}
             />
-            <InputPass
-              value={form.password.data}
-              helper={form.password.error}
-              onChange={(e) => handleFormChange(e, Forms.password)}
-            />
+            <InputPass value={password.data} helper={password.error} onChange={(e) => handlePasswordChange(e)} />
           </div>
 
           <div className={styles.container}>
             <Input
-              value={form.firstName.data}
-              helper={form.firstName.error}
-              onChange={(e) => handleFormChange(e, Forms.firstName)}
+              value={firstName.data}
+              helper={firstName.error}
+              onChange={(e) => handleFirstNameChange(e)}
               props={{ placeholder: 'First Name', name: 'firstname' }}
             />
             <Input
-              value={form.lastName.data}
-              helper={form.lastName.error}
-              onChange={(e) => handleFormChange(e, Forms.lastName)}
+              value={lastName.data}
+              helper={lastName.error}
+              onChange={(e) => handleLastNameChange(e)}
               props={{ placeholder: 'Last Name', name: 'lastname' }}
             />
             <Input
-              value={form.date.data}
-              helper={form.date.error}
-              onChange={(e) => handleFormChange(e, Forms.date)}
+              value={date.data}
+              helper={date.error}
+              onChange={(e) => handleDateChange(e)}
               props={{ type: 'date', name: 'date', max: '2009-01-01', min: '1900-01-01' }}
             />
           </div>
 
-          <h3 className={styles.headline2}>Shipping address</h3>
-          <Checkbox
-            checked={defaultShipping}
-            label="Set as default address"
-            name="defaultAddress"
-            disabled={forBilling}
-            onChange={() => {
-              setDefaultBilling(defaultShipping);
-              setDefaultShipping(!defaultShipping);
-            }}
-            props={{ type: 'checkbox' }}
-          />
-
-          <div className={styles.container}>
-            <Input
-              value={form.street.data}
-              helper={form.street.error}
-              onChange={(e) => handleFormChange(e, Forms.street)}
-              props={{ type: 'text', placeholder: 'Street', name: 'street' }}
-            />
-            <Input
-              value={form.postal.data}
-              helper={form.postal.error}
-              onChange={(e) => handleFormChange(e, Forms.postal)}
-              props={{ type: 'text', placeholder: 'Postal code', name: 'postal' }}
-            />
-            <Input
-              value={form.city.data}
-              helper={form.city.error}
-              onChange={(e) => handleFormChange(e, Forms.city)}
-              props={{ type: 'text', placeholder: 'City', name: 'city' }}
-            />
-          </div>
-
-          <Checkbox
-            checked={forBilling}
-            label="Set as address for billing and shipping"
-            name="forBilling"
-            onChange={() => {
-              setDefaultShipping(!forBilling);
-              setDefaultBilling(forBilling);
-              setForBilling(!forBilling);
-            }}
-            props={{ type: 'checkbox' }}
-          />
-
-          {forBilling ? null : (
-            <div>
-              <h3 className={styles.headline2}>Billing address</h3>
-              <Checkbox
-                checked={defaultBilling}
-                label="Set as default address"
-                name="defaultBilling"
-                onChange={() => {
-                  setDefaultShipping(defaultBilling);
-                  setDefaultBilling(!defaultBilling);
+          <Button onClick={createNewAddress}>Add address</Button>
+          {addressComponents.map((component, i) => {
+            return (
+              <Address
+                key={component.address.id}
+                index={i}
+                forShipping={forShipping}
+                forBilling={forBilling}
+                forShippingAndBilling={forShippingAndBilling}
+                setForShipping={(index, curr) => {
+                  setForShipping(index === curr ? null : index);
+                  setForShippingAndBilling(null);
                 }}
-                props={{ type: 'checkbox' }}
+                setForBilling={(index, curr) => {
+                  setForBilling(index === curr ? null : index);
+                  setForShippingAndBilling(null);
+                }}
+                setForShippingAndBilling={(index, curr) => {
+                  setForShipping(null);
+                  setForBilling(null);
+                  setForShippingAndBilling(index === curr ? null : index);
+                }}
+                handleAddressChange={(address: IBaseAddress, error: boolean) => handleAddressChange(address, error)}
+                deleteAddress={() => deleteAddress(component.address.id)}
               />
-
-              <div className={styles.container}>
-                <Input
-                  value={form.streetForBilling.data}
-                  helper={form.streetForBilling.error}
-                  onChange={(e) => handleFormChange(e, Forms.streetForBilling)}
-                  props={{ type: 'text', placeholder: 'Street', name: 'streetForBilling' }}
-                />
-                <Input
-                  value={form.postalForBilling.data}
-                  helper={form.postalForBilling.error}
-                  onChange={(e) => handleFormChange(e, Forms.postalForBilling)}
-                  props={{ type: 'text', placeholder: 'Postal code', name: 'postalForBilling' }}
-                />
-                <Input
-                  value={form.cityForBilling.data}
-                  helper={form.cityForBilling.error}
-                  onChange={(e) => handleFormChange(e, Forms.cityForBilling)}
-                  props={{ type: 'text', placeholder: 'City', name: 'cityForBilling' }}
-                />
-              </div>
-            </div>
-          )}
-
-          <Select
-            onChange={(e) => handleFormChange(e, Forms.country)}
-            helper={form.country.error}
-            props={{ defaultValue: 'Choose a country' }}
-          >
-            <option disabled>Choose a country</option>
-            {Object.keys(countryData).map((code) => (
-              <option key={code} value={code}>
-                {countryData[code]}
-              </option>
-            ))}
-          </Select>
+            );
+          })}
 
           <h3 className={styles.headline3}>{responseError}</h3>
-          <Button disabled={!formValid || onLoad} onClick={(e) => handleFormSubmit(e)}>
+          <Button disabled={!valid || onLoad} onClick={(e) => handleFormSubmit(e)}>
             Registration
           </Button>
-          <p className={styles.formMessage}>
+
+          <p className={styles.p}>
             Already registrationed? <Link to="/login">Login page</Link>
           </p>
         </form>
@@ -327,3 +211,4 @@ const Signup: FC = () => {
 };
 
 export default Signup;
+//          {addressComponents.map((component) => component)}
