@@ -3,12 +3,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import React, { FC } from 'react';
 import { Pages } from '../types/enums';
-import NavigationBar from '../components/navbar/NavigationBar';
+import Navbar from '../components/Navbar/Navbar';
 import Signup from './Signup/Signup';
 import Login from './Login/Login';
 import Error from './Error/Error';
 import Main from './Main/Main';
 import { isAuth } from '../utils/storage';
+import Product from './Product/Product';
+import Profile from './Profile/Profile';
 
 interface PrivateRouteProps {
   element: JSX.Element;
@@ -24,8 +26,8 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ element, authPath }) => {
 
 const App = () => {
   return (
-    <>
-      <NavigationBar />
+    <div>
+      <Navbar />
       <Routes>
         <Route path={Pages.main} element={<Main />} errorElement={<Error />} />
         <Route
@@ -39,9 +41,11 @@ const App = () => {
           errorElement={<Error />}
         />
         <Route path={Pages.default} element={<Main />} errorElement={<Error />} />
+        <Route path={Pages.profile} element={<Profile />} errorElement={<Error />} />
+        <Route path={Pages.product} element={<Product />} errorElement={<Error />} />
         <Route path="*" element={<Error />} />
       </Routes>
-    </>
+    </div>
   );
 };
 

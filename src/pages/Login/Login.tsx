@@ -48,9 +48,9 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className={styles.loginPage}>
-      <div className={styles.form}>
-        <h2 className={styles.headline}>Login page</h2>
+    <div className={styles.wrapper}>
+      <div className={styles.login}>
+        <h2 className={styles.h1}>Login page</h2>
         <form>
           <Input
             value={email}
@@ -61,12 +61,12 @@ const Login: React.FC = () => {
 
           <InputPass value={password} helper={passwordError} onChange={(e) => passwordHandler(e)} />
 
-          <h3 className={styles.headline3}>{responseError}</h3>
+          <h3 className={styles.error}>{responseError}</h3>
           <Button disabled={!formValid || onLoad} props={{ type: 'submit' }} onClick={(e) => getAuthorization(e)}>
             login
           </Button>
 
-          <p className={styles.formMessage}>
+          <p className={styles.p}>
             Not registered? <Link to="/signup">Create an account</Link>
           </p>
         </form>

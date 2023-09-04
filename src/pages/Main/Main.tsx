@@ -1,38 +1,71 @@
-import { Image } from 'react-bootstrap';
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useCallback } from 'react';
+import { getProducts } from '../../api/index';
 import styles from './Main.module.css';
-import previewImg from '../../assets/img/preview.jpg';
-import Link from '../../components/Link/Link';
-import { Pages } from '../../types/enums';
-import { clearData, isAuth } from '../../utils/storage';
+import { IProduct, IFilters } from '../../types/interfaces';
+import OneCard from './OneCard/OneCard';
+import Aside from './Aside/Aside';
+import useSortProduct from '../../hooks/useSortProduct';
 
 const Main = () => {
-  const navigate = useNavigate();
-  const logout = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    e.preventDefault();
-    clearData();
-    navigate(Pages.login);
-  };
+  const [goodsInfo, setGoodsInfo] = useState<IProduct[]>([]);
+  const { products, filters, setFilters } = useSortProduct(goodsInfo, {
+    view: 'As Icons',
+    sortProducts: 'By name, A to Z',
+    sortPrice: '$01.00 - 10.00',
+    sortProductType: 'Cosmetic',
+    sortMaterials: 'Wood',
+    searchQuery: '',
+  });
+
+  const handleFilterChange = useCallback(
+    (key: keyof IFilters, value: string) => {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [key]: value,
+      }));
+    },
+    [setFilters]
+  );
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const info = await getProducts();
+        setGoodsInfo(info);
+      } catch (error) {
+        console.log('Error fetching data:', error);
+        throw error;
+      }
+    }
+
+    fetchData();
+  }, []);
 
   return (
-    <div className="m-auto">
-      <div className={styles.green_background}>
-        <Link href={Pages.main}>Home</Link>
-        <Link href={Pages.signup}>SignUp</Link>
-        {isAuth() ? (
-          <Link href={Pages.login} onClick={(e) => logout(e)}>
-            Logout
-          </Link>
-        ) : (
-          <Link href={Pages.login}>Login</Link>
-        )}
-        <Link href={Pages.login}>Login</Link>
+    <main className={styles.wrapper}>
+      <Aside filterChange={handleFilterChange} />
+      <div className={filters.view === 'As Icons' ? styles.containerIcons : styles.containerList}>
+        {products.map((product) => (
+          <div key={product.id}>
+            <OneCard
+              name={product.name['en-US']}
+              img={
+                product.masterVariant.images && product.masterVariant.images.length > 0
+                  ? product.masterVariant.images[0].url
+                  : ''
+              }
+              id={product.id}
+              price={`${product.masterVariant.prices[0].value.centAmount / 100}.00 ${
+                product.masterVariant.prices[0].value.currencyCode
+              }`}
+              discount={`${product.masterVariant.prices[0].discounted.value.centAmount / 100},00 ${
+                product.masterVariant.prices[0].value.currencyCode
+              }`}
+            />
+          </div>
+        ))}
       </div>
-      <Image className={styles.plant} src={previewImg} roundedCircle />
-      <pre className={styles.text1}>Welcome to the eco goods store.</pre>
-      <pre className={styles.text1}>We help save the planet for future generations.</pre>
-    </div>
+    </main>
   );
 };
 

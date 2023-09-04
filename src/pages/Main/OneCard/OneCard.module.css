@@ -1,0 +1,65 @@
+.card {
+    width: 300px;
+    padding: 10px; 
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.card:hover {
+    filter: brightness(1.05);
+    box-shadow: 1px 5px 5px rgba(90, 90, 90, 0.481);
+}
+
+.image {
+    max-width: 100%;
+    height: 256px;
+    border-radius: 5px;
+}
+  
+.title {
+    margin: 10px 0;
+    font-size: 1rem;
+}
+  
+.price {
+    margin-bottom: 10px;
+    font-size: 0.8rem;
+}
+  
+.originalPrice {
+    margin-right: 8px;
+    font-size: 0.6rem;
+    color: #888;
+    text-decoration: line-through;
+}
+  
+.currentPrice {
+    font-weight: bold;
+    color: #333;
+    
+} 
+
+@media screen and (max-width: 800px) {
+    .card {
+        width: 150px;
+    }
+
+    .image {
+        height: 128px;
+    }
+
+    .title {
+        font-size: 0.8rem;
+    }
+
+    .price {
+        font-size: 0.6rem;
+    }
+
+    .originalPrice {
+        font-size: 0.4rem;
+    }
+}
+  

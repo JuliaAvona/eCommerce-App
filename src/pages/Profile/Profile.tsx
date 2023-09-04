@@ -1,24 +1,23 @@
+/* eslint-disable no-restricted-syntax */
 import React, { FC, useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { IBaseAddress, IFormData } from '../../types/interfaces';
-import { getToken, login, signup } from '../../api';
-import { dateValidation, emailValidation, nameValidation, passwordValidation } from '../../utils/validator';
-import Input from '../../components/input/Input';
-import styles from './Signup.module.scss';
+import _ from 'lodash';
+import { IBaseAddress, ICustomerRes, IFormData, IProfileUpdate } from '../../types/interfaces';
+import { getProfile, getToken, updateProfile } from '../../api';
+import styles from './Profile.module.scss';
+import { getAccessToken } from '../../utils/storage';
 import Button from '../../components/button/Button';
-import InputPass from '../../components/InputPass/InputPass';
+import { dateValidation, emailValidation, nameValidation } from '../../utils/validator';
+import Input from '../../components/input/Input';
 import Address from '../../components/Address/Address';
-import { Pages } from '../../types/enums';
 
-const Signup: FC = () => {
+const Profile: FC = () => {
+  const [profile, setProfile] = useState<ICustomerRes | null>(null);
   const [email, setEmail] = useState<IFormData>({ data: '', error: '' });
-  const [password, setPassword] = useState<IFormData>({ data: '', error: '' });
   const [firstName, setFirstName] = useState<IFormData>({ data: '', error: '' });
   const [lastName, setLastName] = useState<IFormData>({ data: '', error: '' });
   const [date, setDate] = useState<IFormData>({ data: '', error: '' });
 
   const [addresses, setAddresses] = useState<{ address: IBaseAddress; error: boolean }[]>([]);
-
   const [addressComponents, setAddressComponents] = useState<{ address: IBaseAddress; error: boolean }[]>([]);
   const [forShipping, setForShipping] = useState<string | null>(null);
   const [forBilling, setForBilling] = useState<string | null>(null);
@@ -28,10 +27,10 @@ const Signup: FC = () => {
   const [onLoad, setOnLoad] = useState<boolean>(false);
   const [responseError, setResponseError] = useState<string>('');
 
-  const navigate = useNavigate();
+  const [onEdit, setOnEdit] = useState<boolean>(false);
 
   useEffect(() => {
-    const fields = [email, password, firstName, lastName, date];
+    const fields = [email, firstName, lastName, date];
     const checkAddressesData = () => {
       for (let i = 0; i < addresses.length; i += 1) {
         const { address } = addresses[i];
@@ -47,14 +46,43 @@ const Signup: FC = () => {
     const hasError = fields.every((field) => !field.error) && checkAddressesErrors();
     const hasData = fields.every((field) => field.data) && checkAddressesData();
     setValid(!hasError && hasData && addresses.length > 0);
-  }, [email, password, firstName, lastName, date, addresses]);
+  }, [email, firstName, lastName, date, addresses]);
+
+  useEffect(() => {
+    const token = getAccessToken();
+    if (token)
+      getProfile(token)
+        .then((data) => {
+          console.log(data);
+          setProfile(data);
+          setEmail({ data: data.email || '', error: '' });
+          setFirstName({ data: data.firstName || '', error: '' });
+          setLastName({ data: data.lastName || '', error: '' });
+          setAddresses(
+            data.addresses.map((address) => {
+              return { address, error: false };
+            })
+          );
+          setAddressComponents(
+            data.addresses.map((address) => {
+              return { address, error: false };
+            })
+          );
+
+          setForShipping(data.defaultShippingAddressId);
+          setForBilling(data.defaultBillingAddressId);
+          setForShippingAndBilling(
+            data.defaultShippingAddressId === data.defaultBillingAddressId ? data.defaultShippingAddressId : null
+          );
+          setDate({ data: data.dateOfBirth || '', error: '' });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  }, []);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setEmail({ data: e.target.value, error: emailValidation(e.target.value) });
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setPassword({ data: e.target.value, error: passwordValidation(e.target.value) });
   };
 
   const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -103,92 +131,140 @@ const Signup: FC = () => {
     setAddresses(newAddresses);
   };
 
-  const getAddress = (key: string | null): number | null => {
-    if (key === null) return null;
-    for (let i = 0; i < addresses.length; i += 1) {
-      if (addresses[i].address.id === key) {
-        return i;
+  function compareArrays(originalArray: IBaseAddress[] | [], modifiedArray: IBaseAddress[] | []) {
+    const resultArray = [];
+
+    // Создаем карту для удобного поиска адресов по id
+    const originalMap = new Map(originalArray.map((address) => [address.id, address]));
+
+    for (const modifiedAddress of modifiedArray) {
+      const originalAddress = originalMap.get(modifiedAddress.id);
+
+      if (!originalAddress) {
+        // Если адреса нет в оригинальном массиве, добавляем "addAddress"
+        resultArray.push({
+          action: 'addAddress',
+          address: modifiedAddress,
+        });
+      } else if (!_.isEqual(originalAddress, modifiedAddress)) {
+        // Если адрес был изменен, добавляем "changeAddress"
+        resultArray.push({
+          action: 'changeAddress',
+          addressId: modifiedAddress.id,
+          address: modifiedAddress,
+        });
       }
     }
-    return null;
-  };
 
-  const handleFormSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-    e.preventDefault();
+    for (const originalAddress of originalArray) {
+      if (!modifiedArray.some((address) => address.id === originalAddress.id)) {
+        // Если адреса нет в измененном массиве, добавляем "removeAddress"
+        resultArray.push({
+          action: 'removeAddress',
+          addressId: originalAddress.id,
+        });
+      }
+    }
+    return resultArray;
+  }
 
+  const handleFormSubmit = (): void => {
     setOnLoad(true);
     setResponseError('');
 
-    if (valid) {
+    const data = {
+      email: email.data,
+      firstName: firstName.data,
+      lastName: lastName.data,
+      dateOfBirth: date.data,
+      defaultShippingAddress: forShippingAndBilling || forShipping,
+      defaultBillingAddress: forShippingAndBilling || forBilling,
+      address: compareArrays(
+        profile?.addresses || [],
+        addresses.map((address) => address.address)
+      ),
+    } as IProfileUpdate;
+
+    if (valid && profile) {
       getToken().then((token: string) =>
-        signup(token, {
-          email: email.data,
-          password: password.data,
-          firstName: firstName.data,
-          lastName: lastName.data,
-          dateOfBirth: date.data,
-          addresses: addresses.map((item) => item.address),
-          defaultShippingAddress: forShippingAndBilling ? getAddress(forShippingAndBilling) : getAddress(forShipping),
-          defaultBillingAddress: forShippingAndBilling ? getAddress(forShippingAndBilling) : getAddress(forBilling),
-        })
+        updateProfile(token, profile.id, profile.version, data)
           .then(() => {
-            login(email.data, password.data)
-              .then(() => navigate(Pages.main))
-              .catch((error) => {
-                setResponseError(error);
-                setOnLoad(false);
-              });
+            setOnEdit(false);
+            setOnLoad(false);
           })
           .catch((error) => {
-            setResponseError(error);
+            setResponseError(error.message);
             setOnLoad(false);
           })
       );
     }
   };
 
-  return (
+  return profile ? (
     <div className={styles.wrapper}>
-      <div className={styles.signup}>
-        <h2 className={styles.h1}>Registration page</h2>
+      <div className={styles.profile}>
+        <h2 className={styles.h1}>Profile page</h2>
         <form>
           <div className={styles.container}>
+            <div className={styles.text}>EMail: </div>
             <Input
               value={email.data}
               helper={email.error}
               onChange={(e) => handleEmailChange(e)}
+              disabled={!onEdit}
               props={{ placeholder: 'EMail', name: 'email' }}
             />
-            <InputPass value={password.data} helper={password.error} onChange={(e) => handlePasswordChange(e)} />
           </div>
 
           <div className={styles.container}>
+            <div className={styles.text}>First Name: </div>
             <Input
               value={firstName.data}
               helper={firstName.error}
               onChange={(e) => handleFirstNameChange(e)}
+              disabled={!onEdit}
               props={{ placeholder: 'First Name', name: 'firstname' }}
             />
+          </div>
+
+          <div className={styles.container}>
+            <div className={styles.text}>Last Name: </div>
             <Input
               value={lastName.data}
               helper={lastName.error}
               onChange={(e) => handleLastNameChange(e)}
+              disabled={!onEdit}
               props={{ placeholder: 'Last Name', name: 'lastname' }}
             />
+          </div>
+
+          <div className={styles.container}>
+            <div className={styles.text}>Date of birth: </div>
             <Input
               value={date.data}
               helper={date.error}
               onChange={(e) => handleDateChange(e)}
+              disabled={!onEdit}
               props={{ type: 'date', name: 'date', max: '2009-01-01', min: '1900-01-01' }}
             />
           </div>
 
-          <Button onClick={createNewAddress}>Add address</Button>
+          <h3 className={styles.error}>{responseError}</h3>
+          {onEdit ? (
+            <Button disabled={!valid || onLoad} onClick={() => handleFormSubmit()}>
+              Save
+            </Button>
+          ) : (
+            <Button onClick={() => setOnEdit(!onEdit)}>Edit</Button>
+          )}
+          {onEdit ? <Button onClick={createNewAddress}>Add address</Button> : null}
+
           {addressComponents.map((component) => {
             return (
               <Address
                 key={component.address.id}
                 index={component.address.id}
+                addresses={component.address}
                 forShipping={forShipping}
                 forBilling={forBilling}
                 forShippingAndBilling={forShippingAndBilling}
@@ -207,22 +283,14 @@ const Signup: FC = () => {
                 }}
                 handleAddressChange={(address: IBaseAddress, error: boolean) => handleAddressChange(address, error)}
                 deleteAddress={() => deleteAddress(component.address.id)}
+                disabled={!onEdit}
               />
             );
           })}
-
-          <h3 className={styles.error}>{responseError}</h3>
-          <Button disabled={!valid || onLoad} onClick={(e) => handleFormSubmit(e)}>
-            Registration
-          </Button>
-
-          <p className={styles.p}>
-            Already registrationed? <Link to="/login">Login page</Link>
-          </p>
         </form>
       </div>
     </div>
-  );
+  ) : null;
 };
 
-export default Signup;
+export default Profile;

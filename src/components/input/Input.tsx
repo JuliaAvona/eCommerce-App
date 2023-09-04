@@ -7,18 +7,19 @@ interface InputProps {
   value: string;
   helper?: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
   props?: object;
 }
 
-const Input: FC<InputProps> = ({ value, helper, onChange, props }) => {
+const Input: FC<InputProps> = ({ value, helper, onChange, disabled, props }) => {
   return useMemo(() => {
     return (
       <div className={styles.container}>
-        <input type="text" value={value} onChange={onChange} {...props} className={styles.input} />
+        <input type="text" value={value} onChange={onChange} disabled={disabled} {...props} className={styles.input} />
         {helper && <div className={styles.helper}>{helper}</div>}
       </div>
     );
-  }, [value, helper]);
+  }, [value, helper, disabled]);
 };
 
 export default Input;
