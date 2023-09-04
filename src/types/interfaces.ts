@@ -42,6 +42,7 @@ export interface IProfileUpdate {
 
 export interface IBaseAddress {
   id: string;
+  key?: string;
   country: string;
   streetName: string;
   postalCode: string;
@@ -84,7 +85,7 @@ export interface IResponse {
   token_type: string;
 }
 
-export interface Product {
+export interface IProduct {
   id: string;
   name: { [key: string]: string };
   description: { [key: string]: string };
@@ -150,6 +151,7 @@ export interface IFilters {
   sortPrice: string;
   sortProductType: string;
   sortMaterials: string;
+  searchQuery: string;
 }
 
 export interface IError {

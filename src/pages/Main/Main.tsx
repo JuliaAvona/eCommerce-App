@@ -1,26 +1,31 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { getProducts } from '../../api/index';
 import styles from './Main.module.css';
-import { Product, IFilters } from '../../types/interfaces';
+import { IProduct, IFilters } from '../../types/interfaces';
 import OneCard from './OneCard/OneCard';
 import Aside from './Aside/Aside';
+import useSortProduct from '../../hooks/useSortProduct';
 
 const Main = () => {
-  const [goodsInfo, setGoodsInfo] = useState<Product[]>([]);
-  const [filter, setFilter] = useState<IFilters>({
+  const [goodsInfo, setGoodsInfo] = useState<IProduct[]>([]);
+  const { products, filters, setFilters } = useSortProduct(goodsInfo, {
     view: 'As Icons',
     sortProducts: 'By name, A to Z',
     sortPrice: '$01.00 - 10.00',
     sortProductType: 'Cosmetic',
     sortMaterials: 'Wood',
+    searchQuery: '',
   });
 
-  const handleFilterChange = useCallback((key: keyof IFilters, value: string) => {
-    setFilter((prevData) => ({
-      ...prevData,
-      [key]: value,
-    }));
-  }, []);
+  const handleFilterChange = useCallback(
+    (key: keyof IFilters, value: string) => {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [key]: value,
+      }));
+    },
+    [setFilters]
+  );
 
   useEffect(() => {
     async function fetchData() {
@@ -37,90 +42,28 @@ const Main = () => {
   }, []);
 
   return (
-    <main className={styles.appWrapper}>
+    <main className={styles.wrapper}>
       <Aside filterChange={handleFilterChange} />
-      <div className={filter.view === 'As Icons' ? styles.containerIcons : styles.containerList}>
-        {goodsInfo
-          .sort((card1, card2) => {
-            const name1 = card1.name['en-US'] as string;
-            const name2 = card2.name['en-US'] as string;
-            const price1 = card1.masterVariant.prices[0].value.centAmount as number;
-            const price2 = card2.masterVariant.prices[0].value.centAmount as number;
-
-            switch (filter.sortProducts) {
-              case 'A to Z':
-                return name1.localeCompare(name2);
-              case 'Z to A':
-                return name2.localeCompare(name1);
-              case 'ascending':
-                return price1 - price2;
-              case 'descending':
-                return price2 - price1;
-              default:
-                return name1.localeCompare(name2);
-            }
-          })
-          .filter((card) => {
-            const price = (card.masterVariant.prices[0].discounted.value.centAmount / 100) as number;
-
-            switch (filter.sortPrice) {
-              case '$1-10':
-                return price <= 10;
-              case '$11-25':
-                return price > 11 && price <= 25;
-              case '$26-70':
-                return price > 26 && price <= 70;
-              case '$71-200':
-                return price > 71 && price <= 200;
-              default:
-                return true;
-            }
-          })
-          .filter((card) => {
-            const type = card.metaTitle['en-US'] as string;
-
-            switch (filter.sortProductType) {
-              case 'food':
-              case 'home':
-              case 'cosmetic':
-                return type === filter.sortProductType;
-              default:
-                return true;
-            }
-          })
-          .filter((card) => {
-            const material = card.metaDescription['en-US'] as string;
-
-            switch (filter.sortMaterials) {
-              case 'wood':
-              case 'glass':
-              case 'metall':
-              case 'plastic':
-              case 'nature':
-                return material === filter.sortMaterials;
-              default:
-                return true;
-            }
-          })
-          .map((product) => (
-            <div key={product.id}>
-              <OneCard
-                name={product.name['en-US']}
-                img={
-                  product.masterVariant.images && product.masterVariant.images.length > 0
-                    ? product.masterVariant.images[0].url
-                    : ''
-                }
-                id={product.id}
-                price={`${product.masterVariant.prices[0].value.centAmount / 100}.00 ${
-                  product.masterVariant.prices[0].value.currencyCode
-                }`}
-                discount={`${product.masterVariant.prices[0].discounted.value.centAmount / 100},00 ${
-                  product.masterVariant.prices[0].value.currencyCode
-                }`}
-              />
-            </div>
-          ))}
+      <div className={filters.view === 'As Icons' ? styles.containerIcons : styles.containerList}>
+        {products.map((product) => (
+          <div key={product.id}>
+            <OneCard
+              name={product.name['en-US']}
+              img={
+                product.masterVariant.images && product.masterVariant.images.length > 0
+                  ? product.masterVariant.images[0].url
+                  : ''
+              }
+              id={product.id}
+              price={`${product.masterVariant.prices[0].value.centAmount / 100}.00 ${
+                product.masterVariant.prices[0].value.currencyCode
+              }`}
+              discount={`${product.masterVariant.prices[0].discounted.value.centAmount / 100},00 ${
+                product.masterVariant.prices[0].value.currencyCode
+              }`}
+            />
+          </div>
+        ))}
       </div>
     </main>
   );

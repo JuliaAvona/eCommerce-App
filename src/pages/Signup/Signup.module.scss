@@ -12,7 +12,7 @@
   margin: 10px 0 10px 0;
   border: 1px rgba(0, 0, 0, 0.2) solid;
   border-radius: 5px;
-  transition: all 1.5s;
+  transition: all 1s;
 }
 
 .container {
@@ -25,22 +25,21 @@
   margin-bottom: 1rem;
   font-size: 1rem;
   color: rgba(0, 0, 0, 0.5);
-  transition: all 1.5s;
+  transition: all 1s;
 }
 
 .error {
   margin-bottom: 0.5rem;
   font-size: 0.5rem;
   color: rgba(255, 0, 0, 0.5);
-  transition: all 1.5s;
+  transition: all 1s;
 }
 
 .p {
   margin: 10px 0;
   font-size: 0.5rem;
   color: #b3b3b3;
-  transition: all 1.5s;
-
+  transition: all 1s;
   a {
     color: #4caf50;
     text-decoration: none;

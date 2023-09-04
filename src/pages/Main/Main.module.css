@@ -1,19 +1,25 @@
-.containerIcons {
-    margin-top: 2rem;
+.wrapper { 
     display: flex;
-    flex-direction: row;
+}
+
+.containerIcons {
+    display: flex; 
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
 }
 
 .containerList {
-    margin-top: 2rem;
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 1rem;
-    grid-auto-rows: minmax(150px, auto);
-    padding: 0.5em;
-    grid-area: content;
+    display: flex;
+    flex-direction: column; 
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
 }
 
 .containerList .card {
@@ -24,14 +30,6 @@
     background: #5a6b47;
 }
 
-.appWrapper {
-    display: grid;
-    grid-template-areas:
-        "aside content content";
-    grid-template-rows: repeat(3, 1fr);
-    grid-template-columns: 2fr 10fr;
-    grid-gap: 10px;
-}
 
 @media (min-width:470px) and (max-width: 660px) {
     .text1 {

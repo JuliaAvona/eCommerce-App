@@ -1,48 +1,65 @@
 .card {
+    width: 300px;
+    padding: 10px; 
+    text-align: center;
     cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 .card:hover {
-    box-shadow: 1px 5px 5px rgba(90, 90, 90, 0.481);
     filter: brightness(1.05);
-    border-radius: 0.5rem;
+    box-shadow: 1px 5px 5px rgba(90, 90, 90, 0.481);
 }
 
-.cardImg {
-    height: 20rem;
-    width: auto;
-    object-fit: cover;
-    border-radius: 1rem;
-    padding: 1rem;
-    border-radius: 2rem;
+.image {
+    max-width: 100%;
+    height: 256px;
+    border-radius: 5px;
 }
-
-.card pre {
-    margin: 0;
-    padding: 0;
+  
+.title {
+    margin: 10px 0;
+    font-size: 1rem;
 }
-
+  
 .price {
-    font-size: 0.5rem;
-    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 0.8rem;
+}
+  
+.originalPrice {
+    margin-right: 8px;
+    font-size: 0.6rem;
+    color: #888;
     text-decoration: line-through;
 }
-
-.discountPrice {
-    font-size: 0.8rem;
+  
+.currentPrice {
     font-weight: bold;
-}
+    color: #333;
+    
+} 
 
-.priceWrap {
-    margin-top: 0.5rem;
-}
+@media screen and (max-width: 800px) {
+    .card {
+        width: 150px;
+    }
 
-.cardTitle {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
+    .image {
+        height: 128px;
+    }
 
-.cardTitle:hover {
-    cursor: pointer;
-    color: grey;
+    .title {
+        font-size: 0.8rem;
+    }
+
+    .price {
+        font-size: 0.6rem;
+    }
+
+    .originalPrice {
+        font-size: 0.4rem;
+    }
 }
+  

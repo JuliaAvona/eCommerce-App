@@ -1,34 +1,32 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import MyLink from '../../../components/Link/Link';
+import { useNavigate } from 'react-router-dom';
+import Button from '../../../components/Button/Button';
 import { OneCardProps } from '../../../types/interfaces';
 import styles from './OneCard.module.css';
 
 const OneCard: React.FC<OneCardProps> = ({ name, img, id, price, discount }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    navigate(`/product/${id}`);
+  };
+
+  const handleCardKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter') {
+      navigate(`/product/${id}`);
+    }
+  };
+
   return (
-    <Card style={{ width: '18rem' }} id={id}>
-      <div className={styles.card}>
-        <MyLink href={`/product/${id}`}>
-          <Card.Img variant="top" src={img} alt={name} className={styles.cardImg} />
-        </MyLink>
-        <Card.Body>
-          <MyLink href={`/product/${id}`}>
-            <Card.Title className={styles.cardTitle}>{name}</Card.Title>
-            <div className={styles.priceWrap}>
-              <pre className={styles.discountPrice}>
-                Price:
-                <p className={styles.price}>{price}</p>
-                <p>{discount}</p>
-              </pre>
-            </div>
-          </MyLink>
-          <Button variant="outline-secondary" size="sm">
-            Add cart{' '}
-          </Button>
-        </Card.Body>
+    <div className={styles.card} onClick={handleCardClick} onKeyDown={handleCardKeyDown} role="button" tabIndex={0}>
+      <img src={img} alt={name} className={styles.image} />
+      <h2 className={styles.title}>{name}</h2>
+      <div className={styles.price}>
+        {discount && <span className={styles.originalPrice}>${price}</span>}
+        <span className={styles.currentPrice}>${discount || price}</span>
       </div>
-    </Card>
+      <Button onClick={() => {}}>Add to cart</Button>
+    </div>
   );
 };
 

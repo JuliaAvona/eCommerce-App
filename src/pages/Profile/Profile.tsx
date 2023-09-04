@@ -48,21 +48,12 @@ const Profile: FC = () => {
     setValid(!hasError && hasData && addresses.length > 0);
   }, [email, firstName, lastName, date, addresses]);
 
-  const getAddress = (key: string | null): number | null => {
-    if (key === null) return null;
-    for (let i = 0; i < addresses.length; i += 1) {
-      if (addresses[i].address.id === key) {
-        return i;
-      }
-    }
-    return null;
-  };
-
   useEffect(() => {
     const token = getAccessToken();
     if (token)
       getProfile(token)
         .then((data) => {
+          console.log(data);
           setProfile(data);
           setEmail({ data: data.email || '', error: '' });
           setFirstName({ data: data.firstName || '', error: '' });
@@ -83,7 +74,6 @@ const Profile: FC = () => {
           setForShippingAndBilling(
             data.defaultShippingAddressId === data.defaultBillingAddressId ? data.defaultShippingAddressId : null
           );
-
           setDate({ data: data.dateOfBirth || '', error: '' });
         })
         .catch((error) => {
@@ -187,8 +177,8 @@ const Profile: FC = () => {
       firstName: firstName.data,
       lastName: lastName.data,
       dateOfBirth: date.data,
-      defaultShippingAddress: forShippingAndBilling ? getAddress(forShippingAndBilling) : getAddress(forShipping),
-      defaultBillingAddress: forShippingAndBilling ? getAddress(forShippingAndBilling) : getAddress(forBilling),
+      defaultShippingAddress: forShippingAndBilling || forShipping,
+      defaultBillingAddress: forShippingAndBilling || forBilling,
       address: compareArrays(
         profile?.addresses || [],
         addresses.map((address) => address.address)
