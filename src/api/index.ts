@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import axios, { AxiosError } from 'axios';
-import { IError, ICustomerReq, ICustomerRes, IProfile, IBaseAddress, IProfileUpdate } from '../types/interfaces';
+import { IError, ICustomerReq, ICustomerRes, IProfile, IProfileUpdate } from '../types/interfaces';
 import { saveData, saveAnonimData, isAuth } from '../utils/storage';
 
 const projectKey = 'ecommerce-rsschool';

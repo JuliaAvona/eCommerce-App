@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 import React, { FC, useState, useEffect } from 'react';
 import _ from 'lodash';
-import { IBaseAddress, ICustomerRes, IFormData, IProfile, IProfileUpdate } from '../../types/interfaces';
+import { IBaseAddress, ICustomerRes, IFormData, IProfileUpdate } from '../../types/interfaces';
 import { getProfile, getToken, updateProfile } from '../../api';
 import styles from './Profile.module.scss';
 import { getAccessToken } from '../../utils/storage';
