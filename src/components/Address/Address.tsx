@@ -36,7 +36,7 @@ const Address: FC<AddressProps> = ({
   deleteAddress,
   disabled,
 }) => {
-  const [country, setСountry] = useState<IFormData>({ data: addresses?.country || '', error: '' });
+  const [country, setСountry] = useState<IFormData>({ data: addresses?.country || 'Choose the country', error: '' });
   const [countryData, setCountryData] = useState<ICountry>({});
   const [street, setStreet] = useState<IFormData>({ data: addresses?.streetName || '', error: '' });
   const [postal, setPostal] = useState<IFormData>({ data: addresses?.postalCode || '', error: '' });
@@ -108,23 +108,22 @@ const Address: FC<AddressProps> = ({
         props={{ type: 'checkbox' }}
       />
 
-      {disabled ? (
-        <div className={styles.text}>Country: {countryData[country.data]}</div>
-      ) : (
-        <Select
-          onChange={(e) => handleCountryChange(e)}
-          disabled={disabled}
-          helper={country.error}
-          props={{ defaultValue: country.data ? country.data : 'Choose a country' }}
-        >
-          <option disabled>{countryData[country.data]}</option>
-          {Object.keys(countryData).map((code) => (
-            <option key={code} value={code}>
-              {countryData[code]}
-            </option>
-          ))}
-        </Select>
-      )}
+      <div className={styles.text}>Country:</div>
+      <Select
+        value={countryData[country.data]}
+        onChange={(e) => handleCountryChange(e)}
+        disabled={disabled}
+        helper={country.error}
+        props={{ defaultValue: country.data ? country.data : 'Choose a country' }}
+      >
+        <option disabled>Choose the country</option>
+        <option disabled>{countryData[country.data]}</option>
+        {Object.keys(countryData).map((code) => (
+          <option key={code} value={code}>
+            {countryData[code]}
+          </option>
+        ))}
+      </Select>
 
       {disabled ? <div className={styles.text}>Street: </div> : null}
       <Input

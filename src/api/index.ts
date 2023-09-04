@@ -105,7 +105,6 @@ export const getProfile = async (accessToken: string): Promise<ICustomerRes> => 
       },
     });
 
-    console.log('User profile:', userResponse.data);
     return userResponse.data;
   } catch (e) {
     const error = e as AxiosError<IError>;
@@ -161,8 +160,6 @@ export const updateProfile = async (
         },
       }
     );
-
-    console.log('User profile:', userResponse.data);
     return userResponse.data;
   } catch (e) {
     const error = e as AxiosError<IError>;

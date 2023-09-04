@@ -200,7 +200,7 @@ const Profile: FC = () => {
         updateProfile(token, profile.id, profile.version, data)
           .then(() => {
             setOnEdit(false);
-            setOnLoad(true);
+            setOnLoad(false);
           })
           .catch((error) => {
             setResponseError(error.message);

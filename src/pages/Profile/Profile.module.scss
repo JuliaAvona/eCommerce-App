@@ -41,13 +41,6 @@
   transition: all 0.5s;
 }
 
-.error {
-  margin-bottom: 0.5rem;
-  font-size: 0.5rem;
-  color: rgba(255, 0, 0, 0.5);
-  transition: all 1.5s;
-}
-
 @media screen and (max-width: 800px) {
   .signup {
     max-width: 340px;
