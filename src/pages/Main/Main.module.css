@@ -20,26 +20,4 @@
     justify-content: center;
     width: 100%;
     padding: 10px;
-}
-
-.containerList .card {
-    width: 500px;
-}
-
-.green_background {
-    background: #5a6b47;
-}
-
-
-@media (min-width:470px) and (max-width: 660px) {
-    .text1 {
-        font-size: 14px;
-    }
-}
-
-
-@media screen and (max-width: 470px) {
-    .text1 {
-        font-size: 8px;
-    }
-}
+} 

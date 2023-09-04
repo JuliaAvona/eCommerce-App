@@ -4,7 +4,7 @@
   padding: 10px;
   margin-bottom: 10px;
   font-family: "Roboto", sans-serif; 
-  font-size: 0.5rem; 
+  font-size: 0.6rem; 
   color: var(--bs-body-color); 
   color-scheme: auto;
   background: #f2f2f2;
@@ -15,7 +15,7 @@
 
 .helper {
   margin-bottom: 10px;
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   color: #ff9191;
 }
 
@@ -27,11 +27,11 @@
   .select { 
     padding: 5px;
     margin-bottom: 5px;
-    font-size: 0.33rem
+    font-size: 0.4rem
   }
 
   .helper{
     margin-top: -5px;
-    font-size: 0.33rem 
+    font-size: 0.4rem 
   }
 }
