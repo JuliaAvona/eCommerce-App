@@ -6,6 +6,7 @@ const filtersState: IFilters = {
   sortPrice: '$01.00 - 10.00',
   sortProductType: 'Cosmetic',
   sortMaterials: 'Wood',
+  searchQuery: '',
 };
 
 export default filtersState;

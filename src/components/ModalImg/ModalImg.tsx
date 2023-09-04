@@ -4,9 +4,9 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import styles from './ModalImg.module.css';
 import Slider from '../Slider/Slider';
-import { Product } from '../../types/interfaces';
+import { IProduct } from '../../types/interfaces';
 
-const ModalImg = (prod: Product) => {
+const ModalImg = (prod: IProduct) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);

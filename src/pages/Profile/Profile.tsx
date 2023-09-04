@@ -5,9 +5,9 @@ import { IBaseAddress, ICustomerRes, IFormData, IProfileUpdate } from '../../typ
 import { getProfile, getToken, updateProfile } from '../../api';
 import styles from './Profile.module.scss';
 import { getAccessToken } from '../../utils/storage';
-import Button from '../../components/Button/Button';
+import Button from '../../components/button/Button';
 import { dateValidation, emailValidation, nameValidation } from '../../utils/validator';
-import Input from '../../components/Input/Input';
+import Input from '../../components/input/Input';
 import Address from '../../components/Address/Address';
 
 const Profile: FC = () => {

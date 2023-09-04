@@ -3,11 +3,11 @@ import React, { FC, useEffect, useState } from 'react';
 import iso3311a2 from 'iso-3166-1-alpha-2';
 import { IBaseAddress, ICountry, IFormData } from '../../types/interfaces';
 import { streetValidation, postalValidation, cityValidation, countryValidation } from '../../utils/validator';
-import Checkbox from '../Checkbox/Checkbox';
-import Input from '../Input/Input';
-import Select from '../Select/Select';
+import Checkbox from '../checkbox/Checkbox';
+import Input from '../input/Input';
+import Select from '../select/Select';
 import styles from './Address.module.scss';
-import Button from '../Button/Button';
+import Button from '../button/Button';
 
 interface AddressProps {
   index: string;

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { IFilters } from '../../../types/interfaces';
-import Select from '../../../components/Select/Select';
-import Button from '../../../components/Button/Button';
-import Input from '../../../components/Input/Input';
+import Select from '../../../components/select/Select';
+import Button from '../../../components/button/Button';
+import Input from '../../../components/input/Input';
 import styles from './Aside.module.css';
 
 interface AsideProps {

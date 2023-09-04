@@ -3,7 +3,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import { useParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { getProduct } from '../../api';
-import { Product as ProductInterface } from '../../types/interfaces';
+import { IProduct as ProductInterface } from '../../types/interfaces';
 import styles from './Product.module.css';
 import Slider from '../../components/Slider/Slider';
 import ModalImg from '../../components/ModalImg/ModalImg';
@@ -59,6 +59,8 @@ const Product = () => {
             description={product.description}
             masterVariant={product.masterVariant}
             variants={product.variants}
+            metaTitle={product.metaTitle}
+            metaDescription={product.metaDescription}
           />
           <ModalImg
             id={product.id}
@@ -66,6 +68,8 @@ const Product = () => {
             description={product.description}
             masterVariant={product.masterVariant}
             variants={product.variants}
+            metaTitle={product.metaTitle}
+            metaDescription={product.metaDescription}
           />
         </div>
       </div>
@@ -102,6 +106,8 @@ const Product = () => {
           description={product.description}
           masterVariant={product.masterVariant}
           variants={product.variants}
+          metaDescription={product.metaDescription}
+          metaTitle={product.metaTitle}
         />
         <ModalImg
           id={product.id}
@@ -109,6 +115,8 @@ const Product = () => {
           description={product.description}
           masterVariant={product.masterVariant}
           variants={product.variants}
+          metaDescription={product.metaDescription}
+          metaTitle={product.metaTitle}
         />
       </div>
     </div>

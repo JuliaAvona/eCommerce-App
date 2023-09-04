@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
 import { login } from '../../api/index';
 import { emailValidation, passwordValidation } from '../../utils/validator';
-import Input from '../../components/Input/Input';
+import Input from '../../components/input/Input';
 import InputPass from '../../components/InputPass/InputPass';
-import Button from '../../components/Button/Button';
+import Button from '../../components/button/Button';
 import { Pages } from '../../types/enums';
 
 const Login: React.FC = () => {

@@ -3,10 +3,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
-import { Product } from '../../types/interfaces';
+import { IProduct } from '../../types/interfaces';
 import styles from './Slider.module.css';
 
-const Slider = ({ name, masterVariant }: Product) => {
+const Slider = ({ name, masterVariant }: IProduct) => {
   let sliderElements: JSX.Element[] = [
     <SwiperSlide className={styles.slide} key={masterVariant.images[0].url}>
       <img className={styles.img} src={masterVariant.images[0].url} alt={name['en-US']} />
