@@ -10,6 +10,8 @@ export interface ICustomerReq {
 }
 
 export interface ICustomerRes {
+  id: string;
+  version: number;
   email: string;
   password: string;
   firstName: string;
@@ -25,8 +27,17 @@ export interface IProfile {
   firstName: string;
   lastName: string;
   dateOfBirth: string;
-  shippingAddress: IBaseAddress;
-  billingAddress: IBaseAddress;
+  addresses: IBaseAddress[];
+}
+
+export interface IProfileUpdate {
+  email: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  defaultShippingAddress: string | null;
+  defaultBillingAddress: string | null;
+  address: { action: string; addressId?: string | undefined; address?: IBaseAddress | undefined }[];
 }
 
 export interface IBaseAddress {

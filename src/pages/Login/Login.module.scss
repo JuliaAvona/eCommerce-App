@@ -1,34 +1,18 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-.loginPage {
+.wrapper {
   display: flex;
   justify-content: center;
   width: 100%;
 }
 
-.form {
-  max-width: 768px;
-  padding: 32px;
-  margin: 64px 0 64px 0;
-  box-shadow:
-    0 0 25px 0 rgba(0, 0, 0, 0.2),
-    0 5px 5px 0 rgba(0, 0, 0, 0.2);
-  transition: all 0.5s;
-}
-
-.headline {
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  color: rgba(0, 0, 0, 0.5);
-  transition: all 0.5s;
-}
-
-.headline3 {
-  max-width: 150px;
-  margin-bottom: 0.5rem;
-  font-size: 0.5rem;
-  color: rgba(255, 0, 0, 0.5);
-  transition: all 0.5s;
+.signup {
+  max-width: 800px;
+  padding: 10px;
+  margin: 10px 0 10px 0;
+  border: 1px rgba(0, 0, 0, 0.2) solid;
+  border-radius: 5px;
+  transition: all 1.5s;
 }
 
 .container {
@@ -37,10 +21,25 @@
   justify-content: space-between;
 }
 
-.formMessage {
-  margin: 1rem 0 0;
+.h1 {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.5);
+  transition: all 1.5s;
+}
+
+.error {
+  margin-bottom: 0.5rem;
+  font-size: 0.5rem;
+  color: rgba(255, 0, 0, 0.5);
+  transition: all 1.5s;
+}
+
+.p {
+  margin: 10px 0;
   font-size: 0.5rem;
   color: #b3b3b3;
+  transition: all 1.5s;
 
   a {
     color: #4caf50;
@@ -49,16 +48,22 @@
 }
 
 @media screen and (max-width: 800px) {
-  .form {
-    max-width: 360px;
-    padding: 12px;
+  .signup {
+    max-width: 340px;
   }
 
   .container {
     flex-direction: column;
+    gap: 0;
   }
 
-  .headline {
-    font-size: 1rem;
+  .h1 {
+    font-size: 0.75rem;
+    margin-bottom: 0;
+  }
+
+  .error,
+  .p {
+    font-size: 0.33rem;
   }
 }

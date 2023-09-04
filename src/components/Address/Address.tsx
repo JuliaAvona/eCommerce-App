@@ -6,23 +6,26 @@ import { streetValidation, postalValidation, cityValidation, countryValidation }
 import Checkbox from '../Checkbox/Checkbox';
 import Input from '../Input/Input';
 import Select from '../Select/Select';
-import styles from './Address.module.css';
+import styles from './Address.module.scss';
 import Button from '../Button/Button';
 
 interface AddressProps {
-  index: number;
-  forShipping: number | null;
-  forBilling: number | null;
-  forShippingAndBilling: number | null;
-  setForShipping: (index: number, curr: number | null) => void;
-  setForBilling: (index: number, curr: number | null) => void;
-  setForShippingAndBilling: (index: number, curr: number | null) => void;
+  index: string;
+  addresses?: IBaseAddress;
+  forShipping: string | null;
+  forBilling: string | null;
+  forShippingAndBilling: string | null;
+  setForShipping: (index: string, curr: string | null) => void;
+  setForBilling: (index: string, curr: string | null) => void;
+  setForShippingAndBilling: (index: string, curr: string | null) => void;
   handleAddressChange: (address: IBaseAddress, error: boolean) => void;
   deleteAddress: (key: number) => void;
+  disabled?: boolean;
 }
 
 const Address: FC<AddressProps> = ({
   index,
+  addresses,
   forShipping = null,
   forBilling = null,
   forShippingAndBilling = null,
@@ -31,12 +34,14 @@ const Address: FC<AddressProps> = ({
   setForShippingAndBilling,
   handleAddressChange,
   deleteAddress,
+  disabled,
 }) => {
-  const [country, setСountry] = useState<IFormData>({ data: '', error: '' });
+  const [country, setСountry] = useState<IFormData>({ data: addresses?.country || '', error: '' });
   const [countryData, setCountryData] = useState<ICountry>({});
-  const [street, setStreet] = useState<IFormData>({ data: '', error: '' });
-  const [postal, setPostal] = useState<IFormData>({ data: '', error: '' });
-  const [city, setCity] = useState<IFormData>({ data: '', error: '' });
+  const [street, setStreet] = useState<IFormData>({ data: addresses?.streetName || '', error: '' });
+  const [postal, setPostal] = useState<IFormData>({ data: addresses?.postalCode || '', error: '' });
+  const [city, setCity] = useState<IFormData>({ data: addresses?.city || '', error: '' });
+
   useEffect(() => {
     const countries = iso3311a2.getData() as ICountry;
     setCountryData(countries);
@@ -76,59 +81,73 @@ const Address: FC<AddressProps> = ({
 
   return (
     <div className={styles.container}>
-      <Button onClick={() => deleteAddress()}>Delete address</Button>
+      {disabled ? null : <Button onClick={() => deleteAddress()}>Delete address</Button>}
 
       <Checkbox
-        checked={index === forShipping}
-        label="Set as default shipping address"
+        checked={index === forShippingAndBilling ? false : index === forShipping}
+        label="Default shipping address"
         name={`forShipping${index.toString()}`}
         onChange={() => setForShipping(index, forShipping)}
+        disabled={disabled}
         props={{ type: 'checkbox' }}
       />
       <Checkbox
-        checked={index === forBilling}
-        label="Set as default billing address"
+        checked={index === forShippingAndBilling ? false : index === forBilling}
+        label="Default billing address"
         name={`forBilling${index.toString()}`}
         onChange={() => setForBilling(index, forBilling)}
+        disabled={disabled}
         props={{ type: 'checkbox' }}
       />
       <Checkbox
         checked={index === forShippingAndBilling}
-        label="Set as default shipping and billing address"
+        label="Default shipping and billing address"
         name={`forShippingAndBilling${index.toString()}`}
         onChange={() => setForShippingAndBilling(index, forShippingAndBilling)}
+        disabled={disabled}
         props={{ type: 'checkbox' }}
       />
 
-      <Select
-        onChange={(e) => handleCountryChange(e)}
-        helper={country.error}
-        props={{ defaultValue: 'Choose a country' }}
-      >
-        <option disabled>Choose a country</option>
-        {Object.keys(countryData).map((code) => (
-          <option key={code} value={code}>
-            {countryData[code]}
-          </option>
-        ))}
-      </Select>
+      {disabled ? (
+        <div className={styles.text}>Country: {countryData[country.data]}</div>
+      ) : (
+        <Select
+          onChange={(e) => handleCountryChange(e)}
+          disabled={disabled}
+          helper={country.error}
+          props={{ defaultValue: country.data ? country.data : 'Choose a country' }}
+        >
+          <option disabled>{countryData[country.data]}</option>
+          {Object.keys(countryData).map((code) => (
+            <option key={code} value={code}>
+              {countryData[code]}
+            </option>
+          ))}
+        </Select>
+      )}
 
+      {disabled ? <div className={styles.text}>Street: </div> : null}
       <Input
         value={street.data}
         helper={street.error}
         onChange={(e) => handleStreetChange(e)}
+        disabled={disabled}
         props={{ type: 'text', placeholder: 'Street', name: 'street' }}
       />
+      {disabled ? <div className={styles.text}>Postal: </div> : null}
       <Input
         value={postal.data}
         helper={postal.error}
         onChange={(e) => handlePostalChange(e)}
+        disabled={disabled}
         props={{ type: 'text', placeholder: 'Postal code', name: 'postal' }}
       />
+      {disabled ? <div className={styles.text}>City: </div> : null}
       <Input
         value={city.data}
         helper={city.error}
         onChange={(e) => handleCityChange(e)}
+        disabled={disabled}
         props={{ type: 'text', placeholder: 'City', name: 'city' }}
       />
     </div>

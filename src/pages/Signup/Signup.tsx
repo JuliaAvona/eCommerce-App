@@ -20,9 +20,9 @@ const Signup: FC = () => {
   const [addresses, setAddresses] = useState<{ address: IBaseAddress; error: boolean }[]>([]);
 
   const [addressComponents, setAddressComponents] = useState<{ address: IBaseAddress; error: boolean }[]>([]);
-  const [forShipping, setForShipping] = useState<number | null>(null);
-  const [forBilling, setForBilling] = useState<number | null>(null);
-  const [forShippingAndBilling, setForShippingAndBilling] = useState<number | null>(0);
+  const [forShipping, setForShipping] = useState<string | null>(null);
+  const [forBilling, setForBilling] = useState<string | null>(null);
+  const [forShippingAndBilling, setForShippingAndBilling] = useState<string | null>(null);
 
   const [valid, setValid] = useState<boolean>(false);
   const [onLoad, setOnLoad] = useState<boolean>(false);
@@ -94,8 +94,23 @@ const Signup: FC = () => {
   };
 
   const deleteAddress = (key: string) => {
-    const newData = addressComponents.filter((item) => item.address.id !== key);
-    setAddressComponents(newData);
+    const newAddressComponents = addressComponents.filter((item) => item.address.id !== key);
+    setAddressComponents(newAddressComponents);
+    if (key === forShipping) setForBilling(null);
+    if (key === forBilling) setForBilling(null);
+    if (key === forShipping && key === forBilling) setForShippingAndBilling(null);
+    const newAddresses = addresses.filter((item) => item.address.id !== key);
+    setAddresses(newAddresses);
+  };
+
+  const getAddress = (key: string | null): number | null => {
+    if (key === null) return null;
+    for (let i = 0; i < addresses.length; i += 1) {
+      if (addresses[i].address.id === key) {
+        return i;
+      }
+    }
+    return null;
   };
 
   const handleFormSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -113,8 +128,8 @@ const Signup: FC = () => {
           lastName: lastName.data,
           dateOfBirth: date.data,
           addresses: addresses.map((item) => item.address),
-          defaultShippingAddress: forShippingAndBilling || forShipping,
-          defaultBillingAddress: forShippingAndBilling || forBilling,
+          defaultShippingAddress: forShippingAndBilling ? getAddress(forShippingAndBilling) : getAddress(forShipping),
+          defaultBillingAddress: forShippingAndBilling ? getAddress(forShippingAndBilling) : getAddress(forBilling),
         })
           .then(() => {
             login(email.data, password.data)
@@ -133,8 +148,8 @@ const Signup: FC = () => {
   };
 
   return (
-    <div className={styles.signup}>
-      <div className={styles.form}>
+    <div className={styles.wrapper}>
+      <div className={styles.signup}>
         <h2 className={styles.h1}>Registration page</h2>
         <form>
           <div className={styles.container}>
@@ -169,11 +184,11 @@ const Signup: FC = () => {
           </div>
 
           <Button onClick={createNewAddress}>Add address</Button>
-          {addressComponents.map((component, i) => {
+          {addressComponents.map((component) => {
             return (
               <Address
                 key={component.address.id}
-                index={i}
+                index={component.address.id}
                 forShipping={forShipping}
                 forBilling={forBilling}
                 forShippingAndBilling={forShippingAndBilling}
@@ -196,7 +211,7 @@ const Signup: FC = () => {
             );
           })}
 
-          <h3 className={styles.headline3}>{responseError}</h3>
+          <h3 className={styles.error}>{responseError}</h3>
           <Button disabled={!valid || onLoad} onClick={(e) => handleFormSubmit(e)}>
             Registration
           </Button>
@@ -211,4 +226,3 @@ const Signup: FC = () => {
 };
 
 export default Signup;
-//          {addressComponents.map((component) => component)}

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import axios, { AxiosError } from 'axios';
-import { IError, ICustomerReq, ICustomerRes } from '../types/interfaces';
+import { IError, ICustomerReq, ICustomerRes, IProfile, IBaseAddress, IProfileUpdate } from '../types/interfaces';
 import { saveData, saveAnonimData, isAuth } from '../utils/storage';
 
 const projectKey = 'ecommerce-rsschool';
@@ -110,6 +110,63 @@ export const getProfile = async (accessToken: string): Promise<ICustomerRes> => 
   } catch (e) {
     const error = e as AxiosError<IError>;
     console.log('Error getting profile:', error.response?.data.message);
+    throw e;
+  }
+};
+
+export const updateProfile = async (
+  accessToken: string,
+  id: string,
+  version: number,
+  data: IProfileUpdate
+): Promise<IProfile> => {
+  const url = `${apiUrl}/${projectKey}/customers/${id}`;
+  try {
+    const userResponse = await axios.post(
+      url,
+      {
+        version,
+        actions: [
+          {
+            action: 'changeEmail',
+            email: data.email,
+          },
+          {
+            action: 'setFirstName',
+            firstName: data.firstName,
+          },
+          {
+            action: 'setLastName',
+            lastName: data.lastName,
+          },
+          {
+            action: 'setDateOfBirth',
+            dateOfBirth: data.dateOfBirth,
+          },
+          {
+            action: 'setDefaultShippingAddress',
+            addressId: data.defaultShippingAddress,
+          },
+          {
+            action: 'setDefaultBillingAddress',
+            addressId: data.defaultBillingAddress,
+          },
+          ...data.address,
+        ],
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    console.log('User profile:', userResponse.data);
+    return userResponse.data;
+  } catch (e) {
+    const error = e as AxiosError<IError>;
+    console.log('Error getting profile:', error);
     throw e;
   }
 };

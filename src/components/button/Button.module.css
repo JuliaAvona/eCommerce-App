@@ -6,14 +6,13 @@
   color: #FFFFFF;
   text-transform: uppercase;
   cursor: pointer;
-  background: #4CAF50;
-  border-radius: 5px;
+  background: #008000;
+  border-radius: 5px
 }
 
 .button:hover,
-.button:active,
-.button:focus {
-  background: #43A047;
+.button:active {
+  background: #006400
 }
 
 .buttonDisabled {
@@ -24,6 +23,14 @@
   color: #080000;
   text-transform: uppercase;
   cursor: default;
-  background: #e1e1e1; 
+  background: #808080; 
   border-radius: 5px;
+}
+
+@media screen and (max-width: 800px) {
+  .button,
+  .buttonDisabled { 
+    padding: 5px;
+    font-size: 0.33rem
+  }
 }

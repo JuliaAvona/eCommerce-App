@@ -12,10 +12,12 @@
     "test": "vitest --coverage"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.197",
     "axios": "^1.4.0",
     "bootstrap": "^5.3.1",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "iso-3166-1-alpha-2": "^1.0.1",
+    "lodash": "^4.17.21",
     "node-sass": "^9.0.0",
     "postcode-validator": "^3.8.14",
     "react": "^18.2.0",

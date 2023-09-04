@@ -18,3 +18,20 @@
   font-size: 0.5rem;
   color: #ff9191;
 }
+
+.select:disabled {
+  background-color:rgb(245, 245, 245)
+}
+
+@media screen and (max-width: 800px) {
+  .select { 
+    padding: 5px;
+    margin-bottom: 5px;
+    font-size: 0.33rem
+  }
+
+  .helper{
+    margin-top: -5px;
+    font-size: 0.33rem 
+  }
+}
