@@ -19,7 +19,7 @@ interface AddressProps {
   setForBilling: (index: string, curr: string | null) => void;
   setForShippingAndBilling: (index: string, curr: string | null) => void;
   handleAddressChange: (address: IBaseAddress, error: boolean) => void;
-  deleteAddress: (key: number) => void;
+  deleteAddress: () => void;
   disabled?: boolean;
 }
 
