@@ -1,7 +1,4 @@
 import React, { FC } from 'react';
-import NavbarToggle from 'react-bootstrap/NavbarToggle';
-import NavbarCollapse from 'react-bootstrap/NavbarCollapse';
-import { Nav, Navbar, NavbarBrand } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Pages } from '../../types/enums';
 import styles from './Navbar.module.css';
@@ -17,7 +14,30 @@ const NavigationBar: FC = () => {
   };
 
   return (
-    <Navbar className={styles.navbar}>
+    <div className={styles.wrapper}>
+      <div className={styles.navbar}>
+        <div className={styles.logo}>
+          <Link href={Pages.default}>Eco</Link>
+        </div>
+        <div className={styles.links}>
+          {isAuth() ? <Link href={Pages.profile}>Profile</Link> : null}
+          {isAuth() ? null : <Link href={Pages.signup}>SignUp</Link>}
+          {isAuth() ? (
+            <Link href={Pages.login} onClick={(e) => logout(e)}>
+              Logout
+            </Link>
+          ) : (
+            <Link href={Pages.login}>Login</Link>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+export default NavigationBar;
+
+/*
+  <Navbar className={styles.navbar}>
       <Link href={Pages.main}>
         <NavbarBrand className="m-1">Eco</NavbarBrand>
       </Link>
@@ -39,6 +59,4 @@ const NavigationBar: FC = () => {
         </Nav>
       </NavbarCollapse>
     </Navbar>
-  );
-};
-export default NavigationBar;
+*/

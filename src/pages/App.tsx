@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import React, { FC } from 'react';
 import { Pages } from '../types/enums';
-import NavigationBar from '../components/navbar/NavigationBar';
+import Navbar from '../components/Navbar/Navbar';
 import Signup from './Signup/Signup';
 import Login from './Login/Login';
 import Error from './Error/Error';
@@ -27,7 +27,7 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ element, authPath }) => {
 const App = () => {
   return (
     <div>
-      <NavigationBar />
+      <Navbar />
       <Routes>
         <Route path={Pages.main} element={<Main />} errorElement={<Error />} />
         <Route

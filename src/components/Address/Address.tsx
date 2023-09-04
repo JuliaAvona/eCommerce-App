@@ -3,9 +3,9 @@ import React, { FC, useEffect, useState } from 'react';
 import iso3311a2 from 'iso-3166-1-alpha-2';
 import { IBaseAddress, ICountry, IFormData } from '../../types/interfaces';
 import { streetValidation, postalValidation, cityValidation, countryValidation } from '../../utils/validator';
-import Checkbox from '../checkbox/Checkbox';
+import Checkbox from '../Checkbox/Checkbox';
 import Input from '../input/Input';
-import Select from '../select/Select';
+import Select from '../Select/Select';
 import styles from './Address.module.scss';
 import Button from '../button/Button';
 
