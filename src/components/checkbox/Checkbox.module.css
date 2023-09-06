@@ -10,7 +10,7 @@
 }
 
 .label { 
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   color: rgba(0, 0, 0, 0.5);
 }
 
@@ -25,6 +25,6 @@
   }
 
   .label { 
-    font-size: 0.33rem
+    font-size: 0.4rem
   }
 }

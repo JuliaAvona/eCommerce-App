@@ -2,7 +2,7 @@
   width: 100%;
   padding: 10px;
   font-family: "Roboto", sans-serif;
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   color: #FFFFFF;
   text-transform: uppercase;
   cursor: pointer;
@@ -19,7 +19,7 @@
   width: 100%;
   padding: 10px;
   font-family: "Roboto", sans-serif;
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   color: #080000;
   text-transform: uppercase;
   cursor: default;
@@ -31,6 +31,6 @@
   .button,
   .buttonDisabled { 
     padding: 5px;
-    font-size: 0.33rem
+    font-size: 0.4rem
   }
 }

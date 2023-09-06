@@ -72,9 +72,6 @@ const Aside = ({ filterChange }: AsideProps) => {
     <aside className={styles.aside}>
       <div className={styles.wrapper}>
         <div className={styles.container}>
-          <Input props={{ type: 'search', placeholder: 'Search' }} onChange={handleSearchChange} value={searchQuery} />
-        </div>
-        <div className={styles.container}>
           <div className={styles.text}>View</div>
           <Select props={{ name: 'view' }} onChange={handleViewChange} value={view}>
             <option value="As Icons">As Icons</option>
@@ -119,6 +116,9 @@ const Aside = ({ filterChange }: AsideProps) => {
             <option value="plastic">Plastic</option>
             <option value="nature">Nature</option>
           </Select>
+        </div>
+        <div className={styles.container}>
+          <Input props={{ type: 'search', placeholder: 'Search' }} onChange={handleSearchChange} value={searchQuery} />
         </div>
         <div>
           <Button onClick={resetFilter}>Reset filters</Button>

@@ -30,6 +30,10 @@
         padding: 5px;
     }
 
+    .container {
+        gap: 5px;
+    }
+    
     .wrapper {
         position: fixed;
         min-width: 128px;

@@ -1,4 +1,8 @@
 .card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
     width: 300px;
     padding: 10px; 
     text-align: center;
@@ -19,17 +23,16 @@
 }
   
 .title {
-    margin: 10px 0;
+    margin: 0;
     font-size: 1rem;
 }
   
 .price {
-    margin-bottom: 10px;
     font-size: 0.8rem;
 }
   
 .originalPrice {
-    margin-right: 8px;
+    margin-right: 5px;
     font-size: 0.6rem;
     color: #888;
     text-decoration: line-through;
@@ -43,23 +46,25 @@
 
 @media screen and (max-width: 800px) {
     .card {
-        width: 150px;
+        gap: 5px;
+        width: 128px;
+        padding: 5px;
     }
 
     .image {
-        height: 128px;
+        height: 96px;
     }
 
     .title {
-        font-size: 0.8rem;
-    }
-
-    .price {
         font-size: 0.6rem;
     }
 
-    .originalPrice {
+    .price {
         font-size: 0.4rem;
+    }
+
+    .originalPrice {
+        font-size: 0.3rem;
     }
 }
   
