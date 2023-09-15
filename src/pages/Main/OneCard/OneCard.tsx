@@ -1,8 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../../components/button/Button';
-import { OneCardProps } from '../../../types/interfaces';
 import styles from './OneCard.module.css';
+
+interface OneCardProps {
+  name: string;
+  img: string;
+  id: string;
+  price: string;
+  discount?: string;
+}
 
 const OneCard: React.FC<OneCardProps> = ({ name, img, id, price, discount }) => {
   const navigate = useNavigate();

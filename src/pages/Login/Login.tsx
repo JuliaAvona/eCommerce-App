@@ -4,7 +4,7 @@ import styles from './Login.module.scss';
 import { login } from '../../api/index';
 import { emailValidation, passwordValidation } from '../../utils/validator';
 import Input from '../../components/input/Input';
-import InputPass from '../../components/InputPass/InputPass';
+import InputPass from '../../components/inputPass/InputPass';
 import Button from '../../components/button/Button';
 import { Pages } from '../../types/enums';
 

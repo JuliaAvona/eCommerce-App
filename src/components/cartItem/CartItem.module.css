@@ -43,6 +43,17 @@
     color: #333;   
 }
 
+.counter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.5rem;
+}
+
+.counter > * {
+    flex: 0 0 33%;
+} 
+
 @media screen and (max-width: 800px) {
     .card {
         gap: 5px;

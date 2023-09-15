@@ -1,13 +1,16 @@
 .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   padding: 10px;
   font-family: "Roboto", sans-serif;
   font-size: 0.6rem;
-  color: #FFFFFF;
+  color: #FFFFFF; 
   text-transform: uppercase;
   cursor: pointer;
   background: #008000;
-  border-radius: 5px
+  border-radius: 5px;
 }
 
 .button:hover,

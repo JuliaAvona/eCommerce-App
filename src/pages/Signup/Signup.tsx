@@ -6,8 +6,8 @@ import { dateValidation, emailValidation, nameValidation, passwordValidation } f
 import Input from '../../components/input/Input';
 import styles from './Signup.module.scss';
 import Button from '../../components/button/Button';
-import InputPass from '../../components/InputPass/InputPass';
-import Address from '../../components/Address/Address';
+import InputPass from '../../components/inputPass/InputPass';
+import Address from '../../components/address/Address';
 import { Pages } from '../../types/enums';
 
 const Signup: FC = () => {

@@ -8,7 +8,7 @@ import { getAccessToken } from '../../utils/storage';
 import Button from '../../components/button/Button';
 import { dateValidation, emailValidation, nameValidation } from '../../utils/validator';
 import Input from '../../components/input/Input';
-import Address from '../../components/Address/Address';
+import Address from '../../components/address/Address';
 
 const Profile: FC = () => {
   const [profile, setProfile] = useState<ICustomerRes | null>(null);

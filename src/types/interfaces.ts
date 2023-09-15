@@ -87,32 +87,14 @@ export interface IResponse {
 
 export interface IProduct {
   id: string;
+  productId?: string;
   name: { [key: string]: string };
   description: { [key: string]: string };
   metaDescription: { [key: string]: string };
   metaTitle: { [key: string]: string };
-  masterVariant: {
-    prices: Array<{
-      value: {
-        centAmount: number;
-        currencyCode: string;
-      };
-      discounted: {
-        value: {
-          centAmount: number;
-          currencyCode: string;
-        };
-      };
-    }>;
-    images: Array<{
-      url: string;
-      dimensions: {
-        w: number;
-        h: number;
-      };
-    }>;
-  };
-  variants: Array<Variant>;
+  masterVariant: Variant;
+  variant: Variant;
+  quantity?: number;
 }
 
 export interface Variant {
@@ -137,14 +119,6 @@ export interface Variant {
   }>;
 }
 
-export interface OneCardProps {
-  name: string;
-  img: string;
-  id: string;
-  price: string;
-  discount?: string;
-}
-
 export interface IFilters {
   view: string;
   sortProducts: string;
@@ -157,4 +131,16 @@ export interface IFilters {
 export interface IError {
   message: string[];
   statusCode: number;
+}
+
+export interface ICart {
+  type: string;
+  id: string;
+  version: number;
+  lineItems: Array<IProduct>;
+}
+
+export interface IMyCartDraft {
+  currency: string;
+  customerEmail: string;
 }
