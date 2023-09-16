@@ -250,14 +250,16 @@ const Profile: FC = () => {
           </div>
 
           <h3 className={styles.error}>{responseError}</h3>
-          {onEdit ? (
-            <Button disabled={!valid || onLoad} onClick={() => handleFormSubmit()}>
-              Save
-            </Button>
-          ) : (
-            <Button onClick={() => setOnEdit(!onEdit)}>Edit</Button>
-          )}
-          {onEdit ? <Button onClick={createNewAddress}>Add address</Button> : null}
+          <div className={styles.buttonContainer}>
+            {onEdit ? (
+              <Button disabled={!valid || onLoad} onClick={() => handleFormSubmit()}>
+                Save
+              </Button>
+            ) : (
+              <Button onClick={() => setOnEdit(!onEdit)}>Edit</Button>
+            )}
+            {onEdit ? <Button onClick={createNewAddress}>Add address</Button> : null}
+          </div>
 
           {addressComponents.map((component) => {
             return (

@@ -385,3 +385,23 @@ export const removeLineItem = async (
       throw error.response.data.message;
     });
 };
+
+export const deleteCart = async (accessToken: string, id: string, version: number): Promise<ICart> => {
+  const url = `${apiUrl}/${projectKey}/me/carts/${id}?version=${version}`;
+
+  return axios
+    .delete(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((cartResponse) => {
+      console.log('Cart created:', cartResponse.data);
+      return cartResponse.data;
+    })
+    .catch((error) => {
+      console.log('Error createCart:', error.response.data.message);
+      throw error.response.data.message;
+    });
+};

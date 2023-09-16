@@ -7,7 +7,7 @@
 .product {
     display: flex;
     gap: 10px;
-    align-items: center;
+    align-items: center; 
     max-width: 800px;
     padding: 10px;
     margin: 10px 0 10px 0;
@@ -19,9 +19,8 @@
 .description {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: 256px;
-    min-height: 512px;
+    gap: 10px;
+    width: 256px; 
 }
 
 .carousel {
@@ -43,12 +42,16 @@
 } 
 
 .price {
-    font-size: 0.8rem;
+    display: flex;
+    gap: 5px;
+    align-items: baseline;
+    justify-content: center;
+    font-size: 0.75rem;
 }
   
 .originalPrice {
     margin-right: 5px;
-    font-size: 0.6rem;
+    font-size: 0.5rem;
     color: #888;
     text-decoration: line-through;
 }
@@ -67,7 +70,7 @@
 
 .counter > * {
     flex: 0 0 33%;
-} 
+}
 
 @media screen and (max-width: 800px) {
     .product {
@@ -76,8 +79,7 @@
     }
   
     .description {
-        width: 256px;
-        min-height: 256px;
+        width: 256px; 
     }
     
     .carousel {

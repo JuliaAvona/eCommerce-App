@@ -1,63 +1,53 @@
-.card {
+.cardItem {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
     align-items: center;
-    width: 300px;
+    width: 180px;
     padding: 10px; 
-    text-align: center;
-    cursor: pointer;
+    text-align: center; 
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-.card:hover {
-    filter: brightness(1.05);
-    box-shadow: 1px 5px 5px rgba(90, 90, 90, 0.481);
-}
-
-.image {
-    max-width: 100%;
-    height: 256px;
+.image {    
+    width: auto;
+    height: 160px;
     border-radius: 5px;
+    object-fit: contain;
 }
   
-.title {
-    margin: 0;
-    font-size: 1rem;
-}
-  
-.price {
-    font-size: 0.8rem;
-}
-  
-.originalPrice {
-    margin-right: 5px;
+.h1 {
+    margin: 0rem;
     font-size: 0.6rem;
-    color: #888;
-    text-decoration: line-through;
+    color: rgba(0, 0, 0, 0.5);
+    transition: all 1s;
 }
   
-.currentPrice {
-    font-weight: bold;
-    color: #333;   
+.text {
+    font-size: 0.5rem;
+    color: rgba(0, 0, 0);
+    transition: all 1s;
 }
 
 .counter {
     display: flex;
+    gap: 5px;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between;   
+    width: 100%;
     font-size: 0.5rem;
 }
-
-.counter > * {
-    flex: 0 0 33%;
-} 
+ 
+.cardItem button {
+    padding: 2px !important;
+    font-size: 0.4rem !important;
+}
 
 @media screen and (max-width: 800px) {
-    .card {
-        gap: 5px;
-        width: 128px;
+    .cardItem {
+        gap: 2px;
+        width: 144px;
         padding: 5px;
     }
 
@@ -65,16 +55,18 @@
         height: 96px;
     }
 
-    .title {
-        font-size: 0.6rem;
+    .h1 {
+        margin-bottom: 0;
+        font-size: 0.5rem;
     }
-
-    .price {
+  
+    .text {
         font-size: 0.4rem;
     }
 
-    .originalPrice {
-        font-size: 0.3rem;
+    .cardItem button {
+        padding: 2px !important;
+        font-size: 0.4rem !important;
     }
 }
   

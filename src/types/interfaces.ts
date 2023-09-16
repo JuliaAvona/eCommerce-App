@@ -138,6 +138,10 @@ export interface ICart {
   id: string;
   version: number;
   lineItems: Array<IProduct>;
+  totalLineItemQuantity: number;
+  totalPrice: {
+    centAmount: number;
+  };
 }
 
 export interface IMyCartDraft {

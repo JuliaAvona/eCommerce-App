@@ -1,13 +1,18 @@
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
-import { addLineItem, createCart, getCart, getProfile, removeLineItem } from '../../api';
+import { Link } from 'react-router-dom';
+import { addLineItem, createCart, deleteCart, getCart, getProfile, removeLineItem } from '../../api';
+import Button from '../../components/button/Button';
 import CartItem from '../../components/cartItem/CartItem';
+import { Pages } from '../../types/enums';
 import { ICart, IError, IMyCartDraft } from '../../types/interfaces';
 import { getAccessToken } from '../../utils/storage';
 import styles from './Cart.module.css';
 
 const Cart = () => {
   const [cart, setCart] = useState<ICart | null>(null);
+  const [totalPrice, setTotalPrice] = useState<number | null>(null);
+  const [totalQuantity, setTotalQuantity] = useState<number | null>(null);
 
   useEffect(() => {
     async function getCartData() {
@@ -41,6 +46,12 @@ const Cart = () => {
     getCartData();
   }, []);
 
+  useEffect(() => {
+    if (cart) {
+      setTotalPrice(cart.totalPrice.centAmount / 100);
+      setTotalQuantity(cart.totalLineItemQuantity);
+    }
+  }, [cart]);
   function findProductInCartById(id: string) {
     if (cart && cart.lineItems)
       for (let i = 0; i < cart.lineItems.length; i += 1) {
@@ -90,6 +101,18 @@ const Cart = () => {
     }
   };
 
+  const removeCart = async () => {
+    try {
+      const token = getAccessToken();
+      if (cart && token) {
+        await deleteCart(token, cart.id, cart.version);
+        setCart(null);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return cart?.lineItems.length ? (
     <div className={styles.wrapper}>
       <div className={styles.product}>
@@ -99,12 +122,8 @@ const Cart = () => {
               name={product.name['en-US']}
               img={product.variant.images && product.variant.images.length > 0 ? product.variant.images[0].url : ''}
               id={product.productId || ''}
-              price={`${product.variant.prices[0].value.centAmount / 100}.00 ${
-                product.variant.prices[0].value.currencyCode
-              }`}
-              discount={`${product.variant.prices[0].discounted.value.centAmount / 100},00 ${
-                product.variant.prices[0].value.currencyCode
-              }`}
+              price={product.variant.prices[0].value.centAmount}
+              discount={product.variant.prices[0].discounted.value.centAmount}
               quantity={product.quantity || 0}
               addToCart={addToCart}
               removeToCart={removeToCart}
@@ -112,9 +131,21 @@ const Cart = () => {
           </div>
         ))}
       </div>
+      <div className={styles.cart}>
+        <h1 className={styles.h1}>Cart</h1>
+        {totalPrice ? <div className={styles.text}>Total price: ${totalPrice},00</div> : null}
+        {totalQuantity ? <div className={styles.text}>Items in cart: {totalQuantity}</div> : null}
+        <Button onClick={() => console.log('!')}>Buy</Button>
+        <Button onClick={() => removeCart()}>Remove all</Button>
+      </div>
     </div>
   ) : (
-    <div className={styles.wrapper}>Cart is empty</div>
+    <div>
+      <h1 className={styles.h1}>Cart is empty</h1>
+      <div className={styles.text}>
+        Continue shopping <Link to={Pages.main}>here</Link>
+      </div>
+    </div>
   );
 };
 export default Cart;

@@ -124,6 +124,7 @@ const Product = () => {
           <div className={styles.h1}>{product.name['en-US']}</div>
           <div className={styles.text}>{product.description['en-US']}</div>
           <div className={styles.price}>
+            <div className={styles.text}>Price:</div>
             <div className={styles.originalPrice}>
               ${`${product.masterVariant.prices[0].value.centAmount / 100},00`}
             </div>
@@ -131,6 +132,11 @@ const Product = () => {
               ${`${product.masterVariant.prices[0].discounted.value.centAmount / 100},00`}
             </div>
           </div>
+          {quantity ? (
+            <div className={styles.text}>
+              Total price: ${(product.masterVariant.prices[0].discounted.value.centAmount / 100) * quantity},00
+            </div>
+          ) : null}
 
           <div className={styles.counter}>
             <Button disabled={onLoad || !quantity} onClick={decrement}>
@@ -142,9 +148,11 @@ const Product = () => {
             </Button>
           </div>
 
-          <Button disabled={onLoad} onClick={() => removeToCart()}>
-            Remove all from cart
-          </Button>
+          {quantity ? (
+            <Button disabled={onLoad} onClick={() => removeToCart()}>
+              Remove all from cart
+            </Button>
+          ) : null}
         </div>
 
         <div className={styles.carousel}>

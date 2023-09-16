@@ -19,7 +19,7 @@ const Slider = ({ images }: ISlider) => {
       <Carousel data-bs-theme="dark">
         {images.map((img: { url: string }) => {
           return (
-            <Carousel.Item className={styles.item} interval={500000} key={img.url} onClick={() => handleClick()}>
+            <Carousel.Item className={styles.item} interval={3000} key={img.url} onClick={() => handleClick()}>
               <Image src={img.url} className={styles.img} alt="Product" fluid />
             </Carousel.Item>
           );
