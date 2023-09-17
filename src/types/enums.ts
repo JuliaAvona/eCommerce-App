@@ -21,6 +21,7 @@ export enum Pages {
   error = '/error',
   product = '/product/:productKey',
   cart = '/cart',
+  about = '/about',
   default = '/',
 }
 
