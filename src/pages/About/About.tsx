@@ -78,11 +78,7 @@ const About = () => {
         organized in Jira. All of these actions contributed to the successful completion of this project.
         <br />
       </div>
-      <img
-        className={styles.teamworkImage}
-        src="https://www.meme-arsenal.com/memes/0cd283595cadbd7c88eaf1d33c19e3e6.jpg"
-        alt="teamwork meme"
-      />
+      <img className={styles.teamworkImage} src={meme} alt="teamwork meme" />
       <h2 className={styles.title}>Work done by RS School students</h2>
       <div className={styles.rsLinks}>
         <a href="https://www.linkedin.com/company/the-rolling-scopes-school/" target="_blank" rel="noreferrer">
