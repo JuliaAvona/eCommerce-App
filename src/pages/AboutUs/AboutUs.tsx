@@ -31,7 +31,6 @@ const Error = () => {
             </div>
           </div>
           <h6 className={styles.info}>
-            <h6>About</h6>
             Master in Financial Management and Capital Market, professional manager with good communication. 3 years of
             experience in a bank, now I am moving to it. I took project manager courses and software testing, took
             several JS courses and continue to study on my own at rs school.
@@ -66,9 +65,9 @@ const Error = () => {
             </div>
           </div>
           <h6 className={styles.info}>
-            <h6>About</h6>I am 26 y.o., currently working as SAP EWM technical support, but I aspire to become frontend
-            developer. I have graduated with a technical degree, soon after I began working with SAP. I have been
-            studying programming in my spare time since school and doing pet projects using technologies such as React,
+            I am 26 y.o., currently working as SAP EWM technical support, but I aspire to become frontend developer. I
+            have graduated with a technical degree, soon after I began working with SAP. I have been studying
+            programming in my spare time since school and doing pet projects using technologies such as React,
             Bootstrap, MUI, NodeJS, Express, Socket.IO, Mongoose. As for now, I am studying at RS School. My main goal
             is to gain knowledge from experienced colleagues, who already have frontend work experience, and to close
             knowledge gaps.
@@ -103,12 +102,20 @@ const Error = () => {
             </div>
           </div>
           <h6 className={styles.info}>
-            <h6>About</h6>
             Hi there, I’m Julia. I’m from Saint Petersburg. Now live in Guadalajara, Mexico🇲🇽 . At the moment I’m
             studying at The Rolling Scopes School Javascript/Front-end (HTML/CSS/JS). 🔮 I believe that my ability to
             learn and gain new skills will lead me through this path of becoming a proficient Frontend Developer.
           </h6>
         </div>
+      </div>
+      <h2 className="title">Our mentors</h2>
+      <div className={styles.mentors}>
+        <a href="https://github.com/mikita-liaukovich-epam" target="_blank" rel="noreferrer">
+          <img src="https://avatars.githubusercontent.com/u/43153354?v=4" alt="mentor Mikita Liaukovich" />
+        </a>
+        <a href="https://github.com/viktoryia-liaukovich" target="_blank" rel="noreferrer">
+          <img src="https://avatars.githubusercontent.com/u/45541398?v=4" alt="mentor Viktoryia Liaukovich" />
+        </a>
       </div>
       <h2 className={styles.title}>Contributions</h2>
       <div className={styles.contribution}>
