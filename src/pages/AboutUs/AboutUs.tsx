@@ -136,6 +136,30 @@ const Error = () => {
         src="https://www.meme-arsenal.com/memes/0cd283595cadbd7c88eaf1d33c19e3e6.jpg"
         alt="teamwork meme"
       />
+      <h2 className={styles.title}>Work done by RS School students</h2>
+      <div className={styles.rsLinks}>
+        <a href="https://www.linkedin.com/company/the-rolling-scopes-school/" target="_blank" rel="noreferrer">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
+            alt="linkedin logo"
+            className={styles.logo}
+          />
+        </a>
+        <a href="https://rs.school/" target="_blank" rel="noreferrer">
+          <img
+            src="https://media.licdn.com/dms/image/D4D0BAQHrAfAcwkHG5Q/company-logo_200_200/0/1685703475236?e=1703116800&v=beta&t=FKN_dPTQMiKcXCNxsuEIFlrpJoEXeUUatJ0qdXcCNL8"
+            alt="school logo"
+            className={styles.logo}
+          />
+        </a>
+        <a href="https://www.youtube.com/@RollingScopesSchool" target="_blank" rel="noreferrer">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/YouTube_social_red_circle_%282017%29.svg/1200px-YouTube_social_red_circle_%282017%29.svg.png"
+            alt="youtube logo"
+            className={styles.logo}
+          />
+        </a>
+      </div>
     </div>
   );
 };
