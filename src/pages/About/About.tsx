@@ -54,8 +54,8 @@ const About = () => {
       </div>
       <h2 className="title">Our mentors</h2>
       <div className={styles.wrapper}>
-        <Person name="Mikita Liaukovich" imgSrc={mikita} />
-        <Person name="Viktoryia Liaukovich" imgSrc={viktoryia} />
+        <Person name="Mikita Liaukovich" imgSrc={mikita} githubLink="https://github.com/mikita-liaukovich-epam" />
+        <Person name="Viktoryia Liaukovich" imgSrc={viktoryia} githubLink="https://github.com/viktoryia-liaukovich" />
       </div>
       <h2 className={styles.title}>Contributions</h2>
       <div className={styles.contribution}>
