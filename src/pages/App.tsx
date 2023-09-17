@@ -12,7 +12,7 @@ import { isAuth } from '../utils/storage';
 import Product from './Product/Product';
 import Profile from './Profile/Profile';
 import Cart from './Cart/Cart';
-import AboutUs from './AboutUs/AboutUs';
+import About from './About/About';
 
 interface PrivateRouteProps {
   element: JSX.Element;
@@ -31,7 +31,7 @@ const App = () => {
     <div>
       <Navbar />
       <Routes>
-        <Route path={Pages.about} element={<AboutUs />} errorElement={<Error />} />
+        <Route path={Pages.about} element={<About />} errorElement={<Error />} />
         <Route path={Pages.main} element={<Main />} errorElement={<Error />} />
         <Route
           path={Pages.signup}

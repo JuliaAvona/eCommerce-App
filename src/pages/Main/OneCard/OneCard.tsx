@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../../components/button/Button';
+import { Pages } from '../../../types/enums';
+import { isAuth } from '../../../utils/storage';
 import styles from './OneCard.module.css';
 
 interface OneCardProps {
@@ -24,6 +26,11 @@ const OneCard: React.FC<OneCardProps> = ({ name, img, id, price, discount }) => 
     }
   };
 
+  const handleLoginButton = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.stopPropagation();
+    navigate(Pages.login);
+  };
+
   return (
     <div className={styles.card} onClick={handleCardClick} onKeyDown={handleCardKeyDown} role="button" tabIndex={0}>
       <img src={img} alt={name} className={styles.image} />
@@ -32,7 +39,11 @@ const OneCard: React.FC<OneCardProps> = ({ name, img, id, price, discount }) => 
         {discount && <span className={styles.originalPrice}>${price}</span>}
         <span className={styles.currentPrice}>${discount || price}</span>
       </div>
-      <Button onClick={() => {}}>Add to cart</Button>
+      {isAuth() ? (
+        <Button onClick={() => {}}>Add to cart</Button>
+      ) : (
+        <Button onClick={(event) => handleLoginButton(event)}>Login to buy</Button>
+      )}
     </div>
   );
 };
