@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import React, { FC } from 'react';
 import { Pages } from '../types/enums';
-import Navbar from '../components/Navbar/Navbar';
+import Navbar from '../components/navbar/Navbar';
 import Signup from './Signup/Signup';
 import Login from './Login/Login';
 import Error from './Error/Error';
@@ -11,6 +11,8 @@ import Main from './Main/Main';
 import { isAuth } from '../utils/storage';
 import Product from './Product/Product';
 import Profile from './Profile/Profile';
+import Cart from './Cart/Cart';
+import AboutUs from './AboutUs/AboutUs';
 
 interface PrivateRouteProps {
   element: JSX.Element;
@@ -29,6 +31,7 @@ const App = () => {
     <div>
       <Navbar />
       <Routes>
+        <Route path={Pages.about} element={<AboutUs />} errorElement={<Error />} />
         <Route path={Pages.main} element={<Main />} errorElement={<Error />} />
         <Route
           path={Pages.signup}
@@ -43,6 +46,7 @@ const App = () => {
         <Route path={Pages.default} element={<Main />} errorElement={<Error />} />
         <Route path={Pages.profile} element={<Profile />} errorElement={<Error />} />
         <Route path={Pages.product} element={<Product />} errorElement={<Error />} />
+        <Route path={Pages.cart} element={<Cart />} errorElement={<Error />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </div>

@@ -18,9 +18,11 @@ const NavigationBar: FC = () => {
       <div className={styles.navbar}>
         <div className={styles.logo}>
           <Link href={Pages.default}>Eco</Link>
+          <Link href={Pages.about}>About Us</Link>
         </div>
         <div className={styles.links}>
           {isAuth() ? <Link href={Pages.profile}>Profile</Link> : null}
+          {isAuth() ? <Link href={Pages.cart}>Cart</Link> : null}
           {isAuth() ? null : <Link href={Pages.signup}>SignUp</Link>}
           {isAuth() ? (
             <Link href={Pages.login} onClick={(e) => logout(e)}>
@@ -35,28 +37,3 @@ const NavigationBar: FC = () => {
   );
 };
 export default NavigationBar;
-
-/*
-  <Navbar className={styles.navbar}>
-      <Link href={Pages.main}>
-        <NavbarBrand className="m-1">Eco</NavbarBrand>
-      </Link>
-      <NavbarToggle aria-controls="responsive-navbar-nav" />
-      <NavbarCollapse id="responsive-navbar-nav">
-        <Nav className="me-auto">
-          <Link href={Pages.main}>Home</Link>
-        </Nav>
-        <Nav>
-          {isAuth() ? <Link href={Pages.profile}>Profile</Link> : null}
-          {isAuth() ? null : <Link href={Pages.signup}>SignUp</Link>}
-          {isAuth() ? (
-            <Link href={Pages.login} onClick={(e) => logout(e)}>
-              Logout
-            </Link>
-          ) : (
-            <Link href={Pages.login}>Login</Link>
-          )}
-        </Nav>
-      </NavbarCollapse>
-    </Navbar>
-*/

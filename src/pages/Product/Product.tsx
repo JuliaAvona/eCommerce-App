@@ -1,124 +1,168 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import { useParams } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
-import { getProduct } from '../../api';
-import { IProduct as ProductInterface } from '../../types/interfaces';
+import { AxiosError } from 'axios';
+import { addLineItem, createCart, getCart, getProduct, getProfile, removeLineItem } from '../../api';
+import { ICart, IError, IMyCartDraft, IProduct } from '../../types/interfaces';
 import styles from './Product.module.css';
-import Slider from '../../components/Slider/Slider';
-import ModalImg from '../../components/ModalImg/ModalImg';
+import Slider from '../../components/slider/Slider';
+import Button from '../../components/button/Button';
+import { getAccessToken } from '../../utils/storage';
 
 const Product = () => {
   const params = useParams();
   const productKey = params.productKey as string;
-  const [product, setGoodInfo] = useState<ProductInterface | undefined>();
+  const [product, setProduct] = useState<IProduct | undefined>(undefined);
+  const [cart, setCart] = useState<ICart | null>(null);
+  const [quantity, setQuantity] = useState<number>(0);
+  const [onLoad, setOnLoad] = useState<boolean>(false);
 
   useEffect(() => {
-    function fetchData() {
-      getProduct(productKey)
-        .then((info) => {
-          setGoodInfo(info);
-        })
-        .catch((error) => {
-          console.error('Error fetching data:', error);
-        });
-    }
-
-    fetchData();
+    getProduct(productKey)
+      .then((info) => {
+        setProduct(info);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
   }, [productKey]);
 
-  if (product === undefined) {
-    return (
-      <div className={styles.container}>
-        <Spinner animation="border" />
-      </div>
-    );
+  useEffect(() => {
+    async function getCartData() {
+      try {
+        const token = getAccessToken();
+        if (token) {
+          try {
+            const data = await getCart(token);
+            setCart(data);
+          } catch (error) {
+            const e = error as AxiosError<IError>;
+            if (e.response?.data.statusCode === 404) {
+              try {
+                const profile = await getProfile(token);
+                const myCartDraft = {
+                  currency: 'USD',
+                  customerEmail: profile.email,
+                } as IMyCartDraft;
+                const data = await createCart(token, myCartDraft);
+                console.log(data);
+              } catch (_error) {
+                console.log(_error);
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getCartData();
+  }, []);
+
+  function findProductInCartById(id: string) {
+    if (cart && cart.lineItems)
+      for (let i = 0; i < cart.lineItems.length; i += 1) {
+        if (cart.lineItems[i].productId === id) {
+          return cart.lineItems[i];
+        }
+      }
+    return null;
   }
 
-  if (product.variants[0] === undefined) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.text}>
-          <p className={styles.name}>{product.name['en-US']}</p>
-          <p>{product.description['en-US']}</p>
-          <pre className={styles.price}>
-            Price:{' '}
-            <p>
-              {`${product.masterVariant.prices[0].value.centAmount / 100},00`}
-              {` ${product.masterVariant.prices[0].value.currencyCode}`}
-            </p>
-          </pre>
-          <Button variant="outline-secondary" size="sm">
-            Add cart
-          </Button>
+  useEffect(() => {
+    if (cart) {
+      const productInCart = findProductInCartById(productKey);
+      if (productInCart?.quantity) setQuantity(productInCart.quantity);
+      else setQuantity(0);
+    }
+  }, [cart]);
+
+  const addToCart = async (newQuantity: number) => {
+    try {
+      const token = getAccessToken();
+      if (cart && token) {
+        setOnLoad(true);
+        const data = await addLineItem(token, cart.version, cart.id, productKey, newQuantity);
+        setOnLoad(false);
+        setCart(data);
+      }
+    } catch (error) {
+      setOnLoad(false);
+      console.log(error);
+    }
+  };
+
+  const removeToCart = async (newQuantity?: number) => {
+    try {
+      const token = getAccessToken();
+      const productInCart = findProductInCartById(productKey);
+      if (cart && token && productInCart) {
+        setOnLoad(true);
+        const data = await removeLineItem(token, cart.version, cart.id, productInCart.id, newQuantity);
+        setCart(data);
+        setOnLoad(false);
+      }
+    } catch (error) {
+      setOnLoad(false);
+      console.log(error);
+    }
+  };
+
+  const decrement = () => {
+    if (quantity !== 0) removeToCart(1);
+  };
+
+  const increment = () => {
+    addToCart(1);
+  };
+
+  return product ? (
+    <div className={styles.wrapper}>
+      <div className={styles.product}>
+        <div className={styles.description}>
+          <div className={styles.h1}>{product.name['en-US']}</div>
+          <div className={styles.text}>{product.description['en-US']}</div>
+          <div className={styles.price}>
+            <div className={styles.text}>Price:</div>
+            <div className={styles.originalPrice}>
+              ${`${product.masterVariant.prices[0].value.centAmount / 100},00`}
+            </div>
+            <div className={styles.currentPrice}>
+              ${`${product.masterVariant.prices[0].discounted.value.centAmount / 100},00`}
+            </div>
+          </div>
+          {quantity ? (
+            <div className={styles.text}>
+              Total price: ${(product.masterVariant.prices[0].discounted.value.centAmount / 100) * quantity},00
+            </div>
+          ) : null}
+
+          <div className={styles.counter}>
+            <Button disabled={onLoad || !quantity} onClick={decrement}>
+              Remove
+            </Button>
+            <span>{quantity}</span>
+            <Button disabled={onLoad} onClick={increment}>
+              Add
+            </Button>
+          </div>
+
+          {quantity ? (
+            <Button disabled={onLoad} onClick={() => removeToCart()}>
+              Remove all from cart
+            </Button>
+          ) : null}
         </div>
-        <div className={styles.img}>
-          <Slider
-            id={product.id}
-            name={product.name}
-            description={product.description}
-            masterVariant={product.masterVariant}
-            variants={product.variants}
-            metaTitle={product.metaTitle}
-            metaDescription={product.metaDescription}
-          />
-          <ModalImg
-            id={product.id}
-            name={product.name}
-            description={product.description}
-            masterVariant={product.masterVariant}
-            variants={product.variants}
-            metaTitle={product.metaTitle}
-            metaDescription={product.metaDescription}
-          />
+
+        <div className={styles.carousel}>
+          <Slider images={product.masterVariant.images} />
         </div>
       </div>
-    );
-  }
-
-  return (
+    </div>
+  ) : (
     <div className={styles.container}>
-      <div className={styles.text}>
-        <p className={styles.name}>{product.name['en-US']}</p>
-        <p>{product.description['en-US']}</p>
-        <pre>
-          Price:{' '}
-          <p className={styles.sale}>
-            {`${product.masterVariant.prices[0].value.centAmount / 100},00`}
-            {` ${product.masterVariant.prices[0].value.currencyCode}`}
-          </p>
-        </pre>
-        <pre className={styles.discounted}>
-          Discounted price:
-          <p>
-            {`${product.masterVariant.prices[0].discounted.value.centAmount / 100},00`}
-            {` ${product.masterVariant.prices[0].discounted.value.currencyCode}`}
-          </p>
-        </pre>
-        <Button variant="outline-secondary" size="sm">
-          Add cart
-        </Button>
-      </div>
-      <div className={styles.img}>
-        <Slider
-          id={product.id}
-          name={product.name}
-          description={product.description}
-          masterVariant={product.masterVariant}
-          variants={product.variants}
-          metaDescription={product.metaDescription}
-          metaTitle={product.metaTitle}
-        />
-        <ModalImg
-          id={product.id}
-          name={product.name}
-          description={product.description}
-          masterVariant={product.masterVariant}
-          variants={product.variants}
-          metaDescription={product.metaDescription}
-          metaTitle={product.metaTitle}
-        />
-      </div>
+      <Spinner animation="border" />
     </div>
   );
 };

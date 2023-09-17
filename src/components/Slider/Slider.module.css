@@ -1,13 +1,12 @@
-.img {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
+.item {
+    width: 384px;
+    height: 384px;
+    cursor: pointer;   
 }
 
-.slide {
-    max-height: 500px;
+@media screen and (max-width: 800px) {
+    .item {
+        width: 256px;
+        height: 256px;
+    }
 }

@@ -1,29 +1,44 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import { Navigation } from 'swiper/modules';
-import { IProduct } from '../../types/interfaces';
+import Carousel from 'react-bootstrap/Carousel';
+import Image from 'react-bootstrap/Image';
+import { useState } from 'react';
+import Modal from 'react-bootstrap/Modal';
+
 import styles from './Slider.module.css';
 
-const Slider = ({ name, masterVariant }: IProduct) => {
-  let sliderElements: JSX.Element[] = [
-    <SwiperSlide className={styles.slide} key={masterVariant.images[0].url}>
-      <img className={styles.img} src={masterVariant.images[0].url} alt={name['en-US']} />
-    </SwiperSlide>,
-  ];
-  if (masterVariant.images.length !== 0) {
-    sliderElements = masterVariant.images.map((el) => (
-      <SwiperSlide className={styles.slide} key={el.url}>
-        <img className={styles.img} src={el.url} alt={name['en-US']} />
-      </SwiperSlide>
-    ));
-  }
+interface ISlider {
+  images: Array<{ url: string }>;
+}
+
+const Slider = ({ images }: ISlider) => {
+  const [show, setShow] = useState(false);
+
+  const handleClick = () => setShow(!show);
 
   return (
-    <Swiper navigation modules={[Navigation]} loop className="mySwiper">
-      {sliderElements}
-    </Swiper>
+    <>
+      <Carousel data-bs-theme="dark">
+        {images.map((img: { url: string }) => {
+          return (
+            <Carousel.Item className={styles.item} interval={3000} key={img.url} onClick={() => handleClick()}>
+              <Image src={img.url} className={styles.img} alt="Product" fluid />
+            </Carousel.Item>
+          );
+        })}
+      </Carousel>
+      <Modal show={show} onHide={handleClick}>
+        <Modal.Body>
+          <Carousel data-bs-theme="dark">
+            {images.map((img: { url: string }) => {
+              return (
+                <Carousel.Item className={styles.item} key={img.url}>
+                  <Image src={img.url} className={styles.img} alt="Product" fluid />
+                </Carousel.Item>
+              );
+            })}
+          </Carousel>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };
 

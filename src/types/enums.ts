@@ -20,6 +20,8 @@ export enum Pages {
   profile = '/profile',
   error = '/error',
   product = '/product/:productKey',
+  cart = '/cart',
+  about = '/about',
   default = '/',
 }
 

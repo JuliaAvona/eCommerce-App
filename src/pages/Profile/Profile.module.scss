@@ -48,6 +48,12 @@
   transition: all 1s;
 }
 
+.buttonContainer {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+}
+
 @media screen and (max-width: 800px) {
   .signup {
     max-width: 340px;

@@ -8,7 +8,7 @@ import { getAccessToken } from '../../utils/storage';
 import Button from '../../components/button/Button';
 import { dateValidation, emailValidation, nameValidation } from '../../utils/validator';
 import Input from '../../components/input/Input';
-import Address from '../../components/Address/Address';
+import Address from '../../components/address/Address';
 
 const Profile: FC = () => {
   const [profile, setProfile] = useState<ICustomerRes | null>(null);
@@ -250,14 +250,16 @@ const Profile: FC = () => {
           </div>
 
           <h3 className={styles.error}>{responseError}</h3>
-          {onEdit ? (
-            <Button disabled={!valid || onLoad} onClick={() => handleFormSubmit()}>
-              Save
-            </Button>
-          ) : (
-            <Button onClick={() => setOnEdit(!onEdit)}>Edit</Button>
-          )}
-          {onEdit ? <Button onClick={createNewAddress}>Add address</Button> : null}
+          <div className={styles.buttonContainer}>
+            {onEdit ? (
+              <Button disabled={!valid || onLoad} onClick={() => handleFormSubmit()}>
+                Save
+              </Button>
+            ) : (
+              <Button onClick={() => setOnEdit(!onEdit)}>Edit</Button>
+            )}
+            {onEdit ? <Button onClick={createNewAddress}>Add address</Button> : null}
+          </div>
 
           {addressComponents.map((component) => {
             return (

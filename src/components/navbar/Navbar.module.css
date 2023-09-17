@@ -1,4 +1,4 @@
-.wrapper{ 
+.wrapper {
     height: 60px;
 }
 
@@ -14,29 +14,32 @@
     color: white;
     background-color: #006400;
 }
-  
+
 .logo {
+    display: flex;
+    align-items: center;
     font-size: 1rem;
 }
-  
+
 .links {
     display: flex;
     gap: 20px;
 }
-  
+
 .links a {
     font-size: 1rem;
     color: white;
     text-decoration: none;
     transition: color 0.3s;
 }
-  
+
 .links a:hover {
-    color: #00cc00; /* Измените цвет при наведении на ссылку */
+    color: #00cc00;
+    /* Измените цвет при наведении на ссылку */
 }
-  
+
 @media (max-width: 768px) {
-    .wrapper{ 
+    .wrapper {
         height: 30px;
     }
 
@@ -47,11 +50,11 @@
     .logo {
         font-size: 0.5rem;
     }
-  
+
     .links {
         gap: 10px;
     }
-  
+
     .links a {
         font-size: 0.5rem;
     }

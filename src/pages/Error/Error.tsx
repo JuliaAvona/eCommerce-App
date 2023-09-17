@@ -1,24 +1,18 @@
-import React from 'react';
-import { Nav } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import styles from './Error.module.css';
 import { Pages } from '../../types/enums';
+import error from '../../assets/img/error.jpg';
+import Button from '../../components/button/Button';
 
 const Error = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="mt=20">
-      <div className={styles.text1}>
-        <img
-          className={styles.img}
-          src="https://pictures.pibig.info/uploads/posts/2023-04/1680764618_pictures-pibig-info-p-grut-risunok-malenkii-krasivo-2.jpg"
-          alt="holod"
-        />
-        <pre>Error Page 404</pre>
-        <pre>It`s empty, try again later.</pre>
-        <div className="btn btn-light">
-          <Nav.Link href={Pages.main} className={styles.button_home}>
-            To home page
-          </Nav.Link>
-        </div>
+    <div className={styles.wrapper}>
+      <div className={styles.error}>
+        <img className={styles.img} src={error} alt="Error" />
+        <div className={styles.h1}>It`s empty, try again later.</div>
+        <Button onClick={() => navigate(Pages.main)}>To home page</Button>
       </div>
     </div>
   );

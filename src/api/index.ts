@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import axios, { AxiosError } from 'axios';
-import { IError, ICustomerReq, ICustomerRes, IProfile, IProfileUpdate } from '../types/interfaces';
+import { IError, ICustomerReq, ICustomerRes, IProfile, IProfileUpdate, ICart, IMyCartDraft } from '../types/interfaces';
 import { saveData, saveAnonimData, isAuth } from '../utils/storage';
 
 const projectKey = 'ecommerce-rsschool';
@@ -33,7 +33,7 @@ export const getToken = async () => {
     const token = response.data.access_token;
     return token;
   } catch (error) {
-    console.log('Error getting access token:', error);
+    console.log('Error getToken:', error);
     throw error;
   }
 };
@@ -41,7 +41,7 @@ export const getToken = async () => {
 export const signup = async (accessToken: string, data: ICustomerReq) => {
   const url = `${apiUrl}/${projectKey}/customers`;
 
-  await axios
+  return axios
     .post(url, data, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -52,7 +52,7 @@ export const signup = async (accessToken: string, data: ICustomerReq) => {
       console.log('User registered:', userResponse.data);
     })
     .catch((error) => {
-      console.log('Error registering user:', error.response.data.message);
+      console.log('Error signup:', error.response.data.message);
       throw error.response.data.message;
     });
 };
@@ -62,7 +62,7 @@ export const login = async (email: string, password: string) => {
     'manage_my_shopping_lists:ecommerce-rsschool manage_my_business_units:ecommerce-rsschool manage_my_profile:ecommerce-rsschool view_categories:ecommerce-rsschool create_anonymous_token:ecommerce-rsschool manage_my_quote_requests:ecommerce-rsschool manage_my_quotes:ecommerce-rsschool manage_customers:ecommerce-rsschool manage_my_payments:ecommerce-rsschool manage_my_orders:ecommerce-rsschool view_published_products:ecommerce-rsschool';
   const url = `${authUrl}/oauth/${projectKey}/customers/token`;
 
-  await axios
+  return axios
     .post(
       url,
       new URLSearchParams({
@@ -89,7 +89,7 @@ export const login = async (email: string, password: string) => {
       return userResponse.data.access_token;
     })
     .catch((error) => {
-      console.log('Error logging in user:', error.response.data.message);
+      console.log('Error login:', error.response.data.message);
       throw error.response.data.message;
     });
 };
@@ -108,7 +108,7 @@ export const getProfile = async (accessToken: string): Promise<ICustomerRes> => 
     return userResponse.data;
   } catch (e) {
     const error = e as AxiosError<IError>;
-    console.log('Error getting profile:', error.response?.data.message);
+    console.log('Error getProfile:', error.response?.data.message);
     throw e;
   }
 };
@@ -163,7 +163,7 @@ export const updateProfile = async (
     return userResponse.data;
   } catch (e) {
     const error = e as AxiosError<IError>;
-    console.log('Error getting profile:', error);
+    console.log('Error updateProfile:', error);
     throw e;
   }
 };
@@ -187,7 +187,7 @@ export const getAnonymToken = async () => {
     saveAnonimData(response.data);
     return token;
   } catch (error) {
-    console.log('Error getting access token:', error);
+    console.log('Error getAnonymToken:', error);
     throw error;
   }
 };
@@ -209,7 +209,23 @@ export const getProducts = async () => {
     const goods = response.data.results;
     return goods;
   } catch (error) {
-    console.log('Error getting product projections:', error);
+    console.log('Error getProducts:', error);
+    throw error;
+  }
+};
+
+export const getProductById = async (accessToken: string, id: string) => {
+  try {
+    const response = await axios.get(`${apiUrl}/${projectKey}/product-projections/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const goods = response.data.results;
+    return goods;
+  } catch (error) {
+    console.log('Error getProductById:', error.response.data.message);
     throw error;
   }
 };
@@ -231,7 +247,7 @@ export const getProduct = async (key: string) => {
     const goods = response.data;
     return goods;
   } catch (error) {
-    console.log('Error getting product projections:', error);
+    console.log('Error getProduct:', error);
     throw error;
   }
 };
@@ -248,7 +264,144 @@ export const getProductForAnonym = async (key: string) => {
     const product = response.data;
     return product;
   } catch (error) {
-    console.log('Error getting product projections:', error);
+    console.log('Error getProductForAnonym:', error);
     throw error;
   }
+};
+
+export const createCart = async (accessToken: string, myCartDraft: IMyCartDraft): Promise<ICart> => {
+  const url = `${apiUrl}/${projectKey}/me/carts`;
+
+  return axios
+    .post(url, myCartDraft, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((cartResponse) => {
+      console.log('Cart created:', cartResponse.data);
+      return cartResponse.data;
+    })
+    .catch((error) => {
+      console.log('Error createCart:', error.response.data.message);
+      throw error.response.data.message;
+    });
+};
+
+export const getCart = async (accessToken: string): Promise<ICart> => {
+  const url = `${apiUrl}/${projectKey}/me/active-cart`;
+
+  try {
+    const userResponse = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return userResponse.data;
+  } catch (e) {
+    const error = e as AxiosError<IError>;
+    console.log('Error getCart:', error.response?.data.message);
+    throw e;
+  }
+};
+
+export const addLineItem = async (
+  accessToken: string,
+  version: number,
+  cartId: string,
+  productId: string,
+  quantity: number
+): Promise<ICart> => {
+  const url = `${apiUrl}/${projectKey}/me/carts/${cartId}`;
+
+  return axios
+    .post(
+      url,
+      {
+        version,
+        actions: [
+          {
+            action: 'addLineItem',
+            productId,
+            quantity,
+          },
+        ],
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    .then((lineItemResponse) => {
+      console.log('Line Item added:', lineItemResponse.data);
+      return lineItemResponse.data;
+    })
+    .catch((error) => {
+      console.log('Error addLineItem:', error.response.data.message);
+      throw error.response.data.message;
+    });
+};
+
+export const removeLineItem = async (
+  accessToken: string,
+  version: number,
+  cartId: string,
+  lineItemId: string,
+  quantity?: number
+): Promise<ICart> => {
+  const url = `${apiUrl}/${projectKey}/me/carts/${cartId}`;
+
+  return axios
+    .post(
+      url,
+      {
+        version,
+        actions: [
+          {
+            action: 'removeLineItem',
+            lineItemId,
+            quantity,
+          },
+        ],
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    .then((lineItemResponse) => {
+      console.log('Line Item removed:', lineItemResponse.data);
+      return lineItemResponse.data;
+    })
+    .catch((error) => {
+      console.log('Error removeLineItem:', error.response.data.message);
+      throw error.response.data.message;
+    });
+};
+
+export const deleteCart = async (accessToken: string, id: string, version: number): Promise<ICart> => {
+  const url = `${apiUrl}/${projectKey}/me/carts/${id}?version=${version}`;
+
+  return axios
+    .delete(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((cartResponse) => {
+      console.log('Cart created:', cartResponse.data);
+      return cartResponse.data;
+    })
+    .catch((error) => {
+      console.log('Error createCart:', error.response.data.message);
+      throw error.response.data.message;
+    });
 };
