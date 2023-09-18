@@ -1,0 +1,12 @@
+.item {
+    width: 384px;
+    height: 384px;
+    cursor: pointer;   
+}
+
+@media screen and (max-width: 800px) {
+    .item {
+        width: 256px;
+        height: 256px;
+    }
+}

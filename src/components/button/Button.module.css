@@ -1,0 +1,39 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.6rem;
+  color: #FFFFFF; 
+  text-transform: uppercase;
+  cursor: pointer;
+  background: #008000;
+  border-radius: 5px;
+}
+
+.button:hover,
+.button:active {
+  background: #006400
+}
+
+.buttonDisabled {
+  width: 100%;
+  padding: 10px;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.6rem;
+  color: #080000;
+  text-transform: uppercase;
+  cursor: default;
+  background: #808080; 
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 800px) {
+  .button,
+  .buttonDisabled { 
+    padding: 5px;
+    font-size: 0.4rem
+  }
+}

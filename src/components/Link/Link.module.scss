@@ -1,0 +1,42 @@
+.a {
+  position: relative;
+  z-index: 1;
+  display: block;
+  padding: 0.5rem 0.5rem;
+  margin: auto;
+  font-family: sans-serif;
+  font-size: 1rem;
+  color: #212529;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+
+  &:after {
+    position: absolute;
+    right: 0rem;
+    bottom: 0;
+    left: 0rem;
+    z-index: -1;
+    display: block;
+    height: 2px;
+    content: '';
+    background-color: #ffffff;
+    transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+    transform-origin: bottom center;
+  }
+  &:hover {
+    color: #2d2d2d;
+
+    &:after {
+      right: 0;
+      left: 0;
+      height: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .a {
+    padding: 0.25rem;
+    font-size: 0.5rem;
+  }
+}

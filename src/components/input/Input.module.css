@@ -1,0 +1,43 @@
+.container {
+  width: 100%
+}
+
+.input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-family: "Roboto", sans-serif; 
+  font-size: 0.6rem; 
+  color: var(--bs-body-color); 
+  color-scheme: auto;
+  background: #f2f2f2;
+  background-color: #ffffff; 
+  border: 1px #e2e5e9 solid;
+  border-radius: 5px; 
+  transition: all 0.5s;
+}
+
+.helper {
+  margin-top: -10px;
+  font-size: 0.6rem;
+  color: #ff9191;
+}
+
+.input:disabled { 
+  background-color: rgba(255, 255, 255, 0); 
+}
+
+
+@media screen and (max-width: 800px) {
+  .input { 
+    padding: 5px;
+    margin-bottom: 5px;
+    font-size: 0.4rem
+  }
+
+  .helper{
+    margin-top: -5px; 
+    font-size: 0.4rem
+  }
+}

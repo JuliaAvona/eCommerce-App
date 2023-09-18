@@ -1,0 +1,37 @@
+.select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-family: "Roboto", sans-serif; 
+  font-size: 0.6rem; 
+  color: var(--bs-body-color); 
+  color-scheme: auto;
+  background: #f2f2f2;
+  background-color: #ffffff; 
+  border: 1px #e2e5e9 solid;
+  border-radius: 5px; 
+}
+
+.helper {
+  margin-bottom: 10px;
+  font-size: 0.6rem;
+  color: #ff9191;
+}
+
+.select:disabled {
+  background-color:rgb(245, 245, 245)
+}
+
+@media screen and (max-width: 800px) {
+  .select { 
+    padding: 5px;
+    margin-bottom: 5px;
+    font-size: 0.4rem
+  }
+
+  .helper{
+    margin-top: -5px;
+    font-size: 0.4rem 
+  }
+}

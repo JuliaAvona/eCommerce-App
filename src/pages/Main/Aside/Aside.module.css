@@ -1,0 +1,40 @@
+.aside {
+    display: flex;
+    flex-direction: column;
+    min-width: 256px;
+    padding: 10px
+}
+
+.wrapper {
+    position: fixed;
+    min-width: 256px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+}   
+
+.text {
+    font-size: 0.5rem;
+    color: rgba(0, 0, 0);
+    transition: all 1s;
+}
+
+@media screen and (max-width: 800px) {
+    .aside {
+        min-width: 128px;
+        padding: 5px;
+    }
+
+    .container {
+        gap: 5px;
+    }
+    
+    .wrapper {
+        position: fixed;
+        min-width: 128px;
+    }
+}

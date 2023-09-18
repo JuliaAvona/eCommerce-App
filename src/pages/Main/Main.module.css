@@ -1,0 +1,23 @@
+.wrapper { 
+    display: flex;
+}
+
+.containerIcons {
+    display: flex; 
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.containerList {
+    display: flex;
+    flex-direction: column; 
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+} 
