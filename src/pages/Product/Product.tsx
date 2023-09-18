@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { addLineItem, createCart, getCart, getProduct, getProfile, removeLineItem } from '../../api';
 import { ICart, IError, IMyCartDraft, IProduct } from '../../types/interfaces';
 import styles from './Product.module.css';
 import Slider from '../../components/slider/Slider';
 import Button from '../../components/button/Button';
-import { getAccessToken } from '../../utils/storage';
+import { getAccessToken, isAuth } from '../../utils/storage';
+import { Pages } from '../../types/enums';
 
 const Product = () => {
   const params = useParams();
@@ -17,6 +18,7 @@ const Product = () => {
   const [cart, setCart] = useState<ICart | null>(null);
   const [quantity, setQuantity] = useState<number>(0);
   const [onLoad, setOnLoad] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getProduct(productKey)
@@ -117,6 +119,11 @@ const Product = () => {
     addToCart(1);
   };
 
+  const handleLoginButton = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.stopPropagation();
+    navigate(Pages.login);
+  };
+
   return product ? (
     <div className={styles.wrapper}>
       <div className={styles.product}>
@@ -138,15 +145,19 @@ const Product = () => {
             </div>
           ) : null}
 
-          <div className={styles.counter}>
-            <Button disabled={onLoad || !quantity} onClick={decrement}>
-              Remove
-            </Button>
-            <span>{quantity}</span>
-            <Button disabled={onLoad} onClick={increment}>
-              Add
-            </Button>
-          </div>
+          {isAuth() ? (
+            <div className={styles.counter}>
+              <Button disabled={onLoad || !quantity} onClick={decrement}>
+                Remove
+              </Button>
+              <span>{quantity}</span>
+              <Button disabled={onLoad} onClick={increment}>
+                Add
+              </Button>
+            </div>
+          ) : (
+            <Button onClick={(event) => handleLoginButton(event)}>Login to buy</Button>
+          )}
 
           {quantity ? (
             <Button disabled={onLoad} onClick={() => removeToCart()}>
